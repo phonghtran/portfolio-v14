@@ -1,5 +1,6 @@
 import ChatInterface from '@/components/chat/chat-interface';
-import { PillBottle } from 'lucide-react';
+import { PillBottle, User } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -13,6 +14,15 @@ export default function Home() {
                 phonghtran - ux designer & front-end coder
               </h1>
             </div>
+            <nav>
+              <Link 
+                href="/about" 
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <User className="h-4 w-4" />
+                About
+              </Link>
+            </nav>
           </div>
         </div>
       </header>

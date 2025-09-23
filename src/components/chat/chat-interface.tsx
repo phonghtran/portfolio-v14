@@ -127,10 +127,7 @@ export default function ChatInterface() {
       <div className="border-t bg-card">
         <div className="p-4 max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex items-center gap-4">
-            <Button type="button" variant="ghost" size="icon" className="text-muted-foreground" disabled>
-              <Paperclip className="h-5 w-5" />
-              <span className="sr-only">Attach file</span>
-            </Button>
+          
             <Input
               type="text"
               placeholder="Ask me anything about your UX career..."
