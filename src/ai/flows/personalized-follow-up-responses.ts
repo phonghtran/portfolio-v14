@@ -9,6 +9,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { portfolioContent } from '@/app/lib/user-data';
 
 const PersonalizedFollowUpInputSchema = z.object({
   message: z.string().describe('The current message from the user.'),
@@ -33,6 +34,12 @@ const prompt = ai.definePrompt({
   input: {schema: PersonalizedFollowUpInputSchema},
   output: {schema: PersonalizedFollowUpOutputSchema},
   prompt: `You are a career advisor chatbot specializing in UX portfolios.
+
+  You have access to the user's portfolio content. Use it to provide detailed, personalized, and relevant advice.
+  Here is the user's portfolio information:
+  ---
+  ${portfolioContent}
+  ---
 
   You will use the chat history to tailor your responses to the user, remembering past conversations and applying that context to future suggestions.
   Pay close attention to the user's portfolio, resume and skills they describe.

@@ -11,11 +11,13 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { portfolioContent } from '@/app/lib/user-data';
 
 const PortfolioFeedbackInputSchema = z.object({
   portfolioContent: z
     .string()
-    .describe('The complete text content of the UX portfolio to be reviewed.'),
+    .optional()
+    .describe('The complete text content of the UX portfolio to be reviewed. If not provided, the default portfolio content will be used.'),
 });
 
 export type PortfolioFeedbackInput = z.infer<typeof PortfolioFeedbackInputSchema>;
@@ -55,7 +57,7 @@ const portfolioFeedbackPrompt = ai.definePrompt({
   4.  Presentation Feedback: Provide feedback on the overall presentation and design of the portfolio, including visual appeal and user experience.
 
   Portfolio Content:
-  {{portfolioContent}}`,
+  {{{portfolioContent}}}`,
 });
 
 const portfolioFeedbackFlow = ai.defineFlow(
@@ -64,8 +66,9 @@ const portfolioFeedbackFlow = ai.defineFlow(
     inputSchema: PortfolioFeedbackInputSchema,
     outputSchema: PortfolioFeedbackOutputSchema,
   },
-  async input => {
-    const {output} = await portfolioFeedbackPrompt(input);
+  async (input) => {
+    const content = input.portfolioContent || portfolioContent;
+    const { output } = await portfolioFeedbackPrompt({ portfolioContent: content });
     return output!;
   }
 );

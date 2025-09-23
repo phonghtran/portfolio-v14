@@ -10,10 +10,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { portfolioContent } from '@/app/lib/user-data';
 
 const ResumeOptimizationInputSchema = z.object({
   portfolioContent: z
     .string()
+    .optional()
     .describe(
       'The content of the user\'s portfolio, including project descriptions, skills, and other relevant information.'
     ),
@@ -24,7 +26,7 @@ const ResumeOptimizationOutputSchema = z.object({
   suggestions: z
     .string()
     .describe(
-      'Resume optimization suggestions based on the portfolio content and current job market trends.'
+      'Resume optimization suggestions based on the portfolio content and a an understanding of current job market trends.'
     ),
 });
 export type ResumeOptimizationOutput = z.infer<typeof ResumeOptimizationOutputSchema>;
@@ -37,7 +39,7 @@ export async function getResumeOptimizationSuggestions(
 
 const resumeOptimizationPrompt = ai.definePrompt({
   name: 'resumeOptimizationPrompt',
-  input: {schema: ResumeOptimizationInputSchema},
+  input: {schema: z.object({ portfolioContent: z.string() })},
   output: {schema: ResumeOptimizationOutputSchema},
   prompt: `You are an expert career advisor specializing in UX design resumes. Based on the user\'s portfolio content, provide specific and actionable suggestions for improving their resume. Consider current job market trends and tailor the suggestions accordingly.
 
@@ -73,7 +75,8 @@ const resumeOptimizationFlow = ai.defineFlow(
     outputSchema: ResumeOptimizationOutputSchema,
   },
   async input => {
-    const {output} = await resumeOptimizationPrompt(input);
+    const content = input.portfolioContent || portfolioContent;
+    const {output} = await resumeOptimizationPrompt({ portfolioContent: content });
     return output!;
   }
 );

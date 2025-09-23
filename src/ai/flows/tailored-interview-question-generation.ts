@@ -9,10 +9,12 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { portfolioContent } from '@/app/lib/user-data';
 
 const InterviewQuestionInputSchema = z.object({
   portfolioDescription: z
     .string()
+    .optional()
     .describe('Detailed description of the user\'s UX portfolio, including projects, skills, and experience.'),
 });
 export type InterviewQuestionInput = z.infer<typeof InterviewQuestionInputSchema>;
@@ -30,7 +32,7 @@ export async function generateInterviewQuestions(input: InterviewQuestionInput):
 
 const prompt = ai.definePrompt({
   name: 'interviewQuestionPrompt',
-  input: {schema: InterviewQuestionInputSchema},
+  input: {schema: z.object({ portfolioDescription: z.string() })},
   output: {schema: InterviewQuestionOutputSchema},
   prompt: `You are an expert career coach specializing in UX roles. Generate interview questions tailored to the user's portfolio.
 
@@ -46,8 +48,9 @@ const generateInterviewQuestionsFlow = ai.defineFlow(
     inputSchema: InterviewQuestionInputSchema,
     outputSchema: InterviewQuestionOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input) => {
+    const content = input.portfolioDescription || portfolioContent;
+    const { output } = await prompt({ portfolioDescription: content });
     return output!;
   }
 );
