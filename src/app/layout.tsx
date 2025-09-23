@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
-  title: 'UX Career Copilot',
-  description: 'Your AI-powered assistant for UX portfolio and career advice.',
+  title: 'phonghtran - ux portfolio',
+  description: 'the portfolio website of Phong Tran, a ux ui servicer designer and front end coder.',
 };
 
 export default function RootLayout({

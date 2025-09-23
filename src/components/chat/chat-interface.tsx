@@ -19,7 +19,7 @@ export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hello! I'm your UX Career Copilot. How can I help you today? You can ask me to review your portfolio, suggest resume improvements, or generate interview questions based on your work.",
+      content: "Hello! I'm Phong's AI assistant. What would you like to know about him and his work?",
     },
   ]);
   const [input, setInput] = useState('');

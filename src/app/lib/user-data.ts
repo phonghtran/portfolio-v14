@@ -6,7 +6,7 @@
  */
 
 export const userProfile = {
-  name: "Alex Doe",
+  name: "Phong Tran",
   headline: "UX Designer | Interaction Designer | Product Designer",
   summary: "A passionate and creative UX designer with a knack for solving complex user problems. I specialize in creating intuitive and engaging digital experiences. I am currently looking for a full-time position in a fast-paced and collaborative environment.",
   skills: ["User Research", "Wireframing", "Prototyping", "Interaction Design", "Visual Design", "Usability Testing", "Figma", "Sketch", "Adobe XD"]

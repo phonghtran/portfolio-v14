@@ -1,5 +1,5 @@
 import ChatInterface from '@/components/chat/chat-interface';
-import { Bot } from 'lucide-react';
+import { PillBottle } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -8,9 +8,9 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <Bot className="h-8 w-8 text-primary" />
+              <PillBottle className="h-8 w-8 text-primary" />
               <h1 className="text-2xl font-bold text-foreground font-headline">
-                UX Career Copilot
+                phonghtran - ux designer & front-end coder
               </h1>
             </div>
           </div>
