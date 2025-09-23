@@ -13,4 +13,21 @@ https://github.com/phonghtran/portfolio-v14
 
 Env in notes
 
-Dunno how to rebuild the deploy locally.
+# Deploy everything
+npm run deploy
+
+# Deploy only App Hosting (what you want for this project)
+firebase deploy --only apphosting
+
+# Deploy only traditional hosting (if needed)
+npm run deploy:hosting
+
+# Deploy only functions
+npm run deploy:functions
+
+# Build then deploy
+npm run build:deploy
+
+
+Use this one 
+build:deploy
