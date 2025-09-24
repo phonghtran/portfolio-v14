@@ -69,8 +69,6 @@ export const projects: Project[] = [
         title: 'Ideation & Wireframing',
         content: 'Developed multiple concepts and low-fidelity wireframes.',
         images: ['/images/projects/project-1/wireframes.jpg'],
-        audioTrack: '/audio/project-1/ideation.mp3',
-        duration: 240,
       },
       {
         id: 'design',
@@ -91,6 +89,21 @@ export const projects: Project[] = [
         images: ['/images/projects/project-1/testing.jpg'],
         audioTrack: '/audio/project-1/testing.mp3',
         duration: 200,
+      },
+      {
+        id: 'results',
+        title: 'Results & Metrics',
+        content:
+          'Post-launch analysis showed a 40% increase in conversion rates and 25% improvement in user satisfaction scores.',
+        images: ['/images/projects/project-1/results-chart.jpg'],
+        // No audio for this section - just visual content
+      },
+      {
+        id: 'learnings',
+        title: 'Key Learnings',
+        content:
+          'This project taught us the importance of early user testing and iterative design. The mobile-first approach proved crucial for user adoption.',
+        // No images or audio - just text content
       },
     ],
   },
@@ -136,6 +149,98 @@ export const projects: Project[] = [
         ],
         audioTrack: '/audio/project-2/implementation.mp3',
         duration: 360,
+      },
+    ],
+  },
+  {
+    id: 'project-5',
+    title: 'Brand Identity System',
+    subtitle: 'Visual Identity & Guidelines',
+    description: 'Complete brand redesign for a sustainable fashion startup',
+    thumbnail: '/images/projects/project-3/thumbnail.jpg',
+    category: 'branding',
+    tags: ['Branding', 'Visual Identity', 'Logo Design', 'Style Guide'],
+    year: '2023',
+    client: 'EcoFashion Co.',
+    duration: '2 months',
+    heroImage: '/images/projects/project-3/hero.jpg',
+    overview:
+      'Created a comprehensive brand identity system including logo, color palette, typography, and brand guidelines.',
+    sections: [
+      {
+        id: 'discovery',
+        title: 'Brand Discovery',
+        content:
+          'Explored brand values, target audience, and market positioning.',
+        images: ['/images/projects/project-3/discovery.jpg'],
+        audioTrack: '/audio/project-3/discovery.mp3',
+        duration: 200,
+      },
+      {
+        id: 'concept',
+        title: 'Concept Development',
+        content: 'Developed multiple logo concepts and visual directions.',
+        images: ['/images/projects/project-3/concepts.jpg'],
+        audioTrack: '/audio/project-3/concept.mp3',
+        duration: 180,
+      },
+      {
+        id: 'execution',
+        title: 'Final Execution',
+        content:
+          'Refined the final logo and created comprehensive brand guidelines.',
+        images: [
+          '/images/projects/project-3/final-logo.jpg',
+          '/images/projects/project-3/guidelines.jpg',
+        ],
+        audioTrack: '/audio/project-3/execution.mp3',
+        duration: 250,
+      },
+    ],
+  },
+  {
+    id: 'project-4',
+    title: 'Brand Identity System',
+    subtitle: 'Visual Identity & Guidelines',
+    description: 'Complete brand redesign for a sustainable fashion startup',
+    thumbnail: '/images/projects/project-3/thumbnail.jpg',
+    category: 'branding',
+    tags: ['Branding', 'Visual Identity', 'Logo Design', 'Style Guide'],
+    year: '2023',
+    client: 'EcoFashion Co.',
+    duration: '2 months',
+    heroImage: '/images/projects/project-3/hero.jpg',
+    overview:
+      'Created a comprehensive brand identity system including logo, color palette, typography, and brand guidelines.',
+    sections: [
+      {
+        id: 'discovery',
+        title: 'Brand Discovery',
+        content:
+          'Explored brand values, target audience, and market positioning.',
+        images: ['/images/projects/project-3/discovery.jpg'],
+        audioTrack: '/audio/project-3/discovery.mp3',
+        duration: 200,
+      },
+      {
+        id: 'concept',
+        title: 'Concept Development',
+        content: 'Developed multiple logo concepts and visual directions.',
+        images: ['/images/projects/project-3/concepts.jpg'],
+        audioTrack: '/audio/project-3/concept.mp3',
+        duration: 180,
+      },
+      {
+        id: 'execution',
+        title: 'Final Execution',
+        content:
+          'Refined the final logo and created comprehensive brand guidelines.',
+        images: [
+          '/images/projects/project-3/final-logo.jpg',
+          '/images/projects/project-3/guidelines.jpg',
+        ],
+        audioTrack: '/audio/project-3/execution.mp3',
+        duration: 250,
       },
     ],
   },

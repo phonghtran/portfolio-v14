@@ -78,7 +78,7 @@ export function ProjectNavigation({
   return (
     <nav
       className={cn(
-        'bg-card border-r border-border h-full overflow-y-auto',
+        'bg-card border-r border-border overflow-y-auto overflow-x-hidden',
         'w-80 flex flex-col',
         className
       )}
@@ -90,7 +90,7 @@ export function ProjectNavigation({
         </p>
       </div>
 
-      <div className="flex-1 p-2">
+      <div className="flex-1 p-2 overflow-y-auto overflow-x-hidden">
         {projects.map(project => {
           const isProjectOpen = openProjects.includes(project.id);
           const isCurrentProject = currentProjectId === project.id;
@@ -174,15 +174,6 @@ export function ProjectNavigation({
                       }
                     >
                       <div className="flex items-center gap-2 flex-1">
-                        {hasAudio && (
-                          <div className="flex items-center justify-center w-4 h-4">
-                            {isCurrentAudio && isPlaying ? (
-                              <Pause className="h-3 w-3 text-primary" />
-                            ) : (
-                              <Play className="h-3 w-3 text-muted-foreground" />
-                            )}
-                          </div>
-                        )}
                         <span
                           className={cn(
                             'text-left flex-1',
@@ -207,7 +198,7 @@ export function ProjectNavigation({
         })}
       </div>
 
-      <div className="p-4 border-t border-border">
+      <div className="px-4 py-[1.62rem] border-t border-border">
         <div className="text-xs text-muted-foreground text-center">
           {projects.length} projects •{' '}
           {projects.reduce((acc, p) => acc + p.sections.length, 0)} sections
