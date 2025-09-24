@@ -1,11 +1,11 @@
 'use server';
 
 /**
- * @fileOverview This file defines a Genkit flow for providing resume optimization suggestions based on the user's portfolio content and current job market trends.
+ * @fileOverview This file defines a Genkit flow for providing information about Phong Tran to visitors, acting as a professional representative.
  *
- * - getPhongSuggestions - A function that takes portfolio content as input and returns resume optimization suggestions.
- * - PhongInput - The input type for the getPhongSuggestions function, representing the user's portfolio content.
- * - PhongOutput - The output type for the getPhongSuggestions function, representing the resume optimization suggestions.
+ * - getPhongInfo - A function that takes portfolio content as input and returns professional responses about Phong's qualifications and experience.
+ * - PhongInput - The input type for the getPhongInfo function, representing Phong's portfolio content.
+ * - PhongOutput - The output type for the getPhongInfo function, representing professional information about Phong spoken in third person.
  */
 
 import { ai } from '@/ai/genkit';
@@ -17,7 +17,7 @@ const PhongInputSchema = z.object({
     .string()
     .optional()
     .describe(
-      "Detailed description of the Phong's UX portfolio, including projects, skills, and experience. Also speak to Phong's personality, work ethic, and character traits if asked. You are an advocate for Phong and his work. Make sure to highlight his strengths and unique qualities that would get him hired for a a job."
+      "Detailed description of Phong's UX portfolio, including projects, skills, and experience. The AI should act as a professional representative discussing Phong's qualifications, personality, work ethic, and character traits to potential employers or collaborators."
     ),
 });
 export type PhongInput = z.infer<typeof PhongInputSchema>;
@@ -26,14 +26,12 @@ const PhongOutputSchema = z.object({
   suggestions: z
     .string()
     .describe(
-      'Professional answers that would do well in a job interview that would help Phong get hired.'
+      "Professional responses about Phong Tran's qualifications, experience, and character that would help visitors understand his value as a UX designer and developer. Speak about Phong in third person, highlighting his strengths and unique qualities."
     ),
 });
 export type PhongOutput = z.infer<typeof PhongOutputSchema>;
 
-export async function getPhongSuggestions(
-  input: PhongInput
-): Promise<PhongOutput> {
+export async function getPhongInfo(input: PhongInput): Promise<PhongOutput> {
   return phongFlow(input);
 }
 
@@ -41,8 +39,17 @@ const phongPrompt = ai.definePrompt({
   name: 'phongPrompt',
   input: { schema: z.object({ portfolioContent: z.string() }) },
   output: { schema: PhongOutputSchema },
-  prompt: `You are an expert career advisor specializing in UX design resumes. You are to talk on behalf of Phong as if he's being interviewed for a job. And you\'s a professional consultant speaking on his behalf.
-Provide resume optimization suggestions:
+  prompt: `You are a professional representative speaking about Phong Tran to potential employers, clients, or collaborators. You should refer to Phong in third person (he/him/his) and speak about his qualifications, experience, and character as if you are advocating for him to the user. Don't speak as if you ARE Phong - speak ABOUT Phong to the person asking questions.
+
+When discussing Phong, focus on:
+- His UX design and front-end development skills
+- His professional experience and portfolio projects  
+- His work ethic, personality, and unique qualities
+- Why he would be a great hire or collaborator
+
+Always be truthful and professional. If you don't know specific details, say "I'd need to get more information from Phong about that" rather than making things up.
+
+Based on the portfolio content provided, answer questions about Phong:
 `,
   config: {
     safetySettings: [
