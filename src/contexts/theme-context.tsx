@@ -18,36 +18,36 @@ export const themes: Record<Theme, ThemeConfig> = {
     displayName: 'Classic',
     description: 'Clean and professional design',
     icon: '🎨',
-    className: 'theme-classic'
+    className: 'theme-classic',
   },
   cyberpunk: {
     name: 'cyberpunk',
     displayName: 'Cyberpunk',
     description: 'Neon-lit futuristic aesthetic',
     icon: '🌆',
-    className: 'theme-cyberpunk'
+    className: 'theme-cyberpunk',
   },
   minimalist: {
     name: 'minimalist',
     displayName: 'Minimalist',
     description: 'Less is more philosophy',
     icon: '⭐',
-    className: 'theme-minimalist'
+    className: 'theme-minimalist',
   },
   neon: {
     name: 'neon',
     displayName: 'Neon',
     description: 'Electric and vibrant',
     icon: '⚡',
-    className: 'theme-neon'
+    className: 'theme-neon',
   },
   vintage: {
     name: 'vintage',
     displayName: 'Vintage',
     description: 'Retro-inspired warmth',
     icon: '📻',
-    className: 'theme-vintage'
-  }
+    className: 'theme-vintage',
+  },
 };
 
 interface ThemeContextType {
@@ -73,27 +73,30 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!mounted) return;
-    
+
     // Apply theme to document
     const html = document.documentElement;
-    
+
     // Remove all theme classes
     Object.values(themes).forEach(({ className }) => {
       html.classList.remove(className);
     });
-    
+
     // Add current theme class - don't add classic since it's the default
     if (theme !== 'classic') {
       html.classList.add(themes[theme].className);
     }
-    
+
     // Save to localStorage
     localStorage.setItem('portfolio-theme', theme);
-    
+
     // Debug logging
     console.log('Theme applied:', theme, themes[theme].className);
     console.log('HTML classes:', html.className);
-    console.log('CSS variables:', getComputedStyle(html).getPropertyValue('--background'));
+    console.log(
+      'CSS variables:',
+      getComputedStyle(html).getPropertyValue('--background')
+    );
   }, [theme, mounted]);
 
   const setTheme = (newTheme: Theme) => {

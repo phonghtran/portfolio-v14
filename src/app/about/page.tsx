@@ -1,8 +1,6 @@
 import { PillBottle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { ClientThemeToggle } from '@/components/ui/client-theme-toggle';
-import { ThemeDebug } from '@/components/ui/theme-debug';
-import { ThemeDiagnostics } from '@/components/ui/theme-diagnostics';
 
 export default function About() {
   return (
@@ -18,8 +16,8 @@ export default function About() {
             </div>
             <div className="flex items-center gap-4">
               <ClientThemeToggle />
-              <Link 
-                href="/" 
+              <Link
+                href="/"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -32,28 +30,17 @@ export default function About() {
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-6">About Me</h2>
-          
-          {/* Theme Testing Section */}
-          <div className="mb-6 p-4 bg-card border border-border rounded-lg">
-            <h3 className="text-sm font-semibold mb-2">Theme Test Colors:</h3>
-            <div className="flex gap-2">
-              <div className="w-8 h-8 rounded bg-background border border-border" title="Background"></div>
-              <div className="w-8 h-8 rounded bg-primary" title="Primary"></div>
-              <div className="w-8 h-8 rounded bg-accent" title="Accent"></div>
-              <div className="w-8 h-8 rounded bg-muted" title="Muted"></div>
-              <div className="w-8 h-8 rounded bg-card border border-border" title="Card"></div>
-            </div>
-          </div>
-          
-          <div className="max-w-none">
 
+          <div className="max-w-none">
             <p className="text-lg text-muted-foreground mb-4">
-              Welcome to my portfolio! I'm a UX designer and front-end developer passionate about creating 
-              beautiful, functional digital experiences.
+              Welcome to my portfolio! I'm a UX designer and front-end developer
+              passionate about creating beautiful, functional digital
+              experiences.
             </p>
             <p className="text-muted-foreground mb-4">
-              With expertise in user experience design and modern web development, I bridge the gap between 
-              design and code to create seamless digital products.
+              With expertise in user experience design and modern web
+              development, I bridge the gap between design and code to create
+              seamless digital products.
             </p>
             <h3 className="text-xl font-semibold mt-8 mb-4">Skills</h3>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-muted-foreground">
@@ -65,29 +52,35 @@ export default function About() {
               <li>• Figma & Design Systems</li>
             </ul>
 
-            <h3 className="text-xl font-semibold mt-8 mb-4">Visual Experience</h3>
+            <h3 className="text-xl font-semibold mt-8 mb-4">
+              Visual Experience
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="p-4 rounded-lg border bg-card">
                 <div className="w-full h-24 rounded bg-gradient-to-r from-primary via-accent to-primary mb-3"></div>
                 <h4 className="font-semibold text-sm">Dynamic Themes</h4>
-                <p className="text-xs text-muted-foreground mt-1">Multiple visual experiences to showcase design versatility</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Multiple visual experiences to showcase design versatility
+                </p>
               </div>
               <div className="p-4 rounded-lg border bg-card">
                 <div className="w-full h-24 rounded bg-gradient-to-r from-muted via-secondary to-muted mb-3"></div>
                 <h4 className="font-semibold text-sm">Responsive Design</h4>
-                <p className="text-xs text-muted-foreground mt-1">Seamless experience across all device sizes</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Seamless experience across all device sizes
+                </p>
               </div>
               <div className="p-4 rounded-lg border bg-card">
                 <div className="w-full h-24 rounded bg-gradient-to-r from-accent to-primary mb-3"></div>
                 <h4 className="font-semibold text-sm">Smooth Interactions</h4>
-                <p className="text-xs text-muted-foreground mt-1">Thoughtful animations and micro-interactions</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Thoughtful animations and micro-interactions
+                </p>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <ThemeDebug />
-      <ThemeDiagnostics />
     </div>
   );
 }

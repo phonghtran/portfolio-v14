@@ -15,5 +15,5 @@
 - Accent color: Teal (#008080) to highlight key information, reflecting the modern and thoughtful aspects of career progression.
 - Body and headline font: 'Inter', a sans-serif font, providing a modern and objective feel. This enhances readability and user comfort, ensuring a clean and engaging experience.
 - Use simple, professional icons from a set like Material Design Icons to represent different portfolio sections and functionalities.
-- Clean, single-column layout optimized for readability.  Prioritize a clear visual hierarchy to guide users through the portfolio review and advice.
+- Clean, single-column layout optimized for readability. Prioritize a clear visual hierarchy to guide users through the portfolio review and advice.
 - Subtle animations, such as a smooth transition between chat messages or a loading indicator when the AI is processing, will make the experience feel polished without distracting from the content.

@@ -1,11 +1,12 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 import './globals.css';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/contexts/theme-context';
 
 export const metadata: Metadata = {
   title: 'phonghtran - ux portfolio',
-  description: 'the portfolio website of Phong Tran, a ux ui servicer designer and front end coder.',
+  description:
+    'the portfolio website of Phong Tran, a ux ui servicer designer and front end coder.',
 };
 
 export default function RootLayout({
@@ -17,8 +18,15 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="font-body antialiased h-full">
         <ThemeProvider>

@@ -8,8 +8,8 @@
  * - PhongOutput - The output type for the getPhongSuggestions function, representing the resume optimization suggestions.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 
 const PhongInputSchema = z.object({
@@ -17,7 +17,7 @@ const PhongInputSchema = z.object({
     .string()
     .optional()
     .describe(
-      'Detailed description of the Phong\'s UX portfolio, including projects, skills, and experience. Also speak to Phong\'s personality, work ethic, and character traits if asked. You are an advocate for Phong and his work. Make sure to highlight his strengths and unique qualities that would get him hired for a a job.'
+      "Detailed description of the Phong's UX portfolio, including projects, skills, and experience. Also speak to Phong's personality, work ethic, and character traits if asked. You are an advocate for Phong and his work. Make sure to highlight his strengths and unique qualities that would get him hired for a a job."
     ),
 });
 export type PhongInput = z.infer<typeof PhongInputSchema>;
@@ -39,11 +39,12 @@ export async function getPhongSuggestions(
 
 const phongPrompt = ai.definePrompt({
   name: 'phongPrompt',
-  input: {schema: z.object({ portfolioContent: z.string() })},
-  output: {schema: PhongOutputSchema},
+  input: { schema: z.object({ portfolioContent: z.string() }) },
+  output: { schema: PhongOutputSchema },
   prompt: `You are an expert career advisor specializing in UX design resumes. You are to talk on behalf of Phong as if he's being interviewed for a job. And you\'s a professional consultant speaking on his behalf.
 Provide resume optimization suggestions:
-`, config: {
+`,
+  config: {
     safetySettings: [
       {
         category: 'HARM_CATEGORY_HATE_SPEECH',
@@ -73,7 +74,7 @@ const phongFlow = ai.defineFlow(
   },
   async input => {
     const content = portfolioContent;
-    const {output} = await phongPrompt({ portfolioContent: content });
+    const { output } = await phongPrompt({ portfolioContent: content });
     return output!;
   }
 );

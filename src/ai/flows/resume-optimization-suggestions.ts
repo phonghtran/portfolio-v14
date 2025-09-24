@@ -8,8 +8,8 @@
  * - ResumeOptimizationOutput - The output type for the getResumeOptimizationSuggestions function, representing the resume optimization suggestions.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 
 const ResumeOptimizationInputSchema = z.object({
@@ -17,10 +17,12 @@ const ResumeOptimizationInputSchema = z.object({
     .string()
     .optional()
     .describe(
-      'The content of the user\'s portfolio, including project descriptions, skills, and other relevant information.'
+      "The content of the user's portfolio, including project descriptions, skills, and other relevant information."
     ),
 });
-export type ResumeOptimizationInput = z.infer<typeof ResumeOptimizationInputSchema>;
+export type ResumeOptimizationInput = z.infer<
+  typeof ResumeOptimizationInputSchema
+>;
 
 const ResumeOptimizationOutputSchema = z.object({
   suggestions: z
@@ -29,7 +31,9 @@ const ResumeOptimizationOutputSchema = z.object({
       'Resume optimization suggestions based on the portfolio content and a an understanding of current job market trends.'
     ),
 });
-export type ResumeOptimizationOutput = z.infer<typeof ResumeOptimizationOutputSchema>;
+export type ResumeOptimizationOutput = z.infer<
+  typeof ResumeOptimizationOutputSchema
+>;
 
 export async function getResumeOptimizationSuggestions(
   input: ResumeOptimizationInput
@@ -39,14 +43,15 @@ export async function getResumeOptimizationSuggestions(
 
 const resumeOptimizationPrompt = ai.definePrompt({
   name: 'resumeOptimizationPrompt',
-  input: {schema: z.object({ portfolioContent: z.string() })},
-  output: {schema: ResumeOptimizationOutputSchema},
+  input: { schema: z.object({ portfolioContent: z.string() }) },
+  output: { schema: ResumeOptimizationOutputSchema },
   prompt: `You are an expert career advisor specializing in UX design resumes. Based on the user\'s portfolio content, provide specific and actionable suggestions for improving their resume. Consider current job market trends and tailor the suggestions accordingly.
 
 Portfolio Content: {{{portfolioContent}}}
 
 Provide resume optimization suggestions:
-`, config: {
+`,
+  config: {
     safetySettings: [
       {
         category: 'HARM_CATEGORY_HATE_SPEECH',
@@ -76,7 +81,9 @@ const resumeOptimizationFlow = ai.defineFlow(
   },
   async input => {
     const content = input.portfolioContent || portfolioContent;
-    const {output} = await resumeOptimizationPrompt({ portfolioContent: content });
+    const { output } = await resumeOptimizationPrompt({
+      portfolioContent: content,
+    });
     return output!;
   }
 );

@@ -7,33 +7,43 @@
  * - InterviewQuestionOutput - The return type for the generateInterviewQuestions function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 
 const InterviewQuestionInputSchema = z.object({
   portfolioDescription: z
     .string()
     .optional()
-    .describe('Detailed description of the user\'s UX portfolio, including projects, skills, and experience.'),
+    .describe(
+      "Detailed description of the user's UX portfolio, including projects, skills, and experience."
+    ),
 });
-export type InterviewQuestionInput = z.infer<typeof InterviewQuestionInputSchema>;
+export type InterviewQuestionInput = z.infer<
+  typeof InterviewQuestionInputSchema
+>;
 
 const InterviewQuestionOutputSchema = z.object({
   interviewQuestions: z
     .array(z.string())
-    .describe('An array of interview questions tailored to the user\'s portfolio.'),
+    .describe(
+      "An array of interview questions tailored to the user's portfolio."
+    ),
 });
-export type InterviewQuestionOutput = z.infer<typeof InterviewQuestionOutputSchema>;
+export type InterviewQuestionOutput = z.infer<
+  typeof InterviewQuestionOutputSchema
+>;
 
-export async function generateInterviewQuestions(input: InterviewQuestionInput): Promise<InterviewQuestionOutput> {
+export async function generateInterviewQuestions(
+  input: InterviewQuestionInput
+): Promise<InterviewQuestionOutput> {
   return generateInterviewQuestionsFlow(input);
 }
 
 const prompt = ai.definePrompt({
   name: 'interviewQuestionPrompt',
-  input: {schema: z.object({ portfolioDescription: z.string() })},
-  output: {schema: InterviewQuestionOutputSchema},
+  input: { schema: z.object({ portfolioDescription: z.string() }) },
+  output: { schema: InterviewQuestionOutputSchema },
   prompt: `You are an expert career coach specializing in UX roles. Generate interview questions tailored to the user's portfolio.
 
 Portfolio Description: {{{portfolioDescription}}}
@@ -48,7 +58,7 @@ const generateInterviewQuestionsFlow = ai.defineFlow(
     inputSchema: InterviewQuestionInputSchema,
     outputSchema: InterviewQuestionOutputSchema,
   },
-  async (input) => {
+  async input => {
     const content = input.portfolioDescription || portfolioContent;
     const { output } = await prompt({ portfolioDescription: content });
     return output!;

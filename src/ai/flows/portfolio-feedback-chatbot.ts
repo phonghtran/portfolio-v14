@@ -9,18 +9,22 @@
  * - `PortfolioFeedbackOutput`: The output type for the `getPortfolioFeedback` function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 
 const PortfolioFeedbackInputSchema = z.object({
   portfolioContent: z
     .string()
     .optional()
-    .describe('The complete text content of the UX portfolio to be reviewed. If not provided, the default portfolio content will be used.'),
+    .describe(
+      'The complete text content of the UX portfolio to be reviewed. If not provided, the default portfolio content will be used.'
+    ),
 });
 
-export type PortfolioFeedbackInput = z.infer<typeof PortfolioFeedbackInputSchema>;
+export type PortfolioFeedbackInput = z.infer<
+  typeof PortfolioFeedbackInputSchema
+>;
 
 const PortfolioFeedbackOutputSchema = z.object({
   overallFeedback: z.string().describe('Overall feedback on the UX portfolio.'),
@@ -32,10 +36,14 @@ const PortfolioFeedbackOutputSchema = z.object({
     .describe('Assessment of the skills demonstrated in the portfolio.'),
   presentationFeedback: z
     .string()
-    .describe('Feedback on the overall presentation and design of the portfolio.'),
+    .describe(
+      'Feedback on the overall presentation and design of the portfolio.'
+    ),
 });
 
-export type PortfolioFeedbackOutput = z.infer<typeof PortfolioFeedbackOutputSchema>;
+export type PortfolioFeedbackOutput = z.infer<
+  typeof PortfolioFeedbackOutputSchema
+>;
 
 export async function getPortfolioFeedback(
   input: PortfolioFeedbackInput
@@ -45,8 +53,8 @@ export async function getPortfolioFeedback(
 
 const portfolioFeedbackPrompt = ai.definePrompt({
   name: 'portfolioFeedbackPrompt',
-  input: {schema: PortfolioFeedbackInputSchema},
-  output: {schema: PortfolioFeedbackOutputSchema},
+  input: { schema: PortfolioFeedbackInputSchema },
+  output: { schema: PortfolioFeedbackOutputSchema },
   prompt: `You are a seasoned UX design lead providing feedback on a UX portfolio.
 
   Based on the provided portfolio content, provide actionable feedback in the following areas:
@@ -66,9 +74,11 @@ const portfolioFeedbackFlow = ai.defineFlow(
     inputSchema: PortfolioFeedbackInputSchema,
     outputSchema: PortfolioFeedbackOutputSchema,
   },
-  async (input) => {
+  async input => {
     const content = input.portfolioContent || portfolioContent;
-    const { output } = await portfolioFeedbackPrompt({ portfolioContent: content });
+    const { output } = await portfolioFeedbackPrompt({
+      portfolioContent: content,
+    });
     return output!;
   }
 );

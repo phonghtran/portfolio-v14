@@ -7,32 +7,43 @@
  * - PersonalizedFollowUpOutput - The return type for the personalizedFollowUp function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 
 const PersonalizedFollowUpInputSchema = z.object({
   message: z.string().describe('The current message from the user.'),
-  chatHistory: z.array(z.object({
-    role: z.enum(['user', 'assistant']),
-    content: z.string(),
-  })).optional().describe('The chat history between the user and the assistant.'),
+  chatHistory: z
+    .array(
+      z.object({
+        role: z.enum(['user', 'assistant']),
+        content: z.string(),
+      })
+    )
+    .optional()
+    .describe('The chat history between the user and the assistant.'),
 });
-export type PersonalizedFollowUpInput = z.infer<typeof PersonalizedFollowUpInputSchema>;
+export type PersonalizedFollowUpInput = z.infer<
+  typeof PersonalizedFollowUpInputSchema
+>;
 
 const PersonalizedFollowUpOutputSchema = z.object({
   response: z.string().describe('The personalized response from the chatbot.'),
 });
-export type PersonalizedFollowUpOutput = z.infer<typeof PersonalizedFollowUpOutputSchema>;
+export type PersonalizedFollowUpOutput = z.infer<
+  typeof PersonalizedFollowUpOutputSchema
+>;
 
-export async function personalizedFollowUp(input: PersonalizedFollowUpInput): Promise<PersonalizedFollowUpOutput> {
+export async function personalizedFollowUp(
+  input: PersonalizedFollowUpInput
+): Promise<PersonalizedFollowUpOutput> {
   return personalizedFollowUpFlow(input);
 }
 
 const prompt = ai.definePrompt({
   name: 'personalizedFollowUpPrompt',
-  input: {schema: PersonalizedFollowUpInputSchema},
-  output: {schema: PersonalizedFollowUpOutputSchema},
+  input: { schema: PersonalizedFollowUpInputSchema },
+  output: { schema: PersonalizedFollowUpOutputSchema },
   prompt: `You are a career advisor chatbot specializing in UX portfolios.
 
   You have access to the user's portfolio content. Use it to provide detailed, personalized, and relevant advice.
@@ -62,7 +73,7 @@ const personalizedFollowUpFlow = ai.defineFlow(
     outputSchema: PersonalizedFollowUpOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
+    const { output } = await prompt(input);
     return output!;
   }
 );

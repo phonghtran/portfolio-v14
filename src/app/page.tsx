@@ -1,8 +1,9 @@
 import ChatInterface from '@/components/chat/chat-interface';
-import { PillBottle, User } from 'lucide-react';
+import { User } from 'lucide-react';
 import Link from 'next/link';
 import { ClientThemeToggle } from '@/components/ui/client-theme-toggle';
-import { ThemeDebug } from '@/components/ui/theme-debug';
+import Image from 'next/image';
+// import { ThemeDebug } from '@/components/ui/theme-debug';
 
 export default function Home() {
   return (
@@ -11,20 +12,29 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <PillBottle className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground font-headline">
-                phonghtran - ux designer & front-end coder
-              </h1>
-            </div>
-            <nav className="flex items-center gap-4">
-              <ClientThemeToggle />
-              <Link 
-                href="/about" 
+              <Image
+                src="/images/phong_red_transparent_300dpi.png"
+                alt="logo of phonghtran"
+                width={36}
+                height={36}
+                priority // For above-the-fold images
+              />
+              <div>
+                <h1 className="text-xl font-bold text-foreground font-headline">
+                  phonghtran
+                </h1>
+                <h6>ux designer & front-end coder</h6>
+              </div>
+              <Link
+                href="/about"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <User className="h-4 w-4" />
                 About
               </Link>
+            </div>
+            <nav className="flex items-center gap-4">
+              <ClientThemeToggle />
             </nav>
           </div>
         </div>
@@ -32,7 +42,7 @@ export default function Home() {
       <main className="flex-1">
         <ChatInterface />
       </main>
-      <ThemeDebug />
+      {/* <ThemeDebug /> */}
     </div>
   );
 }
