@@ -223,3 +223,15 @@ html.theme-vintage {
     animation: glow 2s ease-in-out infinite;
   }
 }
+
+.traditionalBulletedList {
+  @apply space-y-2 pl-6;
+  list-style: disc;
+  list-style-position: outside;
+}
+
+.traditionalOrderedList {
+  @apply space-y-2 pl-6;
+  list-style: decimal;
+  list-style-position: outside;
+}

@@ -4,8 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 export default function ContextSection() {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl">Obviously #1</h2>
-      <h3 className="text-lg">Building a Design Foundation</h3>
+      <h2>Obviously #1</h2>
+      <h3>Building a Design Foundation</h3>
       <p>
         Starting in 2020, I was Obviously’s first UX designer hire. The
         nine-year startup focused on influencer marketing campaigns and
@@ -27,22 +27,24 @@ export default function ContextSection() {
 
       <p>To tackle this, I initiated a series of phases and activities.</p>
 
-      <ul>
-        <li>A complete UI audit of every page.</li>
-        <li>
+      <ul className="traditionalBulletedList">
+        <li className="ml-0">A complete UI audit of every page.</li>
+        <li className="ml-0">
           Interviews with the Director of Engineering to get the history the UI
           and CSS front-end stack.
         </li>
-        <li>
+        <li className="ml-0">
           Building a brand new Design System with new typography, colors,
           layouts, and components based the existing Bootstrap framework.
         </li>
-        <li>Working with Product on where we could implement this safely.</li>
-        <li>
+        <li className="ml-0">
+          Working with Product on where we could implement this safely.
+        </li>
+        <li className="ml-0">
           Overhauling an isolated part of the system to completely redo the CSS
           architecture under the new Design System
         </li>
-        <li>
+        <li className="ml-0">
           Progressively enhancing sub-system by sub-system until the
           transformation was complete.
         </li>
@@ -82,7 +84,7 @@ export default function ContextSection() {
       </p>
       <p>Moving forward, we would institute:</p>
 
-      <ul>
+      <ul className="traditionalBulletedList">
         <li>User Personas</li>
         <li>Buyer Personas</li>
         <li>Prototype-based testing</li>
@@ -97,7 +99,7 @@ export default function ContextSection() {
       </p>
       <h2>Recent Projects with Obviously</h2>
 
-      <ol>
+      <ol className="traditionalOrderedList">
         <li>
           <h3>Efficient Workflows with AI & Automation</h3>
           <p>
