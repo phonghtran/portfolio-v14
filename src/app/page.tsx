@@ -1,6 +1,8 @@
 import ChatInterface from '@/components/chat/chat-interface';
 import { PillBottle, User } from 'lucide-react';
 import Link from 'next/link';
+import { ClientThemeToggle } from '@/components/ui/client-theme-toggle';
+import { ThemeDebug } from '@/components/ui/theme-debug';
 
 export default function Home() {
   return (
@@ -14,13 +16,14 @@ export default function Home() {
                 phonghtran - ux designer & front-end coder
               </h1>
             </div>
-            <nav>
+            <nav className="flex items-center gap-4">
+              <ClientThemeToggle />
               <Link 
                 href="/about" 
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <User className="h-4 w-4" />
-                New Page
+                About
               </Link>
             </nav>
           </div>
@@ -29,6 +32,7 @@ export default function Home() {
       <main className="flex-1">
         <ChatInterface />
       </main>
+      <ThemeDebug />
     </div>
   );
 }
