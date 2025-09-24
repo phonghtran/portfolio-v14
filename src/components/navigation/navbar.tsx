@@ -12,8 +12,8 @@ const navItems = [
     icon: Home,
   },
   {
-    href: '/work',
-    label: 'Work',
+    href: '/casestudies',
+    label: 'Case Studies',
     icon: BriefcaseBusiness,
   },
   {

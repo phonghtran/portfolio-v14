@@ -19,7 +19,7 @@ export default function Contact() {
           <div className="max-w-none">
             <div>
               <ul>
-                <li class="flex items-center mb-4">
+                <li className="flex items-center mb-4">
                   <File className="h-8 w-8 text-primary mr-2" />
                   <a
                     href="https://drive.google.com/file/d/1mV6YmcOtbtGZBgOERzwr5SmDBpGyNkNU/view?usp=sharing"
@@ -28,15 +28,15 @@ export default function Contact() {
                     Resume/CV
                   </a>
                 </li>
-                <li class="flex items-center mb-4">
+                <li className="flex items-center mb-4">
                   <SendHorizontal className="h-8 w-8 text-primary mr-2" />
                   <a href="mailto:phong@phonghtran.com">phong@phonghtran.com</a>
                 </li>
-                <li class="flex items-center mb-4">
+                <li className="flex items-center mb-4">
                   <PhoneOutgoing className="h-8 w-8 text-primary mr-2" />{' '}
                   612-481-4203
                 </li>
-                <li class="flex items-center mb-4">
+                <li className="flex items-center mb-4">
                   <Linkedin className="h-8 w-8 text-primary mr-2" />
                   <a
                     href="https://www.linkedin.com/in/phonghtran/"
@@ -45,7 +45,7 @@ export default function Contact() {
                     LinkedIn
                   </a>
                 </li>
-                <li class="flex items-center mb-4">
+                <li className="flex items-center mb-4">
                   <Instagram className="h-8 w-8 text-primary mr-2" />
                   <a
                     href="https://www.instagram.com/phonghtran/"
@@ -54,7 +54,7 @@ export default function Contact() {
                     Instagram
                   </a>
                 </li>
-                <li class="flex items-center mb-4">
+                <li className="flex items-center mb-4">
                   <Github className="h-8 w-8 text-primary mr-2" />
                   <a href="https://github.com/phonghtran/" target="_blank">
                     Github
