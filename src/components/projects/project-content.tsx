@@ -71,22 +71,36 @@ function SectionContent({
       </div>
 
       <div className="prose prose-gray dark:prose-invert max-w-none mb-8">
-        <p className="text-lg leading-relaxed">{section.content}</p>
+        {section.contentType === 'bullets' ? (
+          <ul className="space-y-2">
+            {section.content.map((item, index) => (
+              <li key={index} className="text-lg leading-relaxed">
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          section.content.map((paragraph, index) => (
+            <p key={index} className="text-lg leading-relaxed mb-4 last:mb-0">
+              {paragraph}
+            </p>
+          ))
+        )}
       </div>
 
       {section.images && section.images.length > 0 && (
         <div className="space-y-6">
-          <h4 className="text-lg font-semibold">Visual Documentation</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="">
             {section.images.map((imagePath, index) => (
-              <Card key={index} className="overflow-hidden">
+              <Card key={index} className="overflow-hidden mb-4">
                 <CardContent className="p-0">
-                  <div className="aspect-video relative bg-muted">
+                  <div className="relative bg-muted">
                     <Image
                       src={imagePath}
                       alt={`${section.title} - Image ${index + 1}`}
-                      fill
-                      className="object-cover"
+                      width={800}
+                      height={600}
+                      className="w-full h-auto object-contain"
                       sizes="(max-width: 768px) 100vw, 50vw"
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+Cp/Z"
@@ -114,7 +128,7 @@ export function ProjectContent({
         'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
       development:
         'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      branding:
+      technologist:
         'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
       research:
         'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',

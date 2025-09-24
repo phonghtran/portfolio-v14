@@ -3,7 +3,8 @@
 export interface ProjectSection {
   id: string;
   title: string;
-  content: string;
+  content: string[];
+  contentType: 'paragraph' | 'bullets';
   images?: string[];
   audioTrack?: string; // Path to audio file for this section
   duration?: number; // Duration in seconds
@@ -15,7 +16,7 @@ export interface Project {
   subtitle: string;
   description: string;
   thumbnail: string;
-  category: 'ux-design' | 'development' | 'branding' | 'research';
+  category: 'ux-design' | 'development' | 'technologist' | 'research';
   tags: string[];
   year: string;
   client?: string;
@@ -37,255 +38,111 @@ export interface AudioTrack {
 // Placeholder project data - you can populate this with real content
 export const projects: Project[] = [
   {
-    id: 'project-1',
-    title: 'E-commerce Mobile App',
-    subtitle: 'UX/UI Design & Prototyping',
-    description:
-      'Complete mobile app redesign focusing on user journey optimization',
-    thumbnail: '/images/projects/project-1/thumbnail.jpg',
+    id: 'mastercard-1',
+    title: 'mastercard: Rapid Iterations',
+    subtitle:
+      'Highly collaborative sessions to help stakeholders articulate their vision',
+    description: '',
+    thumbnail: '/images/projects/mastercard-1/thumbnail.jpg',
     category: 'ux-design',
-    tags: ['Mobile', 'E-commerce', 'User Research', 'Prototyping'],
-    year: '2024',
-    client: 'RetailCorp',
+    tags: ['Workshops', 'Facilitation', 'Design Thinking'],
+    year: '2021',
+    client: 'mastercard',
+    duration: '2 months',
+    heroImage: '/images/projects/mastercard-1/mc_2.png',
+    overview:
+      "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        content: [
+          'It’s one of those projects where it’s less about the UX and designs, but more about the approach and meeting the client where they are. The client team had a vision for a streamlined internal process of data ingest and visualization. However, the existing team was having trouble translating the requirements and desires into designs that matched the clients’ wants.',
+        ],
+        contentType: 'paragraph',
+        images: [
+          '/images/projects/mastercard-1/mc_1.jpg',
+          '/images/projects/mastercard-1/mc_3.png',
+        ],
+        audioTrack: '/audio/mastercard-1/discovery.mp3',
+        duration: 200,
+      },
+      {
+        id: 'adhoc',
+        title: 'Dropping In',
+        content: [
+          'With the client super frustrated, it was thought I could try leading the project and bring in a fresh perspective. Instead of redoing all the workshop activities and re-interviewing all the stakeholders again, I decided to dive right in. On our virtual calls, I opened up Figma and just let them describe how they saw the project and its features. While they talked I attempted to sketch out the systems and flows they were discussing. It helped that I had a technical background and could understand database systems and ETL flows.',
+
+          'In each discussion, we had sketches and workflows that they felt happy with. More importantly, I learned their trust to keep the talks going. As I gained more confidence that I was interpreting their vision correctly, I would work with our designers to work out screens to flesh out. Those would be shown to the client, get approved, and we would then move to the next set of screens to sketch out live. Each day would be a bit different as I would drive them toward the priority of the day, whether it was wireframes, user stories, or screens to react to.',
+
+          'Figma prototypes doubled as slide presentations as we were already in those files so intensely every day. We could link dynamically each workflow as it matured and was worked on.',
+        ],
+        contentType: 'paragraph',
+        images: [
+          '/images/projects/mastercard-1/mc_2.png',
+          '/images/projects/mastercard-1/ScreenShot2021-03-17at10.50.35AM.png.png',
+        ],
+        audioTrack: '/audio/mastercard-1/concept.mp3',
+        duration: 180,
+      },
+    ],
+  },
+  {
+    id: 'worldpay-1',
+    title: 'Worldpay Workshops: Asset Consolidation',
+    subtitle: 'Design Thinking to Plan for Streamlining',
+    description: '',
+    thumbnail: '/images/projects/worldpay-1/thumbnail.jpg',
+    category: 'technologist',
+    tags: ['Front-end', 'Workshops', 'Facilitation', 'Design Thinking'],
+    year: '2021',
+    client: 'Worldpay (FIS)',
     duration: '3 months',
-    heroImage: '/images/projects/project-1/hero.jpg',
+    heroImage: '/images/projects/worldpay-1/slides2.jpeg',
     overview:
-      'This project involved redesigning a mobile e-commerce application to improve user experience and increase conversion rates.',
+      'Rapidly facititating workshops to reach alignment and consensus, and then coding the initial deliverables to jump start the transition.',
     sections: [
       {
-        id: 'research',
-        title: 'Research & Discovery',
-        content:
-          'Conducted user interviews and competitive analysis to understand pain points.',
-        images: [
-          '/images/projects/project-1/research-1.jpg',
-          '/images/projects/project-1/research-2.jpg',
+        id: 'context',
+        title: 'Context',
+        content: [
+          'After a series of acquisitions and mergers, Worldpay was left with a multitude of technologies each with its own developer tools and portals. As a consulting team, we were brought to assess, recommend, and formulate a solution to merge all the portal experiences into a unified platform. We were a three-person team with three months to execute. I contributed to conducting research, co-facilitating workshops, and synthesis. Shared the architecture and UX work while a visual specialist extended the design system. An additional deliverable was my coding of Angular components for their development team.',
         ],
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 30,
-      },
-      {
-        id: 'ideation',
-        title: 'Ideation & Wireframing',
-        content: 'Developed multiple concepts and low-fidelity wireframes.',
-        images: ['/images/projects/project-1/wireframes.jpg'],
-      },
-      {
-        id: 'design',
-        title: 'Visual Design',
-        content: 'Created high-fidelity mockups and interactive prototypes.',
+        contentType: 'paragraph',
         images: [
-          '/images/projects/project-1/mockup-1.jpg',
-          '/images/projects/project-1/mockup-2.jpg',
+          '/images/projects/worldpay-1/ScreenShot2020-04-16at1.29.16PM.png',
         ],
-        audioTrack: '/audio/project-1/design.mp3',
-        duration: 300,
-      },
-      {
-        id: 'testing',
-        title: 'Testing & Iteration',
-        content:
-          'Conducted usability testing and refined the design based on feedback.',
-        images: ['/images/projects/project-1/testing.jpg'],
-        audioTrack: '/audio/project-1/testing.mp3',
+        audioTrack: '/audio/worldpay-1/discovery.mp3',
         duration: 200,
       },
       {
-        id: 'results',
-        title: 'Results & Metrics',
-        content:
-          'Post-launch analysis showed a 40% increase in conversion rates and 25% improvement in user satisfaction scores.',
-        images: ['/images/projects/project-1/results-chart.jpg'],
-        // No audio for this section - just visual content
-      },
-      {
-        id: 'learnings',
-        title: 'Key Learnings',
-        content:
-          'This project taught us the importance of early user testing and iterative design. The mobile-first approach proved crucial for user adoption.',
-        // No images or audio - just text content
-      },
-    ],
-  },
-  {
-    id: 'project-2',
-    title: 'Dashboard Analytics Platform',
-    subtitle: 'Frontend Development & UX',
-    description:
-      'Real-time analytics dashboard with complex data visualizations',
-    thumbnail: '/images/projects/project-2/thumbnail.jpg',
-    category: 'development',
-    tags: ['React', 'Data Viz', 'Dashboard', 'Frontend'],
-    year: '2024',
-    client: 'TechStartup',
-    duration: '4 months',
-    heroImage: '/images/projects/project-2/hero.jpg',
-    overview:
-      'Built a comprehensive analytics dashboard with real-time data visualization and user management.',
-    sections: [
-      {
-        id: 'requirements',
-        title: 'Requirements Analysis',
-        content: 'Analyzed business requirements and technical specifications.',
-        images: ['/images/projects/project-2/requirements.jpg'],
-        audioTrack: '/audio/project-2/requirements.mp3',
-        duration: 150,
-      },
-      {
-        id: 'architecture',
-        title: 'Technical Architecture',
-        content: 'Designed the frontend architecture and component structure.',
-        images: ['/images/projects/project-2/architecture.jpg'],
-        audioTrack: '/audio/project-2/architecture.mp3',
-        duration: 220,
-      },
-      {
-        id: 'implementation',
-        title: 'Development & Implementation',
-        content: 'Built components using React, TypeScript, and D3.js.',
-        images: [
-          '/images/projects/project-2/code-1.jpg',
-          '/images/projects/project-2/code-2.jpg',
+        id: 'virtual',
+        title: 'Working Virtually',
+        content: [
+          'During this project, the state of the world didn’t allow for easy travel. So we conducted everything virtually including workshops with the client. We reviewed workflows and architecture and sketched out ideas using screen sharing. Even conducting individual brainstorming and worksheets in our Miro whiteboarding space. The three of us took turns facilitating, cleaning up the boards, and taking notes to move the stakeholders from activity to activity throughout the Miro board.',
         ],
-        audioTrack: '/audio/project-2/implementation.mp3',
-        duration: 360,
-      },
-    ],
-  },
-  {
-    id: 'project-5',
-    title: 'Brand Identity System',
-    subtitle: 'Visual Identity & Guidelines',
-    description: 'Complete brand redesign for a sustainable fashion startup',
-    thumbnail: '/images/projects/project-3/thumbnail.jpg',
-    category: 'branding',
-    tags: ['Branding', 'Visual Identity', 'Logo Design', 'Style Guide'],
-    year: '2023',
-    client: 'EcoFashion Co.',
-    duration: '2 months',
-    heroImage: '/images/projects/project-3/hero.jpg',
-    overview:
-      'Created a comprehensive brand identity system including logo, color palette, typography, and brand guidelines.',
-    sections: [
-      {
-        id: 'discovery',
-        title: 'Brand Discovery',
-        content:
-          'Explored brand values, target audience, and market positioning.',
-        images: ['/images/projects/project-3/discovery.jpg'],
-        audioTrack: '/audio/project-3/discovery.mp3',
-        duration: 200,
-      },
-      {
-        id: 'concept',
-        title: 'Concept Development',
-        content: 'Developed multiple logo concepts and visual directions.',
-        images: ['/images/projects/project-3/concepts.jpg'],
-        audioTrack: '/audio/project-3/concept.mp3',
+        contentType: 'paragraph',
+        images: [
+          '/images/projects/worldpay-1/ScreenShot2020-04-07at3.09.35PM.png',
+          '/images/projects/worldpay-1/ScreenShot2020-05-19at4.01.47PM.png',
+        ],
+        audioTrack: '/audio/worldpay-1/concept.mp3',
         duration: 180,
       },
       {
-        id: 'execution',
-        title: 'Final Execution',
-        content:
-          'Refined the final logo and created comprehensive brand guidelines.',
-        images: [
-          '/images/projects/project-3/final-logo.jpg',
-          '/images/projects/project-3/guidelines.jpg',
+        id: 'coding',
+        title: 'Coding',
+        content: [
+          'It wasn’t planned but as we got closer to delivery, the client was rushed to get implementation up and running. I asked about their tech stack and since I could code in AngularJS, we offered coding up the design system and UI components for them as an add-on. When they agreed, I spent a two-week sprint coding up their front end.',
         ],
-        audioTrack: '/audio/project-3/execution.mp3',
-        duration: 250,
-      },
-    ],
-  },
-  {
-    id: 'project-4',
-    title: 'Brand Identity System',
-    subtitle: 'Visual Identity & Guidelines',
-    description: 'Complete brand redesign for a sustainable fashion startup',
-    thumbnail: '/images/projects/project-3/thumbnail.jpg',
-    category: 'branding',
-    tags: ['Branding', 'Visual Identity', 'Logo Design', 'Style Guide'],
-    year: '2023',
-    client: 'EcoFashion Co.',
-    duration: '2 months',
-    heroImage: '/images/projects/project-3/hero.jpg',
-    overview:
-      'Created a comprehensive brand identity system including logo, color palette, typography, and brand guidelines.',
-    sections: [
-      {
-        id: 'discovery',
-        title: 'Brand Discovery',
-        content:
-          'Explored brand values, target audience, and market positioning.',
-        images: ['/images/projects/project-3/discovery.jpg'],
-        audioTrack: '/audio/project-3/discovery.mp3',
-        duration: 200,
-      },
-      {
-        id: 'concept',
-        title: 'Concept Development',
-        content: 'Developed multiple logo concepts and visual directions.',
-        images: ['/images/projects/project-3/concepts.jpg'],
-        audioTrack: '/audio/project-3/concept.mp3',
-        duration: 180,
-      },
-      {
-        id: 'execution',
-        title: 'Final Execution',
-        content:
-          'Refined the final logo and created comprehensive brand guidelines.',
+        contentType: 'paragraph',
         images: [
-          '/images/projects/project-3/final-logo.jpg',
-          '/images/projects/project-3/guidelines.jpg',
+          '/images/projects/worldpay-1/wp_2.png',
+          '/images/projects/worldpay-1/wp_3.png',
+          '/images/projects/worldpay-1/wp_1.png',
+          '/images/projects/worldpay-1/ScreenShot2020-06-03at10.43.12AM.png',
         ],
-        audioTrack: '/audio/project-3/execution.mp3',
-        duration: 250,
-      },
-    ],
-  },
-  {
-    id: 'project-3',
-    title: 'Brand Identity System',
-    subtitle: 'Visual Identity & Guidelines',
-    description: 'Complete brand redesign for a sustainable fashion startup',
-    thumbnail: '/images/projects/project-3/thumbnail.jpg',
-    category: 'branding',
-    tags: ['Branding', 'Visual Identity', 'Logo Design', 'Style Guide'],
-    year: '2023',
-    client: 'EcoFashion Co.',
-    duration: '2 months',
-    heroImage: '/images/projects/project-3/hero.jpg',
-    overview:
-      'Created a comprehensive brand identity system including logo, color palette, typography, and brand guidelines.',
-    sections: [
-      {
-        id: 'discovery',
-        title: 'Brand Discovery',
-        content:
-          'Explored brand values, target audience, and market positioning.',
-        images: ['/images/projects/project-3/discovery.jpg'],
-        audioTrack: '/audio/project-3/discovery.mp3',
-        duration: 200,
-      },
-      {
-        id: 'concept',
-        title: 'Concept Development',
-        content: 'Developed multiple logo concepts and visual directions.',
-        images: ['/images/projects/project-3/concepts.jpg'],
-        audioTrack: '/audio/project-3/concept.mp3',
-        duration: 180,
-      },
-      {
-        id: 'execution',
-        title: 'Final Execution',
-        content:
-          'Refined the final logo and created comprehensive brand guidelines.',
-        images: [
-          '/images/projects/project-3/final-logo.jpg',
-          '/images/projects/project-3/guidelines.jpg',
-        ],
-        audioTrack: '/audio/project-3/execution.mp3',
+        audioTrack: '/audio/worldpay-1/execution.mp3',
         duration: 250,
       },
     ],

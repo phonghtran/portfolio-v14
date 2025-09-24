@@ -64,7 +64,7 @@ export function ProjectNavigation({
         'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
       development:
         'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      branding:
+      technologist:
         'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
       research:
         'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
@@ -103,31 +103,25 @@ export function ProjectNavigation({
               className="mb-2"
             >
               <CollapsibleTrigger asChild>
-                <Button
-                  variant={isCurrentProject ? 'secondary' : 'ghost'}
-                  className="w-full justify-between p-3 h-auto"
+                <div
+                  className={cn(
+                    'w-full justify-between p-3 h-auto flex hover:cursor-pointer rounded-md transition-colors',
+                    isCurrentProject
+                      ? 'bg-secondary text-secondary-foreground'
+                      : 'hover:bg-accent hover:text-accent-foreground'
+                  )}
                   onClick={() => onProjectSelect?.(project.id)}
                 >
-                  <div className="text-left flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-sm">
+                  <div className="text-left flex-1 w-min-0">
+                    <div className="mb-1">
+                      <span className="font-medium text-sm ">
                         {project.title}
                       </span>
-
-                      <Badge
-                        variant="secondary"
-                        className={cn(
-                          'text-xs',
-                          getCategoryColor(project.category)
-                        )}
-                      >
-                        {project.category.replace('-', ' ')}
-                      </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground line-clamp-2">
+                    <p className="text-xs text-muted-foreground ">
                       {project.subtitle}
                     </p>
-                    <div className="flex items-center gap-2 mt-1">
+                    <div className=" ">
                       <span className="text-xs text-muted-foreground">
                         {project.year}
                       </span>
@@ -148,7 +142,7 @@ export function ProjectNavigation({
                   ) : (
                     <ChevronRight className="h-4 w-4 shrink-0" />
                   )}
-                </Button>
+                </div>
               </CollapsibleTrigger>
 
               <CollapsibleContent className="ml-2 mt-1 space-y-1">
