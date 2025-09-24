@@ -21,12 +21,13 @@ export default function ContextSection() {
         <li>Design Sprints</li>
       </ul>
 
-      <p>
-        <img
-          src="../caseStudies/obviously/journeymap.png"
-          alt="user journey of internal CS team members"
-        />
-      </p>
+      <Image
+        src="/images/projects/obviously-1/journeymap.png"
+        alt="user journey of internal CS team members"
+        width={640}
+        height={480}
+        priority // For above-the-fold images
+      />
     </div>
   );
 }

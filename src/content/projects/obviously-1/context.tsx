@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
+import { BeforeAfterSlider } from '@/components/ui/before-after-slider';
 
 export default function ContextSection() {
   return (
@@ -15,6 +16,16 @@ export default function ContextSection() {
         of those social media posts. Before I joined, they relied on the
         Engineering team and occasional freelancers to fulfill design needs.
       </p>
+
+      <BeforeAfterSlider
+        afterImage="/images/projects/obviously-1/beforepic_cropped.png"
+        beforeImage="/images/projects/obviously-1/after.png"
+        beforeAlt="Original UI design with inconsistencies"
+        afterAlt="New design system implementation"
+        initialPosition={30}
+        autoPlay={true}
+        className="max-w-4xl"
+      />
 
       <h2>The Need for Foundation Design</h2>
       <h3>No Consistency</h3>
@@ -49,6 +60,16 @@ export default function ContextSection() {
           transformation was complete.
         </li>
       </ul>
+
+      <BeforeAfterSlider
+        afterImage="/images/projects/obviously-1/obv_uiAudit.png"
+        beforeImage="/images/projects/obviously-1/obv3a.png"
+        beforeAlt="Original UI design with inconsistencies"
+        afterAlt="New design system implementation"
+        initialPosition={30}
+        autoPlay={true}
+        className="max-w-4xl"
+      />
     </div>
   );
 }

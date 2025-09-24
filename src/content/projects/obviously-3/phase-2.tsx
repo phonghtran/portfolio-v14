@@ -58,6 +58,19 @@ export default function ContextSection() {
           automations being run.
         </small>
       </p>
+
+      <Image
+        src="/images/projects/obviously-3/checklist.png"
+        alt="mockup of new vetting card"
+        width={1380}
+        height={1446}
+        className="w-full h-auto object-contain rounded"
+      />
+      <small>
+        Quick mockup of new functionality to stakeholders. The key is the
+        central checklist which can receive tasks from humans or any AI
+        automations being run.
+      </small>
     </div>
   );
 }

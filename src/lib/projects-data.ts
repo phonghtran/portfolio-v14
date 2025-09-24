@@ -79,6 +79,11 @@ export const projects: Project[] = [
         audioTrack: '/audio/obviously-1/discovery.mp3',
         duration: 200,
       },
+      {
+        id: 'gallery',
+        title: 'Image Gallery',
+        contentFile: 'obviously-1/gallery',
+      },
     ],
   },
   {
@@ -117,6 +122,11 @@ export const projects: Project[] = [
         contentFile: 'obviously-2/outcomes',
         audioTrack: '/audio/obviously-2/discovery.mp3',
         duration: 200,
+      },
+      {
+        id: 'gallery',
+        title: 'Image Gallery',
+        contentFile: 'obviously-2/gallery',
       },
     ],
   },
@@ -170,6 +180,11 @@ export const projects: Project[] = [
         contentFile: 'obviously-3/conclusion',
         audioTrack: '/audio/obviously-3/discovery.mp3',
         duration: 200,
+      },
+      {
+        id: 'gallery',
+        title: 'Image Gallery',
+        contentFile: 'obviously-3/gallery',
       },
     ],
   },

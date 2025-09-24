@@ -23,9 +23,12 @@ export default function ContextSection() {
         as getting alignment and consensus around a business problem.
       </p>
 
-      <img
-        src="../caseStudies/obviously/IMG_2624.png"
+      <Image
+        src="/images/projects/obviously-1/IMG_2624.png"
         alt="colleagues in workshop"
+        width={640}
+        height={480}
+        priority // For above-the-fold images
       />
     </div>
   );

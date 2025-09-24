@@ -48,6 +48,18 @@ export default function ContextSection() {
           batch actions.
         </small>
       </p>
+
+      <Image
+        src="/images/projects/obviously-3/searchauto.png"
+        alt="mockups of advanced search"
+        width={2350}
+        height={2888}
+        className="w-full h-auto object-contain rounded"
+      />
+      <small>
+        Updating the basic search with automations, sorting by attributes, and
+        batch actions.
+      </small>
     </div>
   );
 }

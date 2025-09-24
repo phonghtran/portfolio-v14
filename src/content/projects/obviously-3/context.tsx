@@ -6,7 +6,6 @@ export default function ContextSection() {
     <div className="space-y-6">
       <h2>Obviously #3</h2>
       <h3>Need for Efficiency</h3>
-
       <p>
         About a decade into Obviously existence, they sold themselves to an
         advertising conglomerate (WPP via VML, a daughter company of WPP.)
@@ -27,9 +26,7 @@ export default function ContextSection() {
         needed. Meaning our new edict was now urgently about increasing
         efficiency.
       </p>
-
       <h3>"Can AI fix this?"</h3>
-
       <p>
         The natural question from leadership was could AI replace all the
         things? To answer this, the PM and I embarked on a discovery project
@@ -54,9 +51,7 @@ export default function ContextSection() {
           and what could they deliver?
         </li>
       </ol>
-
       <h3>Synthesis</h3>
-
       <p>
         The conclusion of all of that research was "Not really, AI isn't there
         yet."
@@ -70,7 +65,6 @@ export default function ContextSection() {
         <li>Phase 2: Automate the Repetition</li>
         <li>Phase 3: A Smarter "First Pass" with AI & Contractors</li>
       </ul>
-
       <p>
         <img
           src="../caseStudies/obvEff/statusboard.png"
@@ -81,6 +75,18 @@ export default function ContextSection() {
           automated by the platform.
         </small>
       </p>
+
+      <Image
+        src="/images/projects/obviously-3/statusboard.png"
+        alt="status board of tasks to deadlines"
+        width={1429}
+        height={755}
+        className="w-full h-auto object-contain rounded"
+      />
+      <small>
+        Retrofitting the old admin UI to display alerts and deadlines automated
+        by the platform.
+      </small>
     </div>
   );
 }

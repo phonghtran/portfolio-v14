@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
+import { BeforeAfterSlider } from '@/components/ui/before-after-slider';
 
 export default function ContextSection() {
   return (
@@ -35,6 +36,16 @@ export default function ContextSection() {
         wanted. But the cost and risk of that would be unacceptable to the
         business.
       </p>
+
+      <BeforeAfterSlider
+        afterImage="/images/projects/obviously-2/tracker.png"
+        beforeImage="/images/projects/obviously-2/signupq.png"
+        beforeAlt="Original UI design with inconsistencies"
+        afterAlt="New design system implementation"
+        initialPosition={30}
+        autoPlay={true}
+        className="max-w-4xl"
+      />
     </div>
   );
 }
