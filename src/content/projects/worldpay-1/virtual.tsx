@@ -1,7 +1,7 @@
 export default function VirtualSection() {
   return (
     <div className="space-y-6">
-      <p className="text-lg leading-relaxed">
+      <p>
         During this project, the state of the world didn’t allow for easy
         travel. So we conducted everything virtually including workshops with
         the client. We reviewed workflows and architecture and sketched out

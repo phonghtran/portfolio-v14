@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Play, Pause } from 'lucide-react';
+import { ChevronDown, ChevronRight, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -113,28 +113,11 @@ export function ProjectNavigation({
                   onClick={() => onProjectSelect?.(project.id)}
                 >
                   <div className="text-left flex-1 w-min-0">
-                    <div className="mb-1">
-                      <span className="font-medium text-sm ">
+                    <div className="mb-0">
+                      <span className="font-medium text-sm flex items-center ">
+                        <Target className="h-4 w-4 text-primary mr-2" />
                         {project.title}
                       </span>
-                    </div>
-                    <p className="text-xs text-muted-foreground ">
-                      {project.subtitle}
-                    </p>
-                    <div className=" ">
-                      <span className="text-xs text-muted-foreground">
-                        {project.year}
-                      </span>
-                      {project.client && (
-                        <>
-                          <span className="text-xs text-muted-foreground">
-                            •
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            {project.client}
-                          </span>
-                        </>
-                      )}
                     </div>
                   </div>
                   {isProjectOpen ? (

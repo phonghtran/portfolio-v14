@@ -4,7 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 export default function ContextSection() {
   return (
     <div className="space-y-6">
-      <p className="text-lg leading-relaxed">
+      <p>
         It’s one of those projects where it’s less about the UX and designs, but
         more about the approach and meeting the client where they are. The
         client team had a vision for a streamlined internal process of data

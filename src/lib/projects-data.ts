@@ -36,6 +36,81 @@ export interface AudioTrack {
 // Placeholder project data - you can populate this with real content
 export const projects: Project[] = [
   {
+    id: 'obviously-1',
+    title: "Obviously's First Design System",
+    subtitle:
+      'Highly collaborative sessions to help stakeholders articulate their vision',
+    description: '',
+    thumbnail: '/images/projects/obviously-1/thumbnail.jpg',
+    category: 'ux-design',
+    tags: ['Workshops', 'Facilitation', 'Design Thinking'],
+    year: '2021',
+    client: 'mastercard',
+    duration: '2 months',
+    heroImage: '/images/projects/obviously-1/mc_2.png',
+    overview:
+      "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'obviously-1/context',
+        audioTrack: '/audio/obviously-1/discovery.mp3',
+        duration: 200,
+      },
+    ],
+  },
+  {
+    id: 'obviously-2',
+    title: "Obviously's Tech Debt",
+    subtitle:
+      'Highly collaborative sessions to help stakeholders articulate their vision',
+    description: '',
+    thumbnail: '/images/projects/obviously-2/thumbnail.jpg',
+    category: 'ux-design',
+    tags: ['Workshops', 'Facilitation', 'Design Thinking'],
+    year: '2021',
+    client: 'mastercard',
+    duration: '2 months',
+    heroImage: '/images/projects/obviously-2/mc_2.png',
+    overview:
+      "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'obviously-2/context',
+        audioTrack: '/audio/obviously-2/discovery.mp3',
+        duration: 200,
+      },
+    ],
+  },
+  {
+    id: 'obviously-3',
+    title: 'Obviously & AI (2023)',
+    subtitle:
+      'Highly collaborative sessions to help stakeholders articulate their vision',
+    description: '',
+    thumbnail: '/images/projects/obviously-3/thumbnail.jpg',
+    category: 'ux-design',
+    tags: ['Workshops', 'Facilitation', 'Design Thinking'],
+    year: '2021',
+    client: 'mastercard',
+    duration: '2 months',
+    heroImage: '/images/projects/obviously-3/mc_2.png',
+    overview:
+      "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'obviously-3/context',
+        audioTrack: '/audio/obviously-3/discovery.mp3',
+        duration: 200,
+      },
+    ],
+  },
+  {
     id: 'mastercard-1',
     title: 'mastercard: Rapid Iterations',
     subtitle:

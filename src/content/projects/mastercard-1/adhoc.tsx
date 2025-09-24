@@ -5,7 +5,7 @@ export default function AdhocSection() {
   return (
     <div className="">
       <div className="space-y-6">
-        <p className="text-lg leading-relaxed">
+        <p>
           With the client super frustrated, it was thought I could try leading
           the project and bring in a fresh perspective. Instead of redoing all
           the workshop activities and re-interviewing all the stakeholders
@@ -15,7 +15,7 @@ export default function AdhocSection() {
           flows they were discussing. It helped that I had a technical
           background and could understand database systems and ETL flows.
         </p>
-        <p className="text-lg leading-relaxed">
+        <p>
           In each discussion, we had sketches and workflows that they felt happy
           with. More importantly, I learned their trust to keep the talks going.
           As I gained more confidence that I was interpreting their vision
@@ -26,7 +26,7 @@ export default function AdhocSection() {
           of the day, whether it was wireframes, user stories, or screens to
           react to.
         </p>
-        <p className="text-lg leading-relaxed">
+        <p>
           Figma prototypes doubled as slide presentations as we were already in
           those files so intensely every day. We could link dynamically each
           workflow as it matured and was worked on.

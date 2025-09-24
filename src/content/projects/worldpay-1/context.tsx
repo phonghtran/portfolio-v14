@@ -1,7 +1,7 @@
 export default function ContextSection() {
   return (
     <div className="space-y-6">
-      <p className="text-lg leading-relaxed">
+      <p>
         After a series of acquisitions and mergers, Worldpay was left with a
         multitude of technologies each with its own developer tools and portals.
         As a consulting team, we were brought to assess, recommend, and

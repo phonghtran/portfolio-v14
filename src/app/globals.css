@@ -171,6 +171,28 @@ html.theme-vintage {
     @apply border-border;
   }
 
+  /* Global heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  h2 {
+    @apply text-xl;
+  }
+
+  h3 {
+    @apply text-lg;
+  }
+
+  p {
+    @apply leading-relaxed;
+  }
+
   body {
     @apply bg-background text-foreground transition-colors duration-300;
     font-family: Inter, system-ui, sans-serif;
