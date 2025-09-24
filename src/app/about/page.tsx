@@ -1,32 +1,9 @@
-import { PillBottle, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import { ClientThemeToggle } from '@/components/ui/client-theme-toggle';
+import { PageHeader } from '@/components/layout/page-header';
 
 export default function About() {
   return (
     <div className="flex flex-col h-full">
-      <header className="bg-card border-b shadow-sm sticky top-0 z-10">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-3">
-              <PillBottle className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground font-headline">
-                About - phonghtran
-              </h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <ClientThemeToggle />
-              <Link
-                href="/"
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                Back to Home
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <PageHeader title="About - phonghtran" />
       <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-6">About Me</h2>
