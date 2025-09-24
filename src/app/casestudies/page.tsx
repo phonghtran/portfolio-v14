@@ -71,7 +71,7 @@ function WorkContent() {
         currentAudioTrackId={currentAudioTrackId || undefined}
         isPlaying={isPlaying}
         onProjectSelect={setCurrentProject}
-        onSectionSelect={setCurrentSection}
+        onSectionSelect={handleSectionNavigate}
         onAudioTrackSelect={setCurrentAudioTrack}
         className="shrink-0"
       />

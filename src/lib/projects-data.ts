@@ -164,8 +164,6 @@ export const projects: Project[] = [
         id: 'phase-2',
         title: 'Phase 2: Automation',
         contentFile: 'obviously-3/phase-2',
-        audioTrack: '/audio/obviously-3/discovery.mp3',
-        duration: 200,
       },
       {
         id: 'phase-3',
