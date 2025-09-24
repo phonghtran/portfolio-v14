@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Project, ProjectSection } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
 import { ExternalLink, Calendar, Clock, User } from 'lucide-react';
+import { loadContentComponent } from '@/lib/content-loader';
 
 interface ProjectContentProps {
   project: Project;
@@ -20,6 +21,28 @@ interface SectionContentProps {
   projectId: string;
   isActive?: boolean;
   onInView?: (sectionId: string) => void;
+}
+
+interface DynamicContentRendererProps {
+  contentFile: string;
+}
+
+function DynamicContentRenderer({ contentFile }: DynamicContentRendererProps) {
+  const ContentComponent = loadContentComponent(contentFile);
+
+  return (
+    <Suspense
+      fallback={
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+          <div className="h-4 bg-gray-300 rounded w-1/2 mb-2"></div>
+          <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+        </div>
+      }
+    >
+      <ContentComponent />
+    </Suspense>
+  );
 }
 
 function SectionContent({
@@ -70,48 +93,9 @@ function SectionContent({
         )}
       </div>
 
-      <div className="prose prose-gray dark:prose-invert max-w-none mb-8">
-        {section.contentType === 'bullets' ? (
-          <ul className="space-y-2">
-            {section.content.map((item, index) => (
-              <li key={index} className="text-lg leading-relaxed">
-                {item}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          section.content.map((paragraph, index) => (
-            <p key={index} className="text-lg leading-relaxed mb-4 last:mb-0">
-              {paragraph}
-            </p>
-          ))
-        )}
+      <div className="mb-8">
+        <DynamicContentRenderer contentFile={section.contentFile} />
       </div>
-
-      {section.images && section.images.length > 0 && (
-        <div className="space-y-6">
-          <div className="">
-            {section.images.map((imagePath, index) => (
-              <Card key={index} className="overflow-hidden mb-4">
-                <CardContent className="p-0">
-                  <div className="relative bg-muted">
-                    <Image
-                      src={imagePath}
-                      alt={`${section.title} - Image ${index + 1}`}
-                      width={800}
-                      height={600}
-                      className="w-full h-auto object-contain"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
-                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+Cp/Z"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      )}
     </section>
   );
 }
@@ -228,17 +212,6 @@ export function ProjectContent({
             onInView={onSectionInView}
           />
         ))}
-      </div>
-
-      {/* Project Summary */}
-      <div className="mt-16 p-6 bg-card border rounded-lg">
-        <h3 className="text-xl font-bold mb-4">Project Impact & Learnings</h3>
-        <p className="text-muted-foreground leading-relaxed">
-          This case study demonstrates the comprehensive design and development
-          process, from initial research through final implementation. Each
-          section includes detailed documentation and insights gained throughout
-          the project timeline.
-        </p>
       </div>
     </div>
   );
