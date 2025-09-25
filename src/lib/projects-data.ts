@@ -54,6 +54,8 @@ export const projects: Project[] = [
       '/images/projects/fanniemae-1/Screenshot_2025-03-21_at_10.11.51_342_200_257AM-job_24.jpg',
     overview:
       "Doing just enough discovery to realize that there's opportunity to set up future success while getting value now.",
+    audioTrack: '/audio/fanniemae-1.mp3',
+    audioDuration: 29, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -103,8 +105,8 @@ export const projects: Project[] = [
     heroImage: '/images/projects/obviously-1/IMG_2624.png',
     overview:
       'Building a design system from the ground up requires patience not just for the design, but to also educate the stakeholders on the process and goals.',
-    audioTrack: '/audio/project-1/research.mp3',
-    audioDuration: 420, // 7 minutes total project narration
+    audioTrack: '/audio/obviously-1.mp3',
+    audioDuration: 29, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -147,8 +149,8 @@ export const projects: Project[] = [
     heroImage: '/images/projects/obviously-2/fillout.png',
     overview:
       'Tech debt will eventually strangle velocity on both code and design. Builiding a smart system on top of it can unlock speed, but also innovate new products.',
-    audioTrack: '/audio/project-2/research.mp3',
-    audioDuration: 240, // 4 minutes total project narration
+    audioTrack: '/audio/obviously-2.mp3',
+    audioDuration: 29, // 4 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -186,8 +188,8 @@ export const projects: Project[] = [
     heroImage: '/images/projects/obviously-3/miroboard.jpg',
     overview:
       'AI has evolved incredibly since 2023. Back then, the conclusions were nascent, but in brainstorming--we developed novel ideas with conventional tech that would still unlock value.',
-    audioTrack: '/audio/project-3/research.mp3',
-    audioDuration: 360, // 6 minutes total project narration
+    audioTrack: '/audio/obviously-3.mp3',
+    audioDuration: 29, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -235,8 +237,8 @@ export const projects: Project[] = [
     heroImage: '/images/projects/mastercard-1/mc_2.png',
     overview:
       "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
-    audioTrack: '/audio/project-4/research.mp3',
-    audioDuration: 180, // 3 minutes total project narration
+    audioTrack: '/audio/mastercard-1.mp3',
+    audioDuration: 29, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -269,8 +271,8 @@ export const projects: Project[] = [
     heroImage: '/images/projects/worldpay-1/slides2.jpeg',
     overview:
       'Rapidly facititating workshops to reach alignment and consensus, and then coding the initial deliverables to jump start the transition.',
-    audioTrack: '/audio/project-5/research.mp3',
-    audioDuration: 120, // 2 minutes total project narration
+    audioTrack: '/audio/worldpay-1.mp3',
+    audioDuration: 29, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
