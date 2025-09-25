@@ -101,7 +101,7 @@ export function ProjectNavigation({
     <div className="lg:hidden p-4 bg-card border-b border-border">
       <div className="space-y-3">
         <div>
-          <label className="text-sm font-medium mb-2 block">Project</label>
+          <label className="text-sm font-medium mb-2 block">Case Studies</label>
           <Select
             value={currentProjectId || ''}
             onValueChange={handleProjectChange}
