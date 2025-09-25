@@ -83,10 +83,7 @@ function SectionContent({
     <section
       ref={sectionRef}
       id={`section-${section.id}`}
-      className={cn(
-        'scroll-m-20 py-8 border-b border-border last:border-b-0 mx-4 ',
-        isActive && 'bg-accent/20 -mx-6 px-6 '
-      )}
+      className="scroll-m-20 py-8 border-b border-border last:border-b-0 mx-4"
     >
       <div className="mb-6">
         <h3 className="text-2xl font-bold mb-3">{section.title}</h3>
