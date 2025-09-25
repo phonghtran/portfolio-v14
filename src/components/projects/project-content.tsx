@@ -79,8 +79,8 @@ function SectionContent({
       ref={sectionRef}
       id={`section-${section.id}`}
       className={cn(
-        'scroll-m-20 py-8 border-b border-border last:border-b-0',
-        isActive && 'bg-accent/20 -mx-6 px-6 rounded-lg'
+        'scroll-m-20 py-8 border-b border-border last:border-b-0 mx-4 ',
+        isActive && 'bg-accent/20 -mx-6 px-6 '
       )}
     >
       <div className="mb-6">
@@ -107,7 +107,7 @@ export function ProjectContent({
   className,
 }: ProjectContentProps) {
   return (
-    <div className={cn('max-w-4xl mx-auto p-6', className)}>
+    <div className={cn('max-w-4xl mx-auto p-6 mb-[12rem]', className)}>
       {/* Project Hero Section */}
       <div className="mb-12">
         {project.heroImage && (
