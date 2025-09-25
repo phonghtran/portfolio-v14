@@ -62,7 +62,7 @@ function WorkContent() {
   }
 
   return (
-    <div className="flex-1 flex overflow-y-hidden">
+    <div className="flex-1 lg:flex lg:overflow-y-hidden">
       {/* Project Navigation Sidebar */}
       <ProjectNavigation
         projects={projects}

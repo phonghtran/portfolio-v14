@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Target } from 'lucide-react';
+import { ChevronDown, ChevronRight, Target, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -9,6 +9,13 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Project, AudioTrack } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
 
@@ -58,28 +65,78 @@ export function ProjectNavigation({
     }
   };
 
-  const getCategoryColor = (category: Project['category']) => {
-    const colors = {
-      'ux-design':
-        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-      development:
-        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      technologist:
-        'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-      research:
-        'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-    };
-    return (
-      colors[category] ||
-      'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-    );
+  const currentProject = projects.find(p => p.id === currentProjectId);
+  const currentSection = currentProject?.sections.find(
+    s => s.id === currentSectionId
+  );
+
+  const handleProjectChange = (projectId: string) => {
+    onProjectSelect?.(projectId);
+    // Auto-select first section when project changes
+    const project = projects.find(p => p.id === projectId);
+    if (project?.sections.length) {
+      onSectionSelect?.(projectId, project.sections[0].id);
+    }
   };
 
-  return (
+  const handleSectionChange = (sectionValue: string) => {
+    const [projectId, sectionId] = sectionValue.split('.');
+    const project = projects.find(p => p.id === projectId);
+    const section = project?.sections.find(s => s.id === sectionId);
+
+    if (project && section) {
+      onSectionSelect?.(projectId, sectionId);
+      const audioTrackId = `${projectId}-${sectionId}`;
+      if (section.audioTrack) {
+        onAudioTrackSelect?.(audioTrackId);
+      }
+    }
+  };
+
+  // Mobile dropdown view
+  const MobileNavigation = () => (
+    <div className="lg:hidden p-4 bg-card border-b border-border">
+      <div className="space-y-3">
+        <div>
+          <label className="text-sm font-medium mb-2 block">Project</label>
+          <Select
+            value={currentProjectId || ''}
+            onValueChange={handleProjectChange}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a project">
+                {currentProject ? (
+                  <div className="flex items-center gap-2">
+                    <Target className="h-4 w-4 text-primary" />
+                    <span className="truncate">{currentProject.title}</span>
+                  </div>
+                ) : (
+                  'Select a project'
+                )}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {projects.map(project => (
+                <SelectItem key={project.id} value={project.id}>
+                  <div className="flex items-center gap-2">
+                    <Target className="h-4 w-4 text-primary" />
+                    <span>{project.title}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Desktop sidebar view
+  const DesktopNavigation = () => (
     <nav
       className={cn(
-        'bg-card border-r border-border overflow-y-auto overflow-x-hidden',
-        'w-80 flex flex-col',
+        'hidden lg:flex bg-card border-r border-border overflow-y-auto overflow-x-hidden',
+        'w-80 flex-col',
         className
       )}
     >
@@ -182,5 +239,12 @@ export function ProjectNavigation({
         </div>
       </div>
     </nav>
+  );
+
+  return (
+    <>
+      <MobileNavigation />
+      <DesktopNavigation />
+    </>
   );
 }
