@@ -59,14 +59,21 @@ export function ProjectNavigation({
 
   const handleProjectChange = (projectId: string) => {
     onProjectSelect?.(projectId);
-    // Only auto-select first section on desktop (lg screens and up)
-    // On mobile, just load the project without scrolling to sections
-    if (window.innerWidth >= 1024) {
-      const project = projects.find(p => p.id === projectId);
-      if (project?.sections.length) {
-        onSectionSelect?.(projectId, project.sections[0].id);
+    // Just load the project without auto-selecting any section
+    // Let the user manually choose which section to view
+
+    // Scroll to top when loading a new project
+    // The main content area has its own scroll container
+    setTimeout(() => {
+      // Find the main content scroll container
+      const mainContent = document.querySelector('main.overflow-y-auto');
+      if (mainContent) {
+        mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Fallback to window scroll
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-    }
+    }, 100);
   };
 
   const handleProjectClick = (projectId: string) => {
