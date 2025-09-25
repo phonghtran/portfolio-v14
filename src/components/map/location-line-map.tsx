@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { MapPin, Loader2 } from 'lucide-react';
+import { useTheme, type Theme } from '@/contexts/theme-context';
 
 interface LocationData {
   latitude: number;
@@ -20,57 +21,137 @@ const BROOKLYN_COORDS = {
   longitude: -73.9442,
 };
 
-// 🎨 PRESET THEMES - Choose one by changing the theme name below
-const MAP_THEMES = {
-  // Clean and minimal theme
-  light: {
+// 🎨 MAP THEMES - Integrated with website theme system
+const MAP_THEMES: Record<Theme, any> = {
+  // Classic theme - clean and professional
+  classic: {
     tileLayer: {
       url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
       attribution: '© OpenStreetMap contributors, © CARTO',
     },
-    line: { color: '#8b5cf6', weight: 3, opacity: 0.9, dashArray: '10, 15' },
+    line: {
+      cssVar: 'primary', // Uses CSS variable hsl(var(--primary))
+      weight: 3,
+      opacity: 0.8,
+      dashArray: '10, 15',
+    },
     markers: {
-      user: { color: '#ef4444', size: 16, pulse: true },
-      destination: { color: '#3b82f6', size: 16, pulse: false },
+      user: {
+        cssVar: 'destructive', // Red-ish from theme
+        size: 16,
+        pulse: true,
+      },
+      destination: {
+        cssVar: 'accent', // Teal from theme
+        size: 16,
+        pulse: false,
+      },
     },
   },
 
-  // Dark modern theme
-  dark: {
+  // Cyberpunk theme - neon and futuristic
+  cyberpunk: {
     tileLayer: {
       url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
       attribution: '© OpenStreetMap contributors, © CARTO',
     },
-    line: { color: '#10b981', weight: 4, opacity: 1, dashArray: 'solid' },
+    line: {
+      cssVar: 'accent', // Cyan accent
+      weight: 4,
+      opacity: 1,
+      dashArray: 'solid',
+      glow: true, // Special cyberpunk glow effect
+    },
     markers: {
-      user: { color: '#f59e0b', size: 18, pulse: true },
-      destination: { color: '#10b981', size: 18, pulse: false },
+      user: {
+        cssVar: 'primary', // Hot pink
+        size: 18,
+        pulse: true,
+      },
+      destination: {
+        cssVar: 'accent', // Cyan
+        size: 18,
+        pulse: true,
+      },
     },
   },
 
-  // Vibrant colorful theme
-  vibrant: {
+  // Minimalist theme - clean and simple
+  minimalist: {
+    tileLayer: {
+      url: 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+      attribution: '© OpenStreetMap contributors, © CARTO',
+    },
+    line: {
+      cssVar: 'foreground', // Pure grayscale
+      weight: 2,
+      opacity: 0.6,
+      dashArray: 'solid',
+    },
+    markers: {
+      user: {
+        cssVar: 'primary', // Dark gray
+        size: 12,
+        pulse: false,
+      },
+      destination: {
+        cssVar: 'muted-foreground',
+        size: 12,
+        pulse: false,
+      },
+    },
+  },
+
+  // Neon theme - electric and vibrant
+  neon: {
+    tileLayer: {
+      url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      attribution: '© OpenStreetMap contributors, © CARTO',
+    },
+    line: {
+      cssVar: 'accent', // Electric green
+      weight: 5,
+      opacity: 1,
+      dashArray: '8, 8',
+      glow: true,
+    },
+    markers: {
+      user: {
+        cssVar: 'primary', // Electric purple
+        size: 20,
+        pulse: true,
+      },
+      destination: {
+        cssVar: 'accent', // Electric green
+        size: 20,
+        pulse: true,
+      },
+    },
+  },
+
+  // Vintage theme - warm and nostalgic
+  vintage: {
     tileLayer: {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       attribution: '© OpenStreetMap contributors',
     },
-    line: { color: '#ec4899', weight: 5, opacity: 0.8, dashArray: '5, 5' },
-    markers: {
-      user: { color: '#8b5cf6', size: 20, pulse: true },
-      destination: { color: '#ec4899', size: 20, pulse: true },
+    line: {
+      cssVar: 'primary', // Warm brown
+      weight: 3,
+      opacity: 0.8,
+      dashArray: '15, 10',
     },
-  },
-
-  // Professional/corporate theme
-  professional: {
-    tileLayer: {
-      url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-      attribution: '© OpenStreetMap contributors, © CARTO',
-    },
-    line: { color: '#374151', weight: 2, opacity: 0.7, dashArray: '20, 10' },
     markers: {
-      user: { color: '#dc2626', size: 14, pulse: false },
-      destination: { color: '#1f2937', size: 14, pulse: false },
+      user: {
+        cssVar: 'destructive', // Warm red
+        size: 16,
+        pulse: false,
+      },
+      destination: {
+        cssVar: 'accent', // Warm orange
+        size: 16,
+        pulse: false,
+      },
     },
   },
 };
@@ -79,17 +160,66 @@ const MAP_THEMES = {
 const CURRENT_THEME = 'light'; // Options: 'light', 'dark', 'vibrant', 'professional'
 
 // Build final config from selected theme
-const MAP_CONFIG = {
-  ...MAP_THEMES[CURRENT_THEME as keyof typeof MAP_THEMES],
+// No longer needed - using theme context directly
 
-  // Map behavior settings (same for all themes)
-  map: {
-    initialZoom: 4, // Starting zoom level (1-18)
-    minZoom: 2, // Minimum zoom level
-    maxZoom: 18, // Maximum zoom level
-    padding: 20, // Padding around markers when fitting bounds
-  },
-};
+// Utility function to get CSS variable values as hex colors
+function getCSSVariableColor(cssVar: string): string {
+  if (typeof window === 'undefined') return '#000000';
+
+  const hslValue = getComputedStyle(document.documentElement)
+    .getPropertyValue(`--${cssVar}`)
+    .trim();
+
+  if (!hslValue) return '#000000';
+
+  // Convert HSL to hex for Leaflet compatibility
+  const [h, s, l] = hslValue
+    .split(' ')
+    .map(v => parseFloat(v.replace('%', '')));
+  return hslToHex(h || 0, (s || 0) / 100, (l || 0) / 100);
+}
+
+// Convert HSL to Hex
+function hslToHex(h: number, s: number, l: number): string {
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+  const m = l - c / 2;
+  let r = 0,
+    g = 0,
+    b = 0;
+
+  if (0 <= h && h < 60) {
+    r = c;
+    g = x;
+    b = 0;
+  } else if (60 <= h && h < 120) {
+    r = x;
+    g = c;
+    b = 0;
+  } else if (120 <= h && h < 180) {
+    r = 0;
+    g = c;
+    b = x;
+  } else if (180 <= h && h < 240) {
+    r = 0;
+    g = x;
+    b = c;
+  } else if (240 <= h && h < 300) {
+    r = x;
+    g = 0;
+    b = c;
+  } else if (300 <= h && h < 360) {
+    r = c;
+    g = 0;
+    b = x;
+  }
+
+  r = Math.round((r + m) * 255);
+  g = Math.round((g + m) * 255);
+  b = Math.round((b + m) * 255);
+
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
+}
 
 export function LocationLineMap({ className = '' }: MapComponentProps) {
   const [userLocation, setUserLocation] = useState<LocationData | null>(null);
@@ -97,6 +227,7 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
   const [error, setError] = useState<string | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     let mounted = true;
@@ -171,6 +302,9 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
 
     const loadLeaflet = async () => {
       try {
+        // Get current theme configuration
+        const themeConfig = MAP_THEMES[theme];
+
         // Dynamically import Leaflet to avoid SSR issues
         const L = await import('leaflet');
 
@@ -193,14 +327,14 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
         const centerLng =
           (userLocation.longitude + BROOKLYN_COORDS.longitude) / 2;
 
-        // Initialize map - customize map behavior here
+        // Initialize map with theme-appropriate settings
         if (!mapRef.current) return;
 
         const map = L.map(mapRef.current, {
           center: [centerLat, centerLng],
-          zoom: MAP_CONFIG.map.initialZoom,
-          minZoom: MAP_CONFIG.map.minZoom,
-          maxZoom: MAP_CONFIG.map.maxZoom,
+          zoom: 4, // Starting zoom level
+          minZoom: 2, // Minimum zoom level
+          maxZoom: 18, // Maximum zoom level
           zoomControl: true,
           scrollWheelZoom: true,
           doubleClickZoom: true,
@@ -208,73 +342,80 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
         });
         mapInstanceRef.current = map;
 
-        // Add map tiles using configuration
-        L.tileLayer(MAP_CONFIG.tileLayer.url, {
-          attribution: MAP_CONFIG.tileLayer.attribution,
+        // Add map tiles using theme configuration
+        L.tileLayer(themeConfig.tileLayer.url, {
+          attribution: themeConfig.tileLayer.attribution,
         }).addTo(map);
 
-        // Create custom icons using configuration
+        // Create custom icons using theme CSS variables
+        const userColor = getCSSVariableColor(themeConfig.markers.user.cssVar);
+        const destinationColor = getCSSVariableColor(
+          themeConfig.markers.destination.cssVar
+        );
+
         const userIcon = L.divIcon({
           className: 'custom-div-icon',
           html: `<div style="
-            background: ${MAP_CONFIG.markers.user.color}; 
-            width: ${MAP_CONFIG.markers.user.size}px; 
-            height: ${MAP_CONFIG.markers.user.size}px; 
+            background: ${userColor}; 
+            width: ${themeConfig.markers.user.size}px; 
+            height: ${themeConfig.markers.user.size}px; 
             border-radius: 50%; 
             border: 3px solid white; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            ${MAP_CONFIG.markers.user.pulse ? 'animation: pulse 2s infinite;' : ''}
+            ${themeConfig.markers.user.pulse ? 'animation: pulse 2s infinite;' : ''}
+            ${themeConfig.line.glow ? 'filter: drop-shadow(0 0 8px currentColor);' : ''}
           "></div>
           ${
-            MAP_CONFIG.markers.user.pulse
+            themeConfig.markers.user.pulse
               ? `<style>
             @keyframes pulse {
-              0% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${MAP_CONFIG.markers.user.color}70; }
-              70% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 10px ${MAP_CONFIG.markers.user.color}00; }
-              100% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${MAP_CONFIG.markers.user.color}00; }
+              0% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${userColor}70; }
+              70% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 10px ${userColor}00; }
+              100% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${userColor}00; }
             }
           </style>`
               : ''
           }`,
           iconSize: [
-            MAP_CONFIG.markers.user.size + 6,
-            MAP_CONFIG.markers.user.size + 6,
+            themeConfig.markers.user.size + 6,
+            themeConfig.markers.user.size + 6,
           ],
           iconAnchor: [
-            (MAP_CONFIG.markers.user.size + 6) / 2,
-            (MAP_CONFIG.markers.user.size + 6) / 2,
+            (themeConfig.markers.user.size + 6) / 2,
+            (themeConfig.markers.user.size + 6) / 2,
           ],
         });
 
         const brooklynIcon = L.divIcon({
           className: 'custom-div-icon',
           html: `<div style="
-            background: ${MAP_CONFIG.markers.destination.color}; 
-            width: ${MAP_CONFIG.markers.destination.size}px; 
-            height: ${MAP_CONFIG.markers.destination.size}px; 
+            background: ${destinationColor}; 
+            width: ${themeConfig.markers.destination.size}px; 
+            height: ${themeConfig.markers.destination.size}px; 
             border-radius: 50%; 
             border: 3px solid white; 
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            ${MAP_CONFIG.markers.destination.pulse ? 'animation: pulse 2s infinite;' : ''}
+            ${themeConfig.markers.destination.pulse ? 'animation: pulse 2s infinite;' : ''}
+            ${themeConfig.line.glow ? 'filter: drop-shadow(0 0 8px currentColor);' : ''}
           "></div>
           ${
-            MAP_CONFIG.markers.destination.pulse
+            themeConfig.markers.destination.pulse
               ? `<style>
             @keyframes pulse {
-              0% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${MAP_CONFIG.markers.destination.color}70; }
-              70% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 10px ${MAP_CONFIG.markers.destination.color}00; }
-              100% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${MAP_CONFIG.markers.destination.color}00; }
+              0% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${destinationColor}70; }
+              70% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 10px ${destinationColor}00; }
+              100% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${destinationColor}00; }
             }
           </style>`
               : ''
           }`,
           iconSize: [
-            MAP_CONFIG.markers.destination.size + 6,
-            MAP_CONFIG.markers.destination.size + 6,
+            themeConfig.markers.destination.size + 6,
+            themeConfig.markers.destination.size + 6,
           ],
           iconAnchor: [
-            (MAP_CONFIG.markers.destination.size + 6) / 2,
-            (MAP_CONFIG.markers.destination.size + 6) / 2,
+            (themeConfig.markers.destination.size + 6) / 2,
+            (themeConfig.markers.destination.size + 6) / 2,
           ],
         });
 
@@ -299,28 +440,30 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
         );
         brooklynMarker.bindPopup('Brooklyn, NY<br/>11205');
 
-        // Draw line between locations using configuration
+        // Draw line between locations using theme CSS variables
+        const lineColor = getCSSVariableColor(themeConfig.line.cssVar);
+
         const line = L.polyline(
           [
             [userLocation.latitude, userLocation.longitude],
             [BROOKLYN_COORDS.latitude, BROOKLYN_COORDS.longitude],
           ],
           {
-            color: MAP_CONFIG.line.color,
-            weight: MAP_CONFIG.line.weight,
-            opacity: MAP_CONFIG.line.opacity,
+            color: lineColor,
+            weight: themeConfig.line.weight,
+            opacity: themeConfig.line.opacity,
             dashArray:
-              MAP_CONFIG.line.dashArray === 'solid'
+              themeConfig.line.dashArray === 'solid'
                 ? undefined
-                : MAP_CONFIG.line.dashArray,
+                : themeConfig.line.dashArray,
             lineCap: 'round',
             lineJoin: 'round',
           }
         ).addTo(map);
 
-        // Fit map to show both points using configuration
+        // Fit map to show both points
         map.fitBounds(line.getBounds(), {
-          padding: [MAP_CONFIG.map.padding, MAP_CONFIG.map.padding],
+          padding: [20, 20],
         });
       } catch (err) {
         console.error('Failed to load map:', err);
