@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { MapPin, Loader2 } from 'lucide-react';
 import { useTheme, type Theme } from '@/contexts/theme-context';
 
@@ -13,6 +13,7 @@ interface LocationData {
 
 interface MapComponentProps {
   className?: string;
+  debugMode?: boolean; // Enable custom location inputs
 }
 
 // Brooklyn, NY coordinates for zip code 11205
@@ -37,14 +38,12 @@ const MAP_THEMES: Record<Theme, any> = {
     },
     circles: {
       user: {
-        cssVar: 'accent', // Red-ish from theme
-        radius: 500, // 75m radius
+        cssVar: 'destructive', // Red-ish from theme
         opacity: 0.6,
         fillOpacity: 0.2,
       },
       destination: {
         cssVar: 'accent', // Teal from theme
-        radius: 500, // 50m radius
         opacity: 0.6,
         fillOpacity: 0.2,
       },
@@ -67,13 +66,11 @@ const MAP_THEMES: Record<Theme, any> = {
     circles: {
       user: {
         cssVar: 'primary', // Hot pink
-        radius: 100, // 100m radius
         opacity: 0.7,
         fillOpacity: 0.25,
       },
       destination: {
         cssVar: 'accent', // Cyan
-        radius: 75, // 75m radius
         opacity: 0.7,
         fillOpacity: 0.25,
       },
@@ -95,13 +92,11 @@ const MAP_THEMES: Record<Theme, any> = {
     circles: {
       user: {
         cssVar: 'primary', // Dark gray
-        radius: 50, // 50m radius
         opacity: 0.4,
         fillOpacity: 0.1,
       },
       destination: {
         cssVar: 'muted-foreground',
-        radius: 40, // 40m radius
         opacity: 0.4,
         fillOpacity: 0.1,
       },
@@ -124,13 +119,11 @@ const MAP_THEMES: Record<Theme, any> = {
     circles: {
       user: {
         cssVar: 'primary', // Electric purple
-        radius: 120, // 120m radius
         opacity: 0.8,
         fillOpacity: 0.3,
       },
       destination: {
         cssVar: 'accent', // Electric green
-        radius: 100, // 100m radius
         opacity: 0.8,
         fillOpacity: 0.3,
       },
@@ -152,13 +145,11 @@ const MAP_THEMES: Record<Theme, any> = {
     circles: {
       user: {
         cssVar: 'destructive', // Warm red
-        radius: 80, // 80m radius
         opacity: 0.5,
         fillOpacity: 0.15,
       },
       destination: {
         cssVar: 'accent', // Warm orange
-        radius: 60, // 60m radius
         opacity: 0.5,
         fillOpacity: 0.15,
       },
@@ -231,13 +222,97 @@ function hslToHex(h: number, s: number, l: number): string {
   return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)}`;
 }
 
-export function LocationLineMap({ className = '' }: MapComponentProps) {
+// Calculate distance between two points using Haversine formula (in kilometers)
+function calculateDistance(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+// Calculate appropriate circle radius based on distance between points
+function calculateCircleRadius(distanceKm: number): {
+  user: number;
+  destination: number;
+} {
+  if (distanceKm < 10) {
+    // Same city/neighborhood - small circles
+    return { user: 500, destination: 500 }; // 500m, 400m
+  } else if (distanceKm < 100) {
+    // Same region/state - medium circles
+    return { user: 1000, destination: 1000 }; // 2km, 1.5km
+  } else if (distanceKm < 1500) {
+    // Same country/continent - larger circles
+    return { user: 4000, destination: 4000 }; // 8km, 6km
+  } else if (distanceKm < 3000) {
+    // Same country/continent - larger circles
+    return { user: 6000, destination: 6000 }; // 8km, 6km
+  } else {
+    // Global distance - very large circles for visibility
+    return { user: 500000, destination: 500000 }; // 25km, 20km
+  }
+}
+
+export function LocationLineMap({
+  className = '',
+  debugMode = false,
+}: MapComponentProps) {
   const [userLocation, setUserLocation] = useState<LocationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<any>(null);
   const { theme } = useTheme();
+
+  // Preset cities for debug mode
+  const presetCities = [
+    { name: 'New York City', state: 'New York', lat: 40.7128, lng: -74.006 },
+    {
+      name: 'Philadelphia',
+      state: 'Pennsylvania',
+      lat: 39.9526,
+      lng: -75.1652,
+    },
+    { name: 'Los Angeles', state: 'California', lat: 34.0522, lng: -118.2437 },
+    { name: 'Chicago', state: 'Illinois', lat: 41.8781, lng: -87.6298 },
+    { name: 'Houston', state: 'Texas', lat: 29.7604, lng: -95.3698 },
+    { name: 'Miami', state: 'Florida', lat: 25.7617, lng: -80.1918 },
+    { name: 'Seattle', state: 'Washington', lat: 47.6062, lng: -122.3321 },
+    {
+      name: 'Charleston',
+      state: 'South Carolina',
+      lat: 32.7765,
+      lng: -79.9311,
+    },
+    { name: 'London', state: 'United Kingdom', lat: 51.5074, lng: -0.1278 },
+    { name: 'Paris', state: 'France', lat: 48.8566, lng: 2.3522 },
+    { name: 'Tokyo', state: 'Japan', lat: 35.6762, lng: 139.6503 },
+    { name: 'Sydney', state: 'Australia', lat: -33.8688, lng: 151.2093 },
+  ];
+
+  // Handle debug city selection
+  const handleCitySelect = useCallback((city: (typeof presetCities)[0]) => {
+    setUserLocation({
+      latitude: city.lat,
+      longitude: city.lng,
+      city: city.name,
+      country: city.state,
+    });
+    setLoading(false);
+    setError(null);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -300,12 +375,15 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
       }
     };
 
-    getUserLocation();
+    // Only run location fetching if not in debug mode or no debug location set
+    if (!debugMode || !userLocation) {
+      getUserLocation();
+    }
 
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [debugMode]); // Only re-run when debug mode changes
 
   useEffect(() => {
     if (!userLocation || !mapRef.current) return;
@@ -363,6 +441,15 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
           themeConfig.circles.destination.cssVar
         );
 
+        // Calculate distance and determine appropriate radius sizes
+        const distance = calculateDistance(
+          userLocation.latitude,
+          userLocation.longitude,
+          BROOKLYN_COORDS.latitude,
+          BROOKLYN_COORDS.longitude
+        );
+        const radiusSizes = calculateCircleRadius(distance);
+
         // Add dashed circles to represent general areas
         const userCircle = L.circle(
           [userLocation.latitude, userLocation.longitude],
@@ -371,7 +458,7 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
             fillColor: userColor,
             fillOpacity: themeConfig.circles.user.fillOpacity,
             opacity: themeConfig.circles.user.opacity,
-            radius: themeConfig.circles.user.radius,
+            radius: radiusSizes.user,
             dashArray: '10, 10', // Dashed border
             weight: 3,
           }
@@ -384,7 +471,7 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
             fillColor: destinationColor,
             fillOpacity: themeConfig.circles.destination.fillOpacity,
             opacity: themeConfig.circles.destination.opacity,
-            radius: themeConfig.circles.destination.radius,
+            radius: radiusSizes.destination,
             dashArray: '10, 10', // Dashed border
             weight: 3,
           }
@@ -468,6 +555,58 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
 
   return (
     <div className={`bg-card rounded-lg border overflow-hidden ${className}`}>
+      {debugMode && (
+        <div className="p-4 border-b bg-muted/50">
+          <h3 className="text-sm font-medium mb-3">Debug Mode - Test Cities</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+            {presetCities.map(city => (
+              <button
+                key={`${city.name}-${city.state}`}
+                onClick={() => handleCitySelect(city)}
+                className="px-2 py-1 text-xs bg-secondary hover:bg-secondary/80 rounded text-left transition-colors"
+              >
+                <div className="font-medium">{city.name}</div>
+                <div className="text-muted-foreground">{city.state}</div>
+              </button>
+            ))}
+          </div>
+          <div className="mt-2 text-xs text-muted-foreground space-y-1">
+            <div>
+              Current:{' '}
+              {userLocation
+                ? `${userLocation.city}, ${userLocation.country} (${userLocation.latitude.toFixed(4)}, ${userLocation.longitude.toFixed(4)})`
+                : 'None'}
+            </div>
+            {userLocation && (
+              <>
+                <div>
+                  Distance to Brooklyn:{' '}
+                  {calculateDistance(
+                    userLocation.latitude,
+                    userLocation.longitude,
+                    BROOKLYN_COORDS.latitude,
+                    BROOKLYN_COORDS.longitude
+                  ).toFixed(0)}{' '}
+                  km
+                </div>
+                <div>
+                  Circle Radius:{' '}
+                  {(() => {
+                    const distance = calculateDistance(
+                      userLocation.latitude,
+                      userLocation.longitude,
+                      BROOKLYN_COORDS.latitude,
+                      BROOKLYN_COORDS.longitude
+                    );
+                    const radius = calculateCircleRadius(distance);
+                    return `${radius.user}m / ${radius.destination}m`;
+                  })()}
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
       <div
         ref={mapRef}
         className={`w-full ${className?.includes('h-full') ? 'h-full' : 'h-64'}`}
