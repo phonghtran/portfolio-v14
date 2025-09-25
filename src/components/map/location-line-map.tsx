@@ -77,59 +77,6 @@ const MAP_THEMES: Record<Theme, any> = {
     },
   },
 
-  // Minimalist theme - clean and simple
-  minimalist: {
-    tileLayer: {
-      url: 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-      attribution: '© OpenStreetMap contributors, © CARTO',
-    },
-    line: {
-      cssVar: 'foreground', // Pure grayscale
-      weight: 2,
-      opacity: 0.6,
-      dashArray: 'solid',
-    },
-    circles: {
-      user: {
-        cssVar: 'primary', // Dark gray
-        opacity: 0.4,
-        fillOpacity: 0.1,
-      },
-      destination: {
-        cssVar: 'muted-foreground',
-        opacity: 0.4,
-        fillOpacity: 0.1,
-      },
-    },
-  },
-
-  // Neon theme - electric and vibrant
-  neon: {
-    tileLayer: {
-      url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      attribution: '© OpenStreetMap contributors, © CARTO',
-    },
-    line: {
-      cssVar: 'accent', // Electric green
-      weight: 5,
-      opacity: 1,
-      dashArray: '8, 8',
-      glow: true,
-    },
-    circles: {
-      user: {
-        cssVar: 'primary', // Electric purple
-        opacity: 0.8,
-        fillOpacity: 0.3,
-      },
-      destination: {
-        cssVar: 'accent', // Electric green
-        opacity: 0.8,
-        fillOpacity: 0.3,
-      },
-    },
-  },
-
   // Vintage theme - warm and nostalgic
   vintage: {
     tileLayer: {

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type Theme = 'classic' | 'cyberpunk' | 'minimalist' | 'neon' | 'vintage';
+export type Theme = 'classic' | 'cyberpunk' | 'vintage';
 
 export interface ThemeConfig {
   name: string;
@@ -26,20 +26,6 @@ export const themes: Record<Theme, ThemeConfig> = {
     description: 'Neon-lit futuristic aesthetic',
     icon: '🌆',
     className: 'theme-cyberpunk',
-  },
-  minimalist: {
-    name: 'minimalist',
-    displayName: 'Minimalist',
-    description: 'Less is more philosophy',
-    icon: '⭐',
-    className: 'theme-minimalist',
-  },
-  neon: {
-    name: 'neon',
-    displayName: 'Neon',
-    description: 'Electric and vibrant',
-    icon: '⚡',
-    className: 'theme-neon',
   },
   vintage: {
     name: 'vintage',
