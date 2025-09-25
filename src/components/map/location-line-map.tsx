@@ -247,15 +247,33 @@ function calculateCircleRadius(distanceKm: number): number {
   if (distanceKm < 10) {
     // Same city/neighborhood - small circles
     return 500; // 500m
+  } else if (distanceKm < 50) {
+    // Same metropolitan area - slightly larger
+    return 1000; // 1km
   } else if (distanceKm < 100) {
     // Same region/state - medium circles
     return 1500; // 1.5km
+  } else if (distanceKm < 300) {
+    // Same large state/small country - larger
+    return 6000; // 3km
+  } else if (distanceKm < 500) {
+    // Regional distance - medium-large
+    return 12000; // 4.5km
   } else if (distanceKm < 1000) {
     // Same country/continent - larger circles
-    return 6000; // 6km
+    return 50000; // 6km
+  } else if (distanceKm < 2000) {
+    // Continental distance - large
+    return 75000; // 10km
+  } else if (distanceKm < 5000) {
+    // Cross-continental - very large
+    return 300000; // 15km
+  } else if (distanceKm < 10000) {
+    // Near global distance - extra large
+    return 300000; // 20km
   } else {
-    // Global distance - very large circles for visibility
-    return 25000; // 25km
+    // Global distance - maximum visibility
+    return 600000; // 25km
   }
 }
 
