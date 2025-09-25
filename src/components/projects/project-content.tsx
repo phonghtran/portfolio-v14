@@ -85,11 +85,11 @@ function SectionContent({
       id={`section-${section.id}`}
       className="scroll-m-20 py-8 border-b border-border last:border-b-0 mx-4"
     >
-      <div className="mb-6">
+      <div className="mb-3">
         <h3 className="text-2xl font-bold mb-3">{section.title}</h3>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-3">
         <DynamicContentRenderer contentFile={section.contentFile} />
       </div>
     </section>
@@ -165,52 +165,52 @@ export function ProjectContent({
       {/* Project Hero Section */}
       <div className="mb-12">
         {/* Audio Player - Always Visible */}
-        <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-start gap-3">
-              <Headphones className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-              <div className="flex-1">
-                <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
-                  {audioTrack ? 'Audio-Guided Experience' : 'Audio Player'}
-                </p>
-                <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
-                  {audioTrack
-                    ? `Listen to the full project narration (${formatTime(audioTrack.duration)}) while browsing the content.`
-                    : 'No audio track available for this project.'}
-                </p>
-                {audioTrack && isPlaying && (
-                  <p className="text-xs text-blue-600 dark:text-blue-300 mt-2">
-                    Playing: {formatTime(currentTime)} /{' '}
-                    {formatTime(audioTrack.duration)}
+        {audioTrack && (
+          <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <Headphones className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                    Audio: One-Minute Recap
                   </p>
-                )}
+                  <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
+                    Listen to while you scroll
+                  </p>
+                  {audioTrack && isPlaying && (
+                    <p className="text-xs text-blue-600 dark:text-blue-300 mt-2">
+                      Playing: {formatTime(currentTime)} /{' '}
+                      {formatTime(audioTrack.duration)}
+                    </p>
+                  )}
+                </div>
               </div>
+              <Button
+                onClick={toggleAudio}
+                variant="outline"
+                size="sm"
+                disabled={!audioTrack}
+                className="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 border-blue-300 dark:border-blue-700 shrink-0 disabled:opacity-50"
+              >
+                {isPlaying ? (
+                  <Pause className="h-4 w-4 mr-2" />
+                ) : (
+                  <Play className="h-4 w-4 mr-2" />
+                )}
+                {isPlaying ? 'Pause' : 'Play'}
+              </Button>
             </div>
-            <Button
-              onClick={toggleAudio}
-              variant="outline"
-              size="sm"
-              disabled={!audioTrack}
-              className="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 border-blue-300 dark:border-blue-700 shrink-0 disabled:opacity-50"
-            >
-              {isPlaying ? (
-                <Pause className="h-4 w-4 mr-2" />
-              ) : (
-                <Play className="h-4 w-4 mr-2" />
-              )}
-              {isPlaying ? 'Pause' : 'Play'}
-            </Button>
-          </div>
 
-          {/* Audio element */}
-          {audioTrack && (
-            <audio
-              ref={audioRef}
-              src={audioTrack.audioUrl}
-              preload="metadata"
-            />
-          )}
-        </div>
+            {/* Audio element */}
+            {audioTrack && (
+              <audio
+                ref={audioRef}
+                src={audioTrack.audioUrl}
+                preload="metadata"
+              />
+            )}
+          </div>
+        )}
 
         {project.heroImage && (
           <div className="aspect-[16/9] relative rounded-xl overflow-hidden mb-8 bg-muted">
