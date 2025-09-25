@@ -38,18 +38,20 @@ export function ThemeToggle() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 z-40"
+            className="fixed inset-0"
+            style={{ zIndex: 9998 }}
             onClick={() => setIsOpen(false)}
           />
 
           {/* Dropdown */}
           <div
             className={cn(
-              'absolute top-full right-0 mt-2 z-50',
+              'absolute top-full right-0 mt-2',
               'bg-card border border-border rounded-xl shadow-xl',
               'min-w-[280px] p-2',
               'animate-in fade-in-0 zoom-in-95 duration-200'
             )}
+            style={{ zIndex: 9999 }}
           >
             <div className="grid gap-1">
               {Object.entries(themes).map(([key, config]) => {
