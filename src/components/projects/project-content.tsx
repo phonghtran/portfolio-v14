@@ -106,23 +106,6 @@ export function ProjectContent({
   onSectionInView,
   className,
 }: ProjectContentProps) {
-  const getCategoryColor = (category: Project['category']) => {
-    const colors = {
-      'ux-design':
-        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-      development:
-        'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      technologist:
-        'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-      research:
-        'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-    };
-    return (
-      colors[category] ||
-      'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
-    );
-  };
-
   return (
     <div className={cn('max-w-4xl mx-auto p-6', className)}>
       {/* Project Hero Section */}
@@ -144,12 +127,6 @@ export function ProjectContent({
 
         <div className="space-y-4">
           <div className="flex items-center gap-3 flex-wrap">
-            <Badge
-              variant="secondary"
-              className={cn('text-sm', getCategoryColor(project.category))}
-            >
-              {project.category.replace('-', ' ')}
-            </Badge>
             {project.tags.map(tag => (
               <Badge key={tag} variant="outline" className="text-xs">
                 {tag}

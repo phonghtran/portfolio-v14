@@ -12,9 +12,7 @@ export interface Project {
   id: string;
   title: string;
   subtitle: string;
-  description: string;
-  thumbnail: string;
-  category: 'ux-design' | 'development' | 'technologist' | 'research';
+
   tags: string[];
   year: string;
   client?: string;
@@ -36,14 +34,67 @@ export interface AudioTrack {
 // Placeholder project data - you can populate this with real content
 export const projects: Project[] = [
   {
+    id: 'fanniemae-1',
+    title: "Fannie Mae\'s Stealth Refactor",
+    subtitle: 'Turning a feature request into a flexible backend.',
+
+    tags: [
+      'UX Design',
+      'UI Design',
+      'Workshops',
+      'Facilitation',
+      'Design Thinking',
+      'Product Management',
+    ],
+    year: '2024',
+    client: 'Fannie Mae',
+    duration: '4 Months',
+    heroImage:
+      '/images/projects/fanniemae-1/Screenshot_2025-03-21_at_10.11.51_342_200_257AM-job_24.jpg',
+    overview:
+      "Doing just enough discovery to realize that there's opportunity to set up future success while getting value now.",
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'fanniemae-1/context',
+      },
+      {
+        id: 'culture',
+        title: 'Culture Change',
+        contentFile: 'fanniemae-1/culture',
+      },
+      {
+        id: 'value',
+        title: 'Value Add',
+        contentFile: 'fanniemae-1/value',
+      },
+      {
+        id: 'conclusion',
+        title: 'Conclusion',
+        contentFile: 'fanniemae-1/conclusion',
+      },
+      {
+        id: 'gallery',
+        title: 'Image Gallery',
+        contentFile: 'fanniemae-1/gallery',
+      },
+    ],
+  },
+  {
     id: 'obviously-1',
     title: "Obviously's First Design System",
     subtitle:
       'Highly collaborative sessions to help stakeholders articulate their vision',
-    description: '',
-    thumbnail: '/images/projects/obviously-1/thumbnail.jpg',
-    category: 'ux-design',
-    tags: ['Workshops', 'Facilitation', 'Design Thinking'],
+
+    tags: [
+      'UX Design',
+      'UI Design',
+      'User Research',
+      'Workshops',
+      'Facilitation',
+      'Design Thinking',
+    ],
     year: '2021',
     client: 'Obviously',
     duration: '1 Year',
@@ -91,10 +142,8 @@ export const projects: Project[] = [
     title: "Obviously's Tech Debt",
     subtitle:
       "If the backlog of tech debt isn't sexy: augment the system so it unlocks new value. ",
-    description: '',
-    thumbnail: '/images/projects/obviously-2/thumbnail.jpg',
-    category: 'ux-design',
-    tags: ['Workshops', 'Facilitation', 'Design Thinking'],
+
+    tags: ['UX Design', 'Workshops', 'Facilitation', 'Design Thinking'],
     year: '2022',
     client: 'Obviously',
     duration: '6 months',
@@ -135,8 +184,7 @@ export const projects: Project[] = [
     title: 'Obviously & AI (2023)',
     subtitle:
       "2023 AI wouldn't move the needle, but it inspired a lot of useful non-AI ideas.",
-    description: '',
-    thumbnail: '/images/projects/obviously-3/thumbnail.jpg',
+
     category: 'ux-design',
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
     year: '2023',
@@ -191,9 +239,7 @@ export const projects: Project[] = [
     title: 'mastercard: Rapid Iterations',
     subtitle:
       'Highly collaborative sessions to help stakeholders articulate their vision',
-    description: '',
-    thumbnail: '/images/projects/mastercard-1/thumbnail.jpg',
-    category: 'ux-design',
+
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
     year: '2021',
     client: 'mastercard',
@@ -222,10 +268,14 @@ export const projects: Project[] = [
     id: 'worldpay-1',
     title: 'Worldpay Workshops: Asset Consolidation',
     subtitle: 'Design Thinking to Plan for Streamlining',
-    description: '',
-    thumbnail: '/images/projects/worldpay-1/thumbnail.jpg',
-    category: 'technologist',
-    tags: ['Front-end', 'Workshops', 'Facilitation', 'Design Thinking'],
+
+    tags: [
+      'UX Design',
+      'Front-End Development',
+      'Workshops',
+      'Facilitation',
+      'Design Thinking',
+    ],
     year: '2021',
     client: 'Worldpay (FIS)',
     duration: '3 months',
