@@ -566,7 +566,7 @@ export function LocationLineMap({
   }
 
   return (
-    <div className={`bg-card rounded-lg border overflow-hidden ${className}`}>
+    <div className={`bg-card border overflow-hidden ${className}`}>
       {debugMode && (
         <div className="p-4 border-b bg-muted/50">
           <h3 className="text-sm font-medium mb-3">Debug Mode - Test Cities</h3>
