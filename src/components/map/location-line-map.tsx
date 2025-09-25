@@ -243,25 +243,19 @@ function calculateDistance(
 }
 
 // Calculate appropriate circle radius based on distance between points
-function calculateCircleRadius(distanceKm: number): {
-  user: number;
-  destination: number;
-} {
+function calculateCircleRadius(distanceKm: number): number {
   if (distanceKm < 10) {
     // Same city/neighborhood - small circles
-    return { user: 500, destination: 500 }; // 500m, 400m
+    return 500; // 500m
   } else if (distanceKm < 100) {
     // Same region/state - medium circles
-    return { user: 1000, destination: 1000 }; // 2km, 1.5km
-  } else if (distanceKm < 1500) {
+    return 1500; // 1.5km
+  } else if (distanceKm < 1000) {
     // Same country/continent - larger circles
-    return { user: 4000, destination: 4000 }; // 8km, 6km
-  } else if (distanceKm < 3000) {
-    // Same country/continent - larger circles
-    return { user: 6000, destination: 6000 }; // 8km, 6km
+    return 6000; // 6km
   } else {
     // Global distance - very large circles for visibility
-    return { user: 500000, destination: 500000 }; // 25km, 20km
+    return 25000; // 25km
   }
 }
 
@@ -448,7 +442,7 @@ export function LocationLineMap({
           BROOKLYN_COORDS.latitude,
           BROOKLYN_COORDS.longitude
         );
-        const radiusSizes = calculateCircleRadius(distance);
+        const radius = calculateCircleRadius(distance);
 
         // Add dashed circles to represent general areas
         const userCircle = L.circle(
@@ -458,7 +452,7 @@ export function LocationLineMap({
             fillColor: userColor,
             fillOpacity: themeConfig.circles.user.fillOpacity,
             opacity: themeConfig.circles.user.opacity,
-            radius: radiusSizes.user,
+            radius: radius,
             dashArray: '10, 10', // Dashed border
             weight: 3,
           }
@@ -471,7 +465,7 @@ export function LocationLineMap({
             fillColor: destinationColor,
             fillOpacity: themeConfig.circles.destination.fillOpacity,
             opacity: themeConfig.circles.destination.opacity,
-            radius: radiusSizes.destination,
+            radius: radius,
             dashArray: '10, 10', // Dashed border
             weight: 3,
           }
@@ -599,7 +593,7 @@ export function LocationLineMap({
                       BROOKLYN_COORDS.longitude
                     );
                     const radius = calculateCircleRadius(distance);
-                    return `${radius.user}m / ${radius.destination}m`;
+                    return `${radius}m (both circles)`;
                   })()}
                 </div>
               </>
