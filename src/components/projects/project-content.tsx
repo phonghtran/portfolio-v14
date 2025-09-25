@@ -259,7 +259,7 @@ export function ProjectContent({
       </div>
 
       {/* Project Overview */}
-      <div className="mb-12 p-6 bg-muted rounded-lg">
+      <div className=" p-6 bg-muted rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
         <p>{project.overview}</p>
       </div>
