@@ -4,9 +4,9 @@ import { PageHeader } from '@/components/layout/page-header';
 
 export default function Home() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen">
       <PageHeader title="phonghtran" />
-      <main className="flex-1">
+      <main className="flex-1 overflow-hidden">
         <ChatInterface />
       </main>
       {/* <ThemeDebug /> */}

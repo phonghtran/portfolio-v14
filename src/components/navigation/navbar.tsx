@@ -43,7 +43,9 @@ export function Navbar() {
             )}
           >
             <Icon className="h-4 w-4" />
-            {label}
+            <div className={cn('sm:block', isActive ? 'block' : 'hidden')}>
+              {label}
+            </div>
           </Link>
         );
       })}

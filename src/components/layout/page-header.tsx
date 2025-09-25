@@ -9,25 +9,38 @@ interface PageHeaderProps {
 export function PageHeader({ title }: PageHeaderProps) {
   return (
     <header className="bg-card border-b shadow-sm sticky top-0 z-10">
-      <div className=" w-full px-2 sm:px-6 lg:px-4">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/images/phong_red_transparent_300dpi.png"
-              alt="logo of phonghtran"
-              width={36}
-              height={36}
-              priority // For above-the-fold images
-            />
-            <div>
-              <h1 className="text-xl font-bold text-foreground font-headline">
+      <div className="w-full px-2 sm:px-6 lg:px-4">
+        <div className="flex flex-col lg:flex-row ">
+          {/* Headline Content */}
+          <div
+            id="headline"
+            className="flex gap-3 p-1 sm:p-2 w-full min-h-0 lg:w-auto lg:shrink-0"
+          >
+            <div className="flex items-center ">
+              <Image
+                src="/images/phong_red_transparent_300dpi.png"
+                alt="logo of phonghtran"
+                width={32}
+                height={32}
+                priority // For above-the-fold images
+                className="shrink-0 sm:w-9 sm:h-9"
+              />
+            </div>
+            <div className="flex-1 lg:flex-initial min-w-0 py-2">
+              <h1 className="text-lg sm:text-xl font-bold text-foreground font-headline leading-tight">
                 {title}
               </h1>
-              <h6>ux designer & front-end coder</h6>
+              <h6 className="text-xs sm:text-sm text-muted-foreground leading-tight">
+                ux designer & front-end coder
+              </h6>
             </div>
-            <Navbar />
           </div>
-          <div className="flex items-center gap-4">
+          {/* Nav Content */}
+          <div
+            id="nav"
+            className="flex items-center lg:items-end justify-between py-1 sm:p-2 md:pt-0 w-full lg:flex-1"
+          >
+            <Navbar />
             <ClientThemeToggle />
           </div>
         </div>

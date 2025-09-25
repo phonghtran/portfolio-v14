@@ -11,17 +11,13 @@ import {
 
 export default function Contact() {
   return (
-    <div className="flex flex-col h-screen">
-      <PageHeader title="Work - phonghtran" />
-      <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        {/* Map Container - Full Height Half Width */}
-        <div className="flex-1 lg:w-1/2 h-64 lg:h-full">
-          <LocationLineMap className="w-full h-full" debugMode={false} />
-        </div>
+    <div className="sm:flex sm:flex-col sm:h-screen">
+      <PageHeader title="phonghtran" />
+      <main className="md:flex-1 md:flex md:flex-col lg:flex-row md:overflow-hidden">
         {/* Contact Content */}
-        <div className="flex-1 lg:w-1/2 overflow-y-auto">
+        <div className="lg:flex-1 lg:w-1/2 md:overflow-y-auto">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="max-w-2xl mx-auto lg:mx-0 border p-6">
+            <div className="max-w-2xl mx-auto lg:mx-0 sm:border sm:p-6">
               <h2 className="text-3xl font-bold mb-6">Contact</h2>
               <div className="max-w-none">
                 <div>
@@ -74,6 +70,10 @@ export default function Contact() {
               </div>
             </div>
           </div>
+        </div>
+        {/* Map Container - Full Height Half Width */}
+        <div className="sm:flex-1 lg:w-1/2 h-64 lg:h-full">
+          <LocationLineMap className="w-full h-full" debugMode={false} />
         </div>
       </main>
     </div>
