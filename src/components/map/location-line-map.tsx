@@ -511,32 +511,15 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
 
   return (
     <div className={`bg-card rounded-lg border overflow-hidden ${className}`}>
-      <div className="p-4 border-b">
-        <h3 className="text-lg font-semibold flex items-center gap-2">
-          <MapPin className="h-5 w-5" />
-          Location Connection
-        </h3>
-        <p className="text-sm text-muted-foreground">
-          From your location to Brooklyn, NY
-        </p>
-      </div>
-      <div ref={mapRef} className="h-64 w-full" style={{ height: '300px' }} />
-      {userLocation && (
-        <div className="p-3 bg-muted/50 text-xs text-muted-foreground">
-          <div className="flex justify-between">
-            <span>Your Location:</span>
-            <span>
-              {userLocation.city
-                ? `${userLocation.city}, ${userLocation.country}`
-                : 'Unknown'}
-            </span>
-          </div>
-          <div className="flex justify-between mt-1">
-            <span>Destination:</span>
-            <span>Brooklyn, NY 11205</span>
-          </div>
-        </div>
-      )}
+      <div
+        ref={mapRef}
+        className={`w-full ${className?.includes('h-full') ? 'h-full' : 'h-64'}`}
+        style={
+          className?.includes('h-full')
+            ? { height: '100%' }
+            : { height: '300px' }
+        }
+      />
     </div>
   );
 }
