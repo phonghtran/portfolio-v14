@@ -536,7 +536,7 @@ export function LocationLineMap({
         mapInstanceRef.current = null;
       }
     };
-  }, [userLocation]);
+  }, [userLocation, theme]); // Re-render when theme changes
 
   if (loading) {
     return (

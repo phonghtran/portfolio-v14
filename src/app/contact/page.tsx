@@ -16,7 +16,7 @@ export default function Contact() {
       <main className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {/* Map Container - Full Height Half Width */}
         <div className="flex-1 lg:w-1/2 h-64 lg:h-full">
-          <LocationLineMap className="w-full h-full" debugMode={true} />
+          <LocationLineMap className="w-full h-full" debugMode={false} />
         </div>
         {/* Contact Content */}
         <div className="flex-1 lg:w-1/2 overflow-y-auto">
