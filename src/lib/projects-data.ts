@@ -55,7 +55,7 @@ export const projects: Project[] = [
     overview:
       "Doing just enough discovery to realize that there's opportunity to set up future success while getting value now.",
     audioTrack: '/audio/fanniemae-1.mp3',
-    audioDuration: 29, // 7 minutes total project narration
+    audioDuration: 62, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -106,7 +106,7 @@ export const projects: Project[] = [
     overview:
       'Building a design system from the ground up requires patience not just for the design, but to also educate the stakeholders on the process and goals.',
     audioTrack: '/audio/obviously-1.mp3',
-    audioDuration: 29, // 7 minutes total project narration
+    audioDuration: 51, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -150,7 +150,7 @@ export const projects: Project[] = [
     overview:
       'Tech debt will eventually strangle velocity on both code and design. Builiding a smart system on top of it can unlock speed, but also innovate new products.',
     audioTrack: '/audio/obviously-2.mp3',
-    audioDuration: 29, // 4 minutes total project narration
+    audioDuration: 42, // 4 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -189,7 +189,7 @@ export const projects: Project[] = [
     overview:
       'AI has evolved incredibly since 2023. Back then, the conclusions were nascent, but in brainstorming--we developed novel ideas with conventional tech that would still unlock value.',
     audioTrack: '/audio/obviously-3.mp3',
-    audioDuration: 29, // 7 minutes total project narration
+    audioDuration: 67, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -238,7 +238,7 @@ export const projects: Project[] = [
     overview:
       "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
     audioTrack: '/audio/mastercard-1.mp3',
-    audioDuration: 29, // 7 minutes total project narration
+    audioDuration: 47, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
@@ -272,7 +272,7 @@ export const projects: Project[] = [
     overview:
       'Rapidly facititating workshops to reach alignment and consensus, and then coding the initial deliverables to jump start the transition.',
     audioTrack: '/audio/worldpay-1.mp3',
-    audioDuration: 29, // 7 minutes total project narration
+    audioDuration: 35, // 7 minutes total project narration
     sections: [
       {
         id: 'context',

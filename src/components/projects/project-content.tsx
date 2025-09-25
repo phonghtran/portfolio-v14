@@ -174,13 +174,15 @@ export function ProjectContent({
                   <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
                     Audio: One-Minute Recap
                   </p>
-                  <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
-                    Listen to while you scroll
-                  </p>
-                  {audioTrack && isPlaying && (
+
+                  {audioTrack && isPlaying ? (
                     <p className="text-xs text-blue-600 dark:text-blue-300 mt-2">
                       Playing: {formatTime(currentTime)} /{' '}
                       {formatTime(audioTrack.duration)}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
+                      Listen to while you scroll
                     </p>
                   )}
                 </div>
