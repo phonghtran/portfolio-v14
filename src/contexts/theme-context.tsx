@@ -45,7 +45,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('classic');
+  const [theme, setThemeState] = useState<Theme>('vintage');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -68,8 +68,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       html.classList.remove(className);
     });
 
-    // Add current theme class - don't add classic since it's the default
-    if (theme !== 'classic') {
+    // Add current theme class - don't add vintage since it's the default
+    if (theme !== 'vintage') {
       html.classList.add(themes[theme].className);
     }
 
