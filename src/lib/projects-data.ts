@@ -12,7 +12,8 @@ export interface Project {
   id: string;
   title: string;
   subtitle: string;
-
+  role: string;
+  technologies: string[];
   tags: string[];
   year: string;
   client?: string;
@@ -37,7 +38,8 @@ export const projects: Project[] = [
     id: 'fanniemae-1',
     title: "Fannie Mae\'s Stealth Refactor",
     subtitle: 'Turning a feature request into a flexible backend.',
-
+    role: 'Lead Associate - UX Designer',
+    technologies: ['Miro', 'Figma'],
     tags: [
       'UX Design',
       'UI Design',
@@ -86,7 +88,8 @@ export const projects: Project[] = [
     title: "Obviously's First Design System",
     subtitle:
       'Highly collaborative sessions to help stakeholders articulate their vision',
-
+    role: 'Director of Design (was Lead Designer)',
+    technologies: ['Miro', 'Figma', 'Visual Code'],
     tags: [
       'UX Design',
       'UI Design',
@@ -142,7 +145,8 @@ export const projects: Project[] = [
     title: "Obviously's Tech Debt",
     subtitle:
       "If the backlog of tech debt isn't sexy: augment the system so it unlocks new value. ",
-
+    role: 'Director of Design (was Lead Designer)',
+    technologies: ['Miro', 'Figma'],
     tags: ['UX Design', 'Workshops', 'Facilitation', 'Design Thinking'],
     year: '2022',
     client: 'Obviously',
@@ -184,8 +188,8 @@ export const projects: Project[] = [
     title: 'Obviously & AI (2023)',
     subtitle:
       "2023 AI wouldn't move the needle, but it inspired a lot of useful non-AI ideas.",
-
-    category: 'ux-design',
+    role: 'Director of Design (was Lead Designer)',
+    technologies: ['Miro', 'Figma', 'ChatGPT'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
     year: '2023',
     client: 'Obviously',
@@ -239,7 +243,8 @@ export const projects: Project[] = [
     title: 'mastercard: Rapid Iterations',
     subtitle:
       'Highly collaborative sessions to help stakeholders articulate their vision',
-
+    role: 'Senior Design Technologist',
+    technologies: ['Miro', 'Figma'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
     year: '2021',
     client: 'mastercard',
@@ -268,7 +273,8 @@ export const projects: Project[] = [
     id: 'worldpay-1',
     title: 'Worldpay Workshops: Asset Consolidation',
     subtitle: 'Design Thinking to Plan for Streamlining',
-
+    role: 'Senior Design Technologist',
+    technologies: ['Miro', 'Figma', 'AngularJS'],
     tags: [
       'UX Design',
       'Front-End Development',
@@ -317,12 +323,6 @@ export const audioTracks: AudioTrack[] = projects.flatMap(project =>
 // Helper functions
 export function getProjectById(id: string): Project | undefined {
   return projects.find(project => project.id === id);
-}
-
-export function getProjectsByCategory(
-  category: Project['category']
-): Project[] {
-  return projects.filter(project => project.category === category);
 }
 
 export function getAudioTrackByIds(
