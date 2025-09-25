@@ -35,16 +35,18 @@ const MAP_THEMES: Record<Theme, any> = {
       opacity: 0.8,
       dashArray: '10, 15',
     },
-    markers: {
+    circles: {
       user: {
-        cssVar: 'destructive', // Red-ish from theme
-        size: 16,
-        pulse: true,
+        cssVar: 'accent', // Red-ish from theme
+        radius: 500, // 75m radius
+        opacity: 0.6,
+        fillOpacity: 0.2,
       },
       destination: {
         cssVar: 'accent', // Teal from theme
-        size: 16,
-        pulse: false,
+        radius: 500, // 50m radius
+        opacity: 0.6,
+        fillOpacity: 0.2,
       },
     },
   },
@@ -62,16 +64,18 @@ const MAP_THEMES: Record<Theme, any> = {
       dashArray: 'solid',
       glow: true, // Special cyberpunk glow effect
     },
-    markers: {
+    circles: {
       user: {
         cssVar: 'primary', // Hot pink
-        size: 18,
-        pulse: true,
+        radius: 100, // 100m radius
+        opacity: 0.7,
+        fillOpacity: 0.25,
       },
       destination: {
         cssVar: 'accent', // Cyan
-        size: 18,
-        pulse: true,
+        radius: 75, // 75m radius
+        opacity: 0.7,
+        fillOpacity: 0.25,
       },
     },
   },
@@ -88,16 +92,18 @@ const MAP_THEMES: Record<Theme, any> = {
       opacity: 0.6,
       dashArray: 'solid',
     },
-    markers: {
+    circles: {
       user: {
         cssVar: 'primary', // Dark gray
-        size: 12,
-        pulse: false,
+        radius: 50, // 50m radius
+        opacity: 0.4,
+        fillOpacity: 0.1,
       },
       destination: {
         cssVar: 'muted-foreground',
-        size: 12,
-        pulse: false,
+        radius: 40, // 40m radius
+        opacity: 0.4,
+        fillOpacity: 0.1,
       },
     },
   },
@@ -115,16 +121,18 @@ const MAP_THEMES: Record<Theme, any> = {
       dashArray: '8, 8',
       glow: true,
     },
-    markers: {
+    circles: {
       user: {
         cssVar: 'primary', // Electric purple
-        size: 20,
-        pulse: true,
+        radius: 120, // 120m radius
+        opacity: 0.8,
+        fillOpacity: 0.3,
       },
       destination: {
         cssVar: 'accent', // Electric green
-        size: 20,
-        pulse: true,
+        radius: 100, // 100m radius
+        opacity: 0.8,
+        fillOpacity: 0.3,
       },
     },
   },
@@ -141,16 +149,18 @@ const MAP_THEMES: Record<Theme, any> = {
       opacity: 0.8,
       dashArray: '15, 10',
     },
-    markers: {
+    circles: {
       user: {
         cssVar: 'destructive', // Warm red
-        size: 16,
-        pulse: false,
+        radius: 80, // 80m radius
+        opacity: 0.5,
+        fillOpacity: 0.15,
       },
       destination: {
         cssVar: 'accent', // Warm orange
-        size: 16,
-        pulse: false,
+        radius: 60, // 60m radius
+        opacity: 0.5,
+        fillOpacity: 0.15,
       },
     },
   },
@@ -347,98 +357,44 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
           attribution: themeConfig.tileLayer.attribution,
         }).addTo(map);
 
-        // Create custom icons using theme CSS variables
-        const userColor = getCSSVariableColor(themeConfig.markers.user.cssVar);
+        // Create dashed circles using theme CSS variables
+        const userColor = getCSSVariableColor(themeConfig.circles.user.cssVar);
         const destinationColor = getCSSVariableColor(
-          themeConfig.markers.destination.cssVar
+          themeConfig.circles.destination.cssVar
         );
 
-        const userIcon = L.divIcon({
-          className: 'custom-div-icon',
-          html: `<div style="
-            background: ${userColor}; 
-            width: ${themeConfig.markers.user.size}px; 
-            height: ${themeConfig.markers.user.size}px; 
-            border-radius: 50%; 
-            border: 3px solid white; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            ${themeConfig.markers.user.pulse ? 'animation: pulse 2s infinite;' : ''}
-            ${themeConfig.line.glow ? 'filter: drop-shadow(0 0 8px currentColor);' : ''}
-          "></div>
-          ${
-            themeConfig.markers.user.pulse
-              ? `<style>
-            @keyframes pulse {
-              0% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${userColor}70; }
-              70% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 10px ${userColor}00; }
-              100% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${userColor}00; }
-            }
-          </style>`
-              : ''
-          }`,
-          iconSize: [
-            themeConfig.markers.user.size + 6,
-            themeConfig.markers.user.size + 6,
-          ],
-          iconAnchor: [
-            (themeConfig.markers.user.size + 6) / 2,
-            (themeConfig.markers.user.size + 6) / 2,
-          ],
-        });
-
-        const brooklynIcon = L.divIcon({
-          className: 'custom-div-icon',
-          html: `<div style="
-            background: ${destinationColor}; 
-            width: ${themeConfig.markers.destination.size}px; 
-            height: ${themeConfig.markers.destination.size}px; 
-            border-radius: 50%; 
-            border: 3px solid white; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            ${themeConfig.markers.destination.pulse ? 'animation: pulse 2s infinite;' : ''}
-            ${themeConfig.line.glow ? 'filter: drop-shadow(0 0 8px currentColor);' : ''}
-          "></div>
-          ${
-            themeConfig.markers.destination.pulse
-              ? `<style>
-            @keyframes pulse {
-              0% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${destinationColor}70; }
-              70% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 10px ${destinationColor}00; }
-              100% { box-shadow: 0 4px 8px rgba(0,0,0,0.3), 0 0 0 0 ${destinationColor}00; }
-            }
-          </style>`
-              : ''
-          }`,
-          iconSize: [
-            themeConfig.markers.destination.size + 6,
-            themeConfig.markers.destination.size + 6,
-          ],
-          iconAnchor: [
-            (themeConfig.markers.destination.size + 6) / 2,
-            (themeConfig.markers.destination.size + 6) / 2,
-          ],
-        });
-
-        // Add markers
-        const userMarker = L.marker(
+        // Add dashed circles to represent general areas
+        const userCircle = L.circle(
           [userLocation.latitude, userLocation.longitude],
           {
-            icon: userIcon,
+            color: userColor,
+            fillColor: userColor,
+            fillOpacity: themeConfig.circles.user.fillOpacity,
+            opacity: themeConfig.circles.user.opacity,
+            radius: themeConfig.circles.user.radius,
+            dashArray: '10, 10', // Dashed border
+            weight: 3,
           }
         ).addTo(map);
 
-        const brooklynMarker = L.marker(
+        const brooklynCircle = L.circle(
           [BROOKLYN_COORDS.latitude, BROOKLYN_COORDS.longitude],
           {
-            icon: brooklynIcon,
+            color: destinationColor,
+            fillColor: destinationColor,
+            fillOpacity: themeConfig.circles.destination.fillOpacity,
+            opacity: themeConfig.circles.destination.opacity,
+            radius: themeConfig.circles.destination.radius,
+            dashArray: '10, 10', // Dashed border
+            weight: 3,
           }
         ).addTo(map);
 
-        // Add popups
-        userMarker.bindPopup(
-          `Your Location${userLocation.city ? `<br/>${userLocation.city}, ${userLocation.country}` : ''}`
+        // Add popups to circles
+        userCircle.bindPopup(
+          `Your General Area${userLocation.city ? `<br/>${userLocation.city}, ${userLocation.country}` : ''}`
         );
-        brooklynMarker.bindPopup('Brooklyn, NY<br/>11205');
+        brooklynCircle.bindPopup('Brooklyn Area, NY<br/>11205');
 
         // Draw line between locations using theme CSS variables
         const lineColor = getCSSVariableColor(themeConfig.line.cssVar);
@@ -461,9 +417,10 @@ export function LocationLineMap({ className = '' }: MapComponentProps) {
           }
         ).addTo(map);
 
-        // Fit map to show both points
-        map.fitBounds(line.getBounds(), {
-          padding: [20, 20],
+        // Fit map to show both circles with adequate padding
+        const group = L.featureGroup([userCircle, brooklynCircle, line]);
+        map.fitBounds(group.getBounds(), {
+          padding: [30, 30],
         });
       } catch (err) {
         console.error('Failed to load map:', err);
