@@ -5,7 +5,6 @@ import { BeforeAfterSlider } from '@/components/ui/before-after-slider';
 export default function ContextSection() {
   return (
     <div className="space-y-6">
-      <h2>Obviously #2</h2>
       <h3>Flexibility into a Rigid System</h3>
 
       <p>

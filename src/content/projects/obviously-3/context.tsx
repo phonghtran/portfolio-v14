@@ -4,7 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 export default function ContextSection() {
   return (
     <div className="space-y-6">
-      <h2>Obviously #3</h2>
       <h3>Need for Efficiency</h3>
       <p>
         About a decade into Obviously existence, they sold themselves to an
@@ -65,16 +64,6 @@ export default function ContextSection() {
         <li>Phase 2: Automate the Repetition</li>
         <li>Phase 3: A Smarter "First Pass" with AI & Contractors</li>
       </ul>
-      <p>
-        <img
-          src="../caseStudies/obvEff/statusboard.png"
-          alt="status board of tasks to deadlines"
-        />
-        <small>
-          Retrofitting the old admin UI to display alerts and deadlines
-          automated by the platform.
-        </small>
-      </p>
 
       <Image
         src="/images/projects/obviously-3/statusboard.png"

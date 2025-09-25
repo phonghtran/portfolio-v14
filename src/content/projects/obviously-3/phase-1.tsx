@@ -38,17 +38,6 @@ export default function ContextSection() {
         daily meetings and slack messages to update each other.
       </p>
 
-      <p>
-        <img
-          src="../caseStudies/obvEff/searchauto.png"
-          alt="mockups of advanced search"
-        />
-        <small>
-          Updating the basic search with automations, sorting by attributes, and
-          batch actions.
-        </small>
-      </p>
-
       <Image
         src="/images/projects/obviously-3/searchauto.png"
         alt="mockups of advanced search"

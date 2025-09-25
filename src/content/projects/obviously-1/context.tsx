@@ -5,7 +5,6 @@ import { BeforeAfterSlider } from '@/components/ui/before-after-slider';
 export default function ContextSection() {
   return (
     <div className="space-y-6">
-      <h2>Obviously #1</h2>
       <h3>Building a Design Foundation</h3>
       <p>
         Starting in 2020, I was Obviously’s first UX designer hire. The

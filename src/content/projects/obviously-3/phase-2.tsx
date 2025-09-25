@@ -47,18 +47,6 @@ export default function ContextSection() {
         over time.
       </p>
 
-      <p>
-        <img
-          src="../caseStudies/obvEff/checklist.png"
-          alt="mockup of new vetting card"
-        />
-        <small>
-          Quick mockup of new functionality to stakeholders. The key is the
-          central checklist which can receive tasks from humans or any AI
-          automations being run.
-        </small>
-      </p>
-
       <Image
         src="/images/projects/obviously-3/checklist.png"
         alt="mockup of new vetting card"
