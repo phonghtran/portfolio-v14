@@ -23,11 +23,8 @@ interface ProjectNavigationProps {
   projects: Project[];
   currentProjectId?: string;
   currentSectionId?: string;
-  currentAudioTrackId?: string;
-  isPlaying?: boolean;
   onProjectSelect?: (projectId: string) => void;
   onSectionSelect?: (projectId: string, sectionId: string) => void;
-  onAudioTrackSelect?: (trackId: string) => void;
   className?: string;
 }
 
@@ -35,11 +32,8 @@ export function ProjectNavigation({
   projects,
   currentProjectId,
   currentSectionId,
-  currentAudioTrackId,
-  isPlaying,
   onProjectSelect,
   onSectionSelect,
-  onAudioTrackSelect,
   className,
 }: ProjectNavigationProps) {
   const [openProjects, setOpenProjects] = useState<string[]>([
@@ -54,15 +48,8 @@ export function ProjectNavigation({
     );
   };
 
-  const handleSectionClick = (
-    projectId: string,
-    sectionId: string,
-    audioTrackId?: string
-  ) => {
+  const handleSectionClick = (projectId: string, sectionId: string) => {
     onSectionSelect?.(projectId, sectionId);
-    if (audioTrackId) {
-      onAudioTrackSelect?.(audioTrackId);
-    }
   };
 
   const currentProject = projects.find(p => p.id === currentProjectId);
@@ -89,10 +76,6 @@ export function ProjectNavigation({
 
     if (project && section) {
       onSectionSelect?.(projectId, sectionId);
-      const audioTrackId = `${projectId}-${sectionId}`;
-      if (section.audioTrack) {
-        onAudioTrackSelect?.(audioTrackId);
-      }
     }
   };
 
@@ -190,11 +173,8 @@ export function ProjectNavigation({
 
               <CollapsibleContent className="ml-2 mt-1 space-y-1">
                 {project.sections.map(section => {
-                  const audioTrackId = `${project.id}-${section.id}`;
                   const isCurrentSection =
                     currentSectionId === section.id && isCurrentProject;
-                  const isCurrentAudio = currentAudioTrackId === audioTrackId;
-                  const hasAudio = !!section.audioTrack;
 
                   return (
                     <Button
@@ -202,30 +182,16 @@ export function ProjectNavigation({
                       variant={isCurrentSection ? 'secondary' : 'ghost'}
                       size="sm"
                       className="w-full justify-start text-xs h-auto p-2"
-                      onClick={() =>
-                        handleSectionClick(
-                          project.id,
-                          section.id,
-                          hasAudio ? audioTrackId : undefined
-                        )
-                      }
+                      onClick={() => handleSectionClick(project.id, section.id)}
                     >
-                      <div className="flex items-center gap-2 flex-1">
-                        <span
-                          className={cn(
-                            'text-left flex-1',
-                            isCurrentSection && 'font-medium'
-                          )}
-                        >
-                          {section.title}
-                        </span>
-                        {section.duration && (
-                          <span className="text-xs text-muted-foreground">
-                            {Math.floor(section.duration / 60)}:
-                            {String(section.duration % 60).padStart(2, '0')}
-                          </span>
+                      <span
+                        className={cn(
+                          'text-left flex-1',
+                          isCurrentSection && 'font-medium'
                         )}
-                      </div>
+                      >
+                        {section.title}
+                      </span>
                     </Button>
                   );
                 })}

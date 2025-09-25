@@ -3,7 +3,6 @@
 import { PageHeader } from '@/components/layout/page-header';
 import { ProjectNavigation } from '@/components/navigation/project-navigation';
 import { ProjectContent } from '@/components/projects/project-content';
-import { AudioPlayer } from '@/components/audio/audio-player';
 import {
   AudioNavigationProvider,
   useAudioNavigation,
@@ -12,26 +11,17 @@ import {
 function WorkContent() {
   const {
     projects,
-    audioTracks,
     currentProject,
     currentProjectId,
     currentSectionId,
-    currentAudioTrackId,
-    isPlaying,
     setCurrentProject,
     setCurrentSection,
-    setCurrentAudioTrack,
-    setIsPlaying,
   } = useAudioNavigation();
 
   const handleSectionInView = (sectionId: string) => {
     if (currentProjectId && sectionId !== currentSectionId) {
       setCurrentSection(currentProjectId, sectionId);
     }
-  };
-
-  const handleAudioTrackChange = (trackId: string) => {
-    setCurrentAudioTrack(trackId);
   };
 
   const handleSectionNavigate = (projectId: string, sectionId: string) => {
@@ -68,11 +58,8 @@ function WorkContent() {
         projects={projects}
         currentProjectId={currentProjectId || undefined}
         currentSectionId={currentSectionId || undefined}
-        currentAudioTrackId={currentAudioTrackId || undefined}
-        isPlaying={isPlaying}
         onProjectSelect={setCurrentProject}
         onSectionSelect={handleSectionNavigate}
-        onAudioTrackSelect={setCurrentAudioTrack}
         className="shrink-0"
       />
 
@@ -85,16 +72,6 @@ function WorkContent() {
             onSectionInView={handleSectionInView}
           />
         </main>
-
-        {/* Persistent Audio Player */}
-        {currentAudioTrackId && (
-          <AudioPlayer
-            tracks={audioTracks}
-            currentTrackId={currentAudioTrackId}
-            onTrackChange={handleAudioTrackChange}
-            onSectionNavigate={handleSectionNavigate}
-          />
-        )}
       </div>
     </div>
   );

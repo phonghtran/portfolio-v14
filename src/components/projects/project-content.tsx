@@ -1,12 +1,17 @@
 'use client';
 
-import { useEffect, useRef, Suspense } from 'react';
+import { useEffect, useRef, Suspense, useState } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Project, ProjectSection } from '@/lib/projects-data';
+import { Button } from '@/components/ui/button';
+import {
+  Project,
+  ProjectSection,
+  getAudioTrackByProjectId,
+} from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
-import { ExternalLink, Calendar, Clock, User } from 'lucide-react';
+import { ExternalLink, Calendar, Clock, User, Play, Pause } from 'lucide-react';
 import { loadContentComponent } from '@/lib/content-loader';
 
 interface ProjectContentProps {
@@ -85,12 +90,6 @@ function SectionContent({
     >
       <div className="mb-6">
         <h3 className="text-2xl font-bold mb-3">{section.title}</h3>
-        {section.duration && (
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-            <Clock className="h-4 w-4" />
-            <span>{Math.floor(section.duration / 60)} min narration</span>
-          </div>
-        )}
       </div>
 
       <div className="mb-8">
@@ -106,6 +105,64 @@ export function ProjectContent({
   onSectionInView,
   className,
 }: ProjectContentProps) {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const audioTrack = getAudioTrackByProjectId(project.id);
+
+  const toggleAudio = () => {
+    if (!audioRef.current || !audioTrack) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Auto-load track when project changes
+  useEffect(() => {
+    if (audioTrack) {
+      setCurrentTime(0);
+      setIsPlaying(false);
+      // Preload the new track
+      if (audioRef.current) {
+        audioRef.current.load();
+      }
+    }
+  }, [audioTrack?.id]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const handleEnded = () => setIsPlaying(false);
+    const handlePause = () => setIsPlaying(false);
+    const handlePlay = () => setIsPlaying(true);
+
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('play', handlePlay);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('play', handlePlay);
+    };
+  }, [audioTrack]);
+
   return (
     <div className={cn('max-w-4xl mx-auto p-6 mb-[12rem]', className)}>
       {/* Project Hero Section */}
@@ -162,20 +219,48 @@ export function ProjectContent({
         <p>{project.overview}</p>
       </div>
 
-      {/* Audio Navigation Notice */}
+      {/* Audio Player - Always Visible */}
       <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-        <div className="flex items-start gap-3">
-          <ExternalLink className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
-          <div>
-            <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
-              Audio-Guided Experience Available
-            </p>
-            <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
-              Use the navigation panel to play audio narrations for each
-              section. The content will automatically scroll as you listen.
-            </p>
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start gap-3">
+            <ExternalLink className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                {audioTrack ? 'Audio-Guided Experience' : 'Audio Player'}
+              </p>
+              <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
+                {audioTrack
+                  ? `Listen to the full project narration (${formatTime(audioTrack.duration)}) while browsing the content.`
+                  : 'No audio track available for this project.'}
+              </p>
+              {audioTrack && isPlaying && (
+                <p className="text-xs text-blue-600 dark:text-blue-300 mt-2">
+                  Playing: {formatTime(currentTime)} /{' '}
+                  {formatTime(audioTrack.duration)}
+                </p>
+              )}
+            </div>
           </div>
+          <Button
+            onClick={toggleAudio}
+            variant="outline"
+            size="sm"
+            disabled={!audioTrack}
+            className="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 border-blue-300 dark:border-blue-700 shrink-0 disabled:opacity-50"
+          >
+            {isPlaying ? (
+              <Pause className="h-4 w-4 mr-2" />
+            ) : (
+              <Play className="h-4 w-4 mr-2" />
+            )}
+            {isPlaying ? 'Pause' : 'Play'}
+          </Button>
         </div>
+
+        {/* Audio element */}
+        {audioTrack && (
+          <audio ref={audioRef} src={audioTrack.audioUrl} preload="metadata" />
+        )}
       </div>
 
       {/* Project Sections */}

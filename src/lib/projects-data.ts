@@ -4,8 +4,6 @@ export interface ProjectSection {
   id: string;
   title: string;
   contentFile: string; // Path to the React component file for this section
-  audioTrack?: string; // Path to audio file for this section
-  duration?: number; // Duration in seconds
 }
 
 export interface Project {
@@ -21,12 +19,13 @@ export interface Project {
   sections: ProjectSection[];
   heroImage?: string;
   overview: string;
+  audioTrack?: string; // Path to audio file for entire project
+  audioDuration?: number; // Duration in seconds for the entire project
 }
 
 export interface AudioTrack {
   id: string;
   projectId: string;
-  sectionId: string;
   title: string;
   audioUrl: string;
   duration: number;
@@ -104,34 +103,28 @@ export const projects: Project[] = [
     heroImage: '/images/projects/obviously-1/IMG_2624.png',
     overview:
       'Building a design system from the ground up requires patience not just for the design, but to also educate the stakeholders on the process and goals.',
+    audioTrack: '/audio/project-1/research.mp3',
+    audioDuration: 420, // 7 minutes total project narration
     sections: [
       {
         id: 'context',
         title: 'Context',
         contentFile: 'obviously-1/context',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'workshops',
         title: 'Design Workshops',
         contentFile: 'obviously-1/workshops',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'research',
         title: 'Restart Research',
         contentFile: 'obviously-1/research',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'outcomes',
         title: 'Bearing Fruit',
         contentFile: 'obviously-1/outcomes',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'gallery',
@@ -154,27 +147,23 @@ export const projects: Project[] = [
     heroImage: '/images/projects/obviously-2/fillout.png',
     overview:
       'Tech debt will eventually strangle velocity on both code and design. Builiding a smart system on top of it can unlock speed, but also innovate new products.',
+    audioTrack: '/audio/project-2/research.mp3',
+    audioDuration: 240, // 4 minutes total project narration
     sections: [
       {
         id: 'context',
         title: 'Existing Problems',
         contentFile: 'obviously-2/context',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'solution',
         title: 'Solution: Attributes',
         contentFile: 'obviously-2/solution',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'outcomes',
         title: 'Outcomes',
         contentFile: 'obviously-2/outcomes',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'gallery',
@@ -197,20 +186,18 @@ export const projects: Project[] = [
     heroImage: '/images/projects/obviously-3/miroboard.jpg',
     overview:
       'AI has evolved incredibly since 2023. Back then, the conclusions were nascent, but in brainstorming--we developed novel ideas with conventional tech that would still unlock value.',
+    audioTrack: '/audio/project-3/research.mp3',
+    audioDuration: 360, // 6 minutes total project narration
     sections: [
       {
         id: 'context',
         title: 'Context',
         contentFile: 'obviously-3/context',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'phase-1',
         title: 'Phase 1: Anxiety Loop',
         contentFile: 'obviously-3/phase-1',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'phase-2',
@@ -221,15 +208,11 @@ export const projects: Project[] = [
         id: 'phase-3',
         title: 'Phase 3: Smart Plug-ins',
         contentFile: 'obviously-3/phase-3',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'conclusion',
         title: 'Conclusion',
         contentFile: 'obviously-3/conclusion',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'gallery',
@@ -252,20 +235,18 @@ export const projects: Project[] = [
     heroImage: '/images/projects/mastercard-1/mc_2.png',
     overview:
       "Sometimes you go faster by going slower but upping the frequency of iterations. Setting up frequent virtual sessions while live sketching and prototyping stakeholder's ideas.",
+    audioTrack: '/audio/project-4/research.mp3',
+    audioDuration: 180, // 3 minutes total project narration
     sections: [
       {
         id: 'context',
         title: 'Context',
         contentFile: 'mastercard-1/context',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
       {
         id: 'adhoc',
         title: 'Dropping In',
         contentFile: 'mastercard-1/adhoc',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 180,
       },
     ],
   },
@@ -288,15 +269,14 @@ export const projects: Project[] = [
     heroImage: '/images/projects/worldpay-1/slides2.jpeg',
     overview:
       'Rapidly facititating workshops to reach alignment and consensus, and then coding the initial deliverables to jump start the transition.',
+    audioTrack: '/audio/project-5/research.mp3',
+    audioDuration: 120, // 2 minutes total project narration
     sections: [
       {
         id: 'context',
         title: 'Summary',
         contentFile: 'worldpay-1/context',
-        audioTrack: '/audio/project-1/research.mp3',
-        duration: 29,
       },
-
       {
         id: 'gallery',
         title: 'Image Gallery',
@@ -306,30 +286,24 @@ export const projects: Project[] = [
   },
 ];
 
-// Generate audio tracks from project data
-export const audioTracks: AudioTrack[] = projects.flatMap(project =>
-  project.sections
-    .filter(section => section.audioTrack)
-    .map(section => ({
-      id: `${project.id}-${section.id}`,
-      projectId: project.id,
-      sectionId: section.id,
-      title: `${project.title} - ${section.title}`,
-      audioUrl: section.audioTrack!,
-      duration: section.duration || 0,
-    }))
-);
+// Generate audio tracks from project data (one per project)
+export const audioTracks: AudioTrack[] = projects
+  .filter(project => project.audioTrack)
+  .map(project => ({
+    id: project.id,
+    projectId: project.id,
+    title: `${project.title} - Full Project Narration`,
+    audioUrl: project.audioTrack!,
+    duration: project.audioDuration || 0,
+  }));
 
 // Helper functions
 export function getProjectById(id: string): Project | undefined {
   return projects.find(project => project.id === id);
 }
 
-export function getAudioTrackByIds(
-  projectId: string,
-  sectionId: string
+export function getAudioTrackByProjectId(
+  projectId: string
 ): AudioTrack | undefined {
-  return audioTracks.find(
-    track => track.projectId === projectId && track.sectionId === sectionId
-  );
+  return audioTracks.find(track => track.projectId === projectId);
 }
