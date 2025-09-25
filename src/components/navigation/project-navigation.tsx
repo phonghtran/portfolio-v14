@@ -72,10 +72,13 @@ export function ProjectNavigation({
 
   const handleProjectChange = (projectId: string) => {
     onProjectSelect?.(projectId);
-    // Auto-select first section when project changes
-    const project = projects.find(p => p.id === projectId);
-    if (project?.sections.length) {
-      onSectionSelect?.(projectId, project.sections[0].id);
+    // Only auto-select first section on desktop (lg screens and up)
+    // On mobile, just load the project without scrolling to sections
+    if (window.innerWidth >= 1024) {
+      const project = projects.find(p => p.id === projectId);
+      if (project?.sections.length) {
+        onSectionSelect?.(projectId, project.sections[0].id);
+      }
     }
   };
 
