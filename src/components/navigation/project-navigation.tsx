@@ -69,6 +69,12 @@ export function ProjectNavigation({
     }
   };
 
+  const handleProjectClick = (projectId: string) => {
+    // Collapse all projects except the selected one
+    setOpenProjects([projectId]);
+    handleProjectChange(projectId);
+  };
+
   const handleSectionChange = (sectionValue: string) => {
     const [projectId, sectionId] = sectionValue.split('.');
     const project = projects.find(p => p.id === projectId);
@@ -139,12 +145,7 @@ export function ProjectNavigation({
           const isCurrentProject = currentProjectId === project.id;
 
           return (
-            <Collapsible
-              key={project.id}
-              open={isProjectOpen}
-              onOpenChange={() => toggleProject(project.id)}
-              className="mb-2"
-            >
+            <Collapsible key={project.id} open={isProjectOpen} className="mb-2">
               <CollapsibleTrigger asChild>
                 <div
                   className={cn(
@@ -153,7 +154,7 @@ export function ProjectNavigation({
                       ? 'bg-secondary text-secondary-foreground'
                       : 'hover:bg-accent hover:text-accent-foreground'
                   )}
-                  onClick={() => onProjectSelect?.(project.id)}
+                  onClick={() => handleProjectClick(project.id)}
                 >
                   <div className="text-left flex-1 w-min-0">
                     <div className="mb-0">
