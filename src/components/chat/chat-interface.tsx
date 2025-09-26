@@ -15,11 +15,35 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { getAiResponse } from '@/app/actions';
 import { cn } from '@/lib/utils';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
+
+// Function to preprocess AI content for better paragraph rendering
+const preprocessAIContent = (content: string): string => {
+  // Split on sentences ending with colons followed by text (like "Strategic Discovery & Facilitation: He excels...")
+  console.log('Original content:', content);
+  const processedContent = content
+    // First, handle section headers (text ending with colon followed by space)
+    .replace(
+      /([^.!?:]\s*):(\s*)([A-Z])/g,
+      (match, beforeColon, spaces, afterColon) => {
+        return `**${beforeColon.trim()}:**\n\n${afterColon}`;
+      }
+    )
+    // Add double line breaks before sentences that start with capital letters after periods
+    .replace(/(\.)(\s+)([A-Z][^A-Z])/g, '$1\n\n$3')
+    // Clean up any triple+ line breaks
+    .replace(/\n{3,}/g, '\n\n')
+    // Trim whitespace
+    .trim();
+
+  return processedContent;
+};
 
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
@@ -108,7 +132,73 @@ export default function ChatInterface() {
                     : 'bg-card text-card-foreground rounded-bl-none'
                 )}
               >
-                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                {message.role === 'user' ? (
+                  <p className="text-sm whitespace-pre-wrap">
+                    {message.content}
+                  </p>
+                ) : (
+                  <div className="text-sm prose prose-sm max-w-none dark:prose-invert">
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        // Custom styling for markdown elements
+                        h1: ({ children }) => (
+                          <h1 className="text-base font-semibold mb-2 text-foreground">
+                            {children}
+                          </h1>
+                        ),
+                        h2: ({ children }) => (
+                          <h2 className="text-sm font-semibold mb-2 text-foreground">
+                            {children}
+                          </h2>
+                        ),
+                        h3: ({ children }) => (
+                          <h3 className="text-sm font-medium mb-1 text-foreground">
+                            {children}
+                          </h3>
+                        ),
+                        p: ({ children }) => (
+                          <p className="mb-2 last:mb-0 text-foreground leading-relaxed">
+                            {children}
+                          </p>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc list-inside mb-2 space-y-1 text-foreground">
+                            {children}
+                          </ul>
+                        ),
+                        ol: ({ children }) => (
+                          <ol className="list-decimal list-inside mb-2 space-y-1 text-foreground">
+                            {children}
+                          </ol>
+                        ),
+                        li: ({ children }) => (
+                          <li className="text-foreground">{children}</li>
+                        ),
+                        strong: ({ children }) => (
+                          <strong className="font-semibold text-foreground">
+                            {children}
+                          </strong>
+                        ),
+                        em: ({ children }) => (
+                          <em className="italic text-foreground">{children}</em>
+                        ),
+                        code: ({ children }) => (
+                          <code className="bg-muted px-1 py-0.5 rounded text-xs font-mono">
+                            {children}
+                          </code>
+                        ),
+                        pre: ({ children }) => (
+                          <pre className="bg-muted p-2 rounded text-xs overflow-x-auto mb-2">
+                            {children}
+                          </pre>
+                        ),
+                      }}
+                    >
+                      {preprocessAIContent(message.content)}
+                    </ReactMarkdown>
+                  </div>
+                )}
               </div>
               {message.role === 'user' && (
                 <Avatar className="h-9 w-9 border-2 border-muted shrink-0">

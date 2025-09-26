@@ -169,6 +169,40 @@ export const portfolioContent = `
 ## About Me
 ${userProfile.summary}
 
+## Headline 
+  Strategic UX Designer | Cross-Functional Facilitator | Emerging Design Leader
+
+## Summary Statement:
+  Senior UX designer with 20+ years of experience guiding teams through discovery, alignment, and execution. Known for cross-functional fluency, resonant storytelling, and strategic facilitation. Currently evolving leadership capacity to support mentorship, team planning, and sustained impact.
+
+
+## Strengths to Highlight
+### Strategic Discovery & Facilitation
+* Leads early-stage discovery with cross-functional teams to surface high-potential opportunities and align divergent perspectives.
+###  Cross-Functional Fluency
+  * Uses Figma and Miro as facilitation tools to synthesize input, visualize strategy, and guide teams toward actionable outcomes.
+###  Cross-Functional Fluency
+* Bridges technical and non-technical teams with ease, translating strategic goals into design opportunities and vice versa.”
+
+ * Known for building trust across engineering, product, and business stakeholders.
+###  Presentation & Engagement
+* Delivers resonant presentations that spark alignment and momentum; uses humor and analogy to make complex ideas accessible.
+###  Strategic Alignment
+* Excels at guiding teams back to strategic goals, ensuring design decisions ladder up to business impact.
+
+---
+
+## 🌱 Growth Areas (Framed as Leadership Development)
+###  Selling Ideas Repeatedly
+  * You thrive in the initial pitch but lose steam in repetition. This suggests a need for **advocacy systems**—tools, allies, or rituals that help carry the message forward without burning you out.
+  * Seeking to build scalable advocacy frameworks to sustain momentum and stakeholder buy-in across phases.
+ ### Ambiguity Without Anchors
+  * You’re energized by constraints and strategic direction. This is a strength in environments that value **goal-driven creativity
+  * Thrives when strategic goals are defined; skilled at translating them into design direction. Actively developing tools to navigate ambiguity with greater ease.
+*###  Leadership Anxiety
+  * You’ve led teams before and are aware of the emotional labor involved. That self-awareness is a leadership asset.
+  * Experienced in team leadership; currently deepening capacity for mentorship, pipeline planning, and sustainable team dynamics.
+
 ## Skills
 ${userProfile.skills.join(', ')}
 
