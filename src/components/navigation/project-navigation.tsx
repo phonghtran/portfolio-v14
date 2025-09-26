@@ -151,9 +151,6 @@ export function ProjectNavigation({
     >
       <div className="p-4 border-b border-border">
         <h2 className="font-semibold text-lg">Case Studies</h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Select a project to explore the design process
-        </p>
       </div>
 
       <div className="flex-1 p-2 overflow-y-auto overflow-x-hidden">
@@ -217,13 +214,6 @@ export function ProjectNavigation({
             </Collapsible>
           );
         })}
-      </div>
-
-      <div className="px-4 py-[1.62rem] border-t border-border">
-        <div className="text-xs text-muted-foreground text-center">
-          {projects.length} projects •{' '}
-          {projects.reduce((acc, p) => acc + p.sections.length, 0)} sections
-        </div>
       </div>
     </nav>
   );
