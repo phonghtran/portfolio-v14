@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
 // Google Analytics tracking ID - replace with your actual GA4 measurement ID
@@ -37,7 +37,7 @@ export const event = ({
 };
 
 // Hook to track page views
-export function useGoogleAnalytics() {
+function useGoogleAnalytics() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -49,10 +49,14 @@ export function useGoogleAnalytics() {
   }, [pathname, searchParams]);
 }
 
+// Client component for page tracking (needs Suspense)
+function GoogleAnalyticsTracker() {
+  useGoogleAnalytics();
+  return null;
+}
+
 // Component to initialize Google Analytics
 export default function GoogleAnalytics() {
-  useGoogleAnalytics();
-
   // Only render scripts if GA_TRACKING_ID is available
   if (!GA_TRACKING_ID) {
     return null;
@@ -77,6 +81,10 @@ export default function GoogleAnalytics() {
           `,
         }}
       />
+      {/* Page tracking with Suspense boundary */}
+      <Suspense fallback={null}>
+        <GoogleAnalyticsTracker />
+      </Suspense>
     </>
   );
 }
