@@ -70,6 +70,8 @@
     "@types/prettier": "^2.7.3",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "eslint": "9.36.0",
+    "eslint-config-next": "15.5.4",
     "firebase-functions": "^6.4.0",
     "genkit-cli": "^1.14.1",
     "postcss": "^8",
