@@ -221,7 +221,7 @@ ${userProjects
   )
   .join('')}
 
-## Resume
+## Resume / CV Link
 https://drive.google.com/file/d/1mV6YmcOtbtGZBgOERzwr5SmDBpGyNkNU/view
 
 ## Contact Info

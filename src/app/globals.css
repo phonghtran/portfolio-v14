@@ -105,6 +105,11 @@ html.theme-vintage {
     @apply border-border;
   }
 
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+    font-family: Inter, system-ui, sans-serif;
+  }
+
   /* Global heading styles */
   h1,
   h2,
@@ -127,9 +132,8 @@ html.theme-vintage {
     @apply leading-relaxed;
   }
 
-  body {
-    @apply bg-background text-foreground transition-colors duration-300;
-    font-family: Inter, system-ui, sans-serif;
+  a {
+    @apply underline;
   }
 
   /* Font declarations */

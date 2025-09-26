@@ -26,7 +26,7 @@ interface Message {
 // Function to preprocess AI content for better paragraph rendering
 const preprocessAIContent = (content: string): string => {
   // Split on sentences ending with colons followed by text (like "Strategic Discovery & Facilitation: He excels...")
-  console.log('Original content:', content);
+
   const processedContent = content
     // First, handle section headers (text ending with colon followed by space)
     .replace(
@@ -126,7 +126,7 @@ export default function ChatInterface() {
               )}
               <div
                 className={cn(
-                  'max-w-xl p-3 rounded-lg shadow-md',
+                  'max-w-xl p-3 rounded-lg shadow-md break-all',
                   message.role === 'user'
                     ? 'bg-primary text-primary-foreground rounded-br-none'
                     : 'bg-card text-card-foreground rounded-bl-none'
@@ -226,12 +226,12 @@ export default function ChatInterface() {
           )}
         </div>
       </ScrollArea>
-      <div className="border-t bg-card">
+      <div className="border-t bg-card sticky bottom-0">
         <div className="p-4 max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="flex items-center gap-4">
             <Input
               type="text"
-              placeholder="Ask me anything about your UX career..."
+              placeholder="Ask me anything about Phong's career"
               value={input}
               onChange={e => setInput(e.target.value)}
               className="flex-1"
