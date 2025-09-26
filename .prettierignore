@@ -21,3 +21,7 @@ pnpm-lock.yaml
 # Ignore generated files
 .firebase/
 .vercel/
+
+# Ignore Firebase Functions files (ESLint handles formatting)
+functions/src/index.ts
+functions/.eslintrc.js
