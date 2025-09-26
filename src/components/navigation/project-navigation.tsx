@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDown, ChevronRight, Target, Menu } from 'lucide-react';
+import { ChevronDown, ChevronRight, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   Collapsible,
   CollapsibleContent,
@@ -16,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Project, AudioTrack } from '@/lib/projects-data';
+import { Project } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
 
 interface ProjectNavigationProps {
@@ -40,6 +39,7 @@ export function ProjectNavigation({
     currentProjectId || projects[0]?.id,
   ]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const toggleProject = (projectId: string) => {
     setOpenProjects(prev =>
       prev.includes(projectId)
@@ -53,6 +53,7 @@ export function ProjectNavigation({
   };
 
   const currentProject = projects.find(p => p.id === currentProjectId);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const currentSection = currentProject?.sections.find(
     s => s.id === currentSectionId
   );
@@ -82,6 +83,7 @@ export function ProjectNavigation({
     handleProjectChange(projectId);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleSectionChange = (sectionValue: string) => {
     const [projectId, sectionId] = sectionValue.split('.');
     const project = projects.find(p => p.id === projectId);

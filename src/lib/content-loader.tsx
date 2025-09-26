@@ -13,7 +13,9 @@ const componentCache = new Map<string, ComponentType<ContentComponentProps>>();
  * @param contentFile - Path to the content file (e.g., 'mastercard-1/context')
  * @returns A lazy-loaded React component
  */
-export function loadContentComponent(contentFile: string): ComponentType<ContentComponentProps> {
+export function loadContentComponent(
+  contentFile: string
+): ComponentType<ContentComponentProps> {
   // Check cache first
   if (componentCache.has(contentFile)) {
     return componentCache.get(contentFile)!;
@@ -23,11 +25,13 @@ export function loadContentComponent(contentFile: string): ComponentType<Content
   const LazyComponent = lazy(async () => {
     try {
       // Dynamic import with proper path resolution
-      const module = await import(`../content/projects/${contentFile}.tsx`);
-      return { default: module.default };
+      const importedModule = await import(
+        `../content/projects/${contentFile}.tsx`
+      );
+      return { default: importedModule.default };
     } catch (error) {
       console.error(`Failed to load content component: ${contentFile}`, error);
-      
+
       // Return fallback component for missing files
       return {
         default: ({ className }: ContentComponentProps) => (
@@ -37,18 +41,19 @@ export function loadContentComponent(contentFile: string): ComponentType<Content
                 Content file not found: <code>{contentFile}.tsx</code>
               </p>
               <p className="text-sm text-muted-foreground text-center mt-2">
-                Create this file at <code>src/content/projects/{contentFile}.tsx</code>
+                Create this file at{' '}
+                <code>src/content/projects/{contentFile}.tsx</code>
               </p>
             </div>
           </div>
-        )
+        ),
       };
     }
   });
 
   // Add to cache
   componentCache.set(contentFile, LazyComponent);
-  
+
   return LazyComponent;
 }
 

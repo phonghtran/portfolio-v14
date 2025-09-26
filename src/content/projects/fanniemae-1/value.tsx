@@ -3,7 +3,7 @@ import Image from 'next/image';
 export default function CodingSection() {
   return (
     <div className="space-y-6">
-      <p>So why? Let's explore all the different why's.</p>
+      <p>So why? Let&apos;s explore all the different why&apos;s.</p>
       <ol className="traditionalOrderedList">
         <li>
           <b>Why keep the old system?</b>
@@ -15,9 +15,9 @@ export default function CodingSection() {
         <li>
           <b>Why make this feature request so much more complicated?</b>
           <p>
-            What's exciting about these APIs is that they can be used
-            generically by any other product or team. One being a "product
-            identification" system, now any business unit can build their
+            What&apos;s exciting about these APIs is that they can be used
+            generically by any other product or team. One being a &quot;product
+            identification&quot; system, now any business unit can build their
             catalog of products via this system and send it to any niche pricing
             system.
           </p>
@@ -28,7 +28,7 @@ export default function CodingSection() {
 
           <p>
             Ultimately, it was also faster to develop with more modern tech
-            stack that wasn't hindered by legacy decisions.
+            stack that wasn&apos;t hindered by legacy decisions.
           </p>
         </li>
 

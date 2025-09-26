@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
 import { BeforeAfterSlider } from '@/components/ui/before-after-slider';
 
 export default function ContextSection() {

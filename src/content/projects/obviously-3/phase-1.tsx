@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
 
 export default function ContextSection() {
   return (
@@ -27,9 +26,9 @@ export default function ContextSection() {
       </p>
       <p>
         By applying the thresholds that the team intuited we could program that
-        logic into warnings and notifications. For example, "I know my client
-        gets worried if only 80% of people are hired within 24 hours of the
-        deadline."
+        logic into warnings and notifications. For example, &ldquo;I know my
+        client gets worried if only 80% of people are hired within 24 hours of
+        the deadline.&rdquo;
       </p>
       <p>
         We refactored everyone's homepage and every detail page of every

@@ -14,11 +14,11 @@ export default function CodingSection() {
         modify anything without needing an engineering team.
       </p>
       <p>
-        Even better, this capability didn't incur more tech or product debt. It
-        actually converts a significant part of the process chain into a more
-        modular and flexible tech stack. So it simultaneously unlocks tens of
-        millions of dollars in revenue while reducing millions of recurring
-        backend costs.
+        Even better, this capability didn&apos;t incur more tech or product
+        debt. It actually converts a significant part of the process chain into
+        a more modular and flexible tech stack. So it simultaneously unlocks
+        tens of millions of dollars in revenue while reducing millions of
+        recurring backend costs.
       </p>
     </div>
   );

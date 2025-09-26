@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { MapPin, Loader2 } from 'lucide-react';
 import { useTheme, type Theme } from '@/contexts/theme-context';
+import type * as L from 'leaflet';
 
 interface LocationData {
   latitude: number;
@@ -23,7 +24,33 @@ const BROOKLYN_COORDS = {
 };
 
 // 🎨 MAP THEMES - Integrated with website theme system
-const MAP_THEMES: Record<Theme, any> = {
+interface MapThemeConfig {
+  tileLayer: {
+    url: string;
+    attribution: string;
+  };
+  line: {
+    cssVar: string;
+    weight: number;
+    opacity: number;
+    dashArray: string;
+    glow?: boolean;
+  };
+  circles: {
+    user: {
+      cssVar: string;
+      opacity: number;
+      fillOpacity: number;
+    };
+    destination: {
+      cssVar: string;
+      opacity: number;
+      fillOpacity: number;
+    };
+  };
+}
+
+const MAP_THEMES: Record<Theme, MapThemeConfig> = {
   // Classic theme - clean and professional
   classic: {
     tileLayer: {
@@ -232,7 +259,7 @@ export function LocationLineMap({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
+  const mapInstanceRef = useRef<L.Map | null>(null);
   const { theme } = useTheme();
 
   // Preset cities for debug mode

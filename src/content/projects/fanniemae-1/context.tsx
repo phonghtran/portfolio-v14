@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function CodingSection() {
   return (
-    <div>
+    <div className="space-y-6">
       <p>
         Every project at Fannie Mae needs to do a bit more than the original
         request. Fannie Mae suffered from a vicious cycle of churn and tech
@@ -38,8 +38,8 @@ export default function CodingSection() {
         className="w-full h-auto object-contain rounded"
       />
       <small>
-        Forcing our teams to connect solutions back to users' pain points and
-        wants.
+        Forcing our teams to connect solutions back to users&apos; pain points
+        and wants.
       </small>
     </div>
   );

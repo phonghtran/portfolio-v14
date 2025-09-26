@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-
 export default function ContextSection() {
   return (
     <div className="space-y-6">
@@ -9,8 +6,8 @@ export default function ContextSection() {
       <h4>MVP: Eliminate 3rd-Party Vendors</h4>
 
       <p>
-        The first MVP was to add attributes to the "campaign application
-        process." This was powerful as we could eliminate the use of
+        The first MVP was to add attributes to the &quot;campaign application
+        process.&quot; This was powerful as we could eliminate the use of
         SurveyMonkey while integrating the survey directly into the campaign
         itself. We could now directly ask the creators about their preferences
         and needs to be hired.
@@ -36,8 +33,8 @@ export default function ContextSection() {
         thousands of pieces of content per user. An example is before we could
         request videos about travel tips from our creators. But with attributes,
         we could assign every creator a city and a topic (two attributes), and
-        the system could filter and sort track travel tip videos down to "The
-        Bronx Zoo in NYC."
+        the system could filter and sort track travel tip videos down to
+        &quot;The Bronx Zoo in NYC.&quot;
       </p>
 
       <h4>Linear to Non-Linear</h4>
@@ -56,12 +53,12 @@ export default function ContextSection() {
         5-6 people to approve.
       </p>
       <p>
-        This would be difficult in any system and let's understand that
+        This would be difficult in any system and let&apos;s understand that
         attributes are still inadequate for a full-fledged audited workflow. But
         using attributes, we could spin up an MVP working skeleton of tracking
-        people's approval status. The final approver would then have to manually
-        check these statuses, but could then move it forward within the same
-        overall linear workflow.
+        people&apos;s approval status. The final approver would then have to
+        manually check these statuses, but could then move it forward within the
+        same overall linear workflow.
       </p>
 
       <h3>In Short</h3>

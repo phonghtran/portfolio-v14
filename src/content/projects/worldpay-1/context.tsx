@@ -15,7 +15,7 @@ export default function ContextSection() {
 
       <h2>Working Virtually</h2>
       <p>
-        During this project, the state of the world didn’t allow for easy
+        During this project, the state of the world didn&apos;t allow for easy
         travel. So we conducted everything virtually including workshops with
         the client. We reviewed workflows and architecture and sketched out
         ideas using screen sharing. Even conducting individual brainstorming and
@@ -26,7 +26,7 @@ export default function ContextSection() {
 
       <h2>Coding</h2>
       <p>
-        It wasn’t planned but as we got closer to delivery, the client was
+        It wasn&apos;t planned but as we got closer to delivery, the client was
         rushed to get implementation up and running. I asked about their tech
         stack and since I could code in AngularJS, we offered coding up the
         design system and UI components for them as an add-on. When they agreed,

@@ -1,13 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, type FormEvent } from 'react';
-import {
-  Paperclip,
-  SendHorizontal,
-  Bot,
-  User,
-  LoaderCircle,
-} from 'lucide-react';
+import { SendHorizontal, Bot, User, LoaderCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';

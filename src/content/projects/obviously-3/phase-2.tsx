@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
 
 export default function ContextSection() {
   return (
@@ -7,7 +6,7 @@ export default function ContextSection() {
       <h3>Phase 2: Automate the Repetition</h3>
 
       <p>
-        Through interviews, we uncovered many "hacks" our team was doing to
+        Through interviews, we uncovered many hacks" our team was doing to
         accomplish their tasks. An example would be that they often had to do
         multiple rounds of looking for creators to sign up. Each search could
         often result in the same people appearing over and over because they

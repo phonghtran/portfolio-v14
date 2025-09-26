@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
 import { BeforeAfterSlider } from '@/components/ui/before-after-slider';
 
 export default function ContextSection() {
@@ -7,7 +5,7 @@ export default function ContextSection() {
     <div className="space-y-6">
       <h3>Building a Design Foundation</h3>
       <p>
-        Starting in 2020, I was Obviously’s first UX designer hire. The
+        Starting in 2020, I was Obviously&apos;s first UX designer hire. The
         nine-year startup focused on influencer marketing campaigns and
         supporting its custom SASS platform to facilitate these campaigns. The
         company executes campaigns by finding influencers, managing the content
@@ -32,7 +30,7 @@ export default function ContextSection() {
       <p>
         Years of engineer-led design decisions led to hundreds of
         inconsistencies on the component, page, and architecture levels. Also,
-        half-hearted do-overs of the CSS meant it wasn’t an easy fix.
+        half-hearted do-overs of the CSS meant it wasn&apos;t an easy fix.
       </p>
 
       <p>To tackle this, I initiated a series of phases and activities.</p>

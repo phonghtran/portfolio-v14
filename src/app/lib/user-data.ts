@@ -197,10 +197,10 @@ ${userProfile.summary}
   * You thrive in the initial pitch but lose steam in repetition. This suggests a need for **advocacy systems**—tools, allies, or rituals that help carry the message forward without burning you out.
   * Seeking to build scalable advocacy frameworks to sustain momentum and stakeholder buy-in across phases.
  ### Ambiguity Without Anchors
-  * You’re energized by constraints and strategic direction. This is a strength in environments that value **goal-driven creativity
+  * You're energized by constraints and strategic direction. This is a strength in environments that value **goal-driven creativity
   * Thrives when strategic goals are defined; skilled at translating them into design direction. Actively developing tools to navigate ambiguity with greater ease.
 *###  Leadership Anxiety
-  * You’ve led teams before and are aware of the emotional labor involved. That self-awareness is a leadership asset.
+  * You've led teams before and are aware of the emotional labor involved. That self-awareness is a leadership asset.
   * Experienced in team leadership; currently deepening capacity for mentorship, pipeline planning, and sustainable team dynamics.
 
 ## Skills

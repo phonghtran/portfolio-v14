@@ -3,7 +3,7 @@
 import { useEffect, useRef, Suspense, useState } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
+
 import { Button } from '@/components/ui/button';
 import {
   Project,

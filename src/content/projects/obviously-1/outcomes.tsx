@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
-
 export default function ContextSection() {
   return (
     <div className="space-y-6">
@@ -42,10 +39,10 @@ export default function ContextSection() {
             Historically, Obviously only leveraged PR interviews and paid SEO
             for marketing. Later on, when UX and software efforts were under
             control, an internal team was ramped up to handle more extensive
-            marketing efforts. I updated our buyer personas, oversaw our team’s
-            analysis on our corporate site and leads generation, and helped
-            organize a marketing plan based on specific products we sold as
-            opposed.
+            marketing efforts. I updated our buyer personas, oversaw our
+            team&apos;s analysis on our corporate site and leads generation, and
+            helped organize a marketing plan based on specific products we sold
+            as opposed.
           </p>
         </li>
 
@@ -56,7 +53,7 @@ export default function ContextSection() {
             conglomerate. This transition required a rapid expansion of our
             visual language to account for our new partnership and ways of
             working. In addition, working out how we interfaced with our parent
-            companies’ clients via their various forms of relationships.
+            companies&apos; clients via their various forms of relationships.
           </p>
         </li>
       </ol>
