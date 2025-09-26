@@ -68,8 +68,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       html.classList.remove(className);
     });
 
-    // Add current theme class - don't add vintage since it's the default
-    if (theme !== 'vintage') {
+    // Add current theme class - don't add classic since it's the default CSS
+    if (theme !== 'classic') {
       html.classList.add(themes[theme].className);
     }
 
