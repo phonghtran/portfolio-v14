@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/contexts/theme-context';
+import GoogleAnalytics from '@/components/analytics/google-analytics';
 
 export const metadata: Metadata = {
   title: 'phonghtran - ux portfolio',
@@ -29,6 +30,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased h-full">
+        <GoogleAnalytics />
         <ThemeProvider>
           {children}
           <Toaster />

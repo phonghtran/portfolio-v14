@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { getAiResponse } from '@/app/actions';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
@@ -66,6 +67,7 @@ export default function ChatInterface() {
     sessionStartTime: Date.now(),
   });
   const { toast } = useToast();
+  const analytics = useAnalytics();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   // Load rate limit state from session storage on mount
@@ -159,6 +161,10 @@ export default function ChatInterface() {
     // Check rate limits
     const limitCheck = canSendMessage();
     if (!limitCheck.allowed) {
+      // Track rate limit hits
+      analytics.trackChatRateLimit(
+        MAX_MESSAGES_PER_SESSION - rateLimitState.messageCount
+      );
       toast({
         variant: 'destructive',
         title: 'Rate Limited',
@@ -174,11 +180,15 @@ export default function ChatInterface() {
 
     // Update rate limit state
     const now = Date.now();
+    const newMessageCount = rateLimitState.messageCount + 1;
     setRateLimitState(prev => ({
       ...prev,
-      messageCount: prev.messageCount + 1,
+      messageCount: newMessageCount,
       lastMessageTime: now,
     }));
+
+    // Track chat message
+    analytics.trackChatMessage(newMessageCount);
 
     const chatHistory = messages.map(msg => ({
       role: msg.role,

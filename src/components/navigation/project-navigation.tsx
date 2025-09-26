@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { Project } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
 
@@ -35,6 +36,7 @@ export function ProjectNavigation({
   onSectionSelect,
   className,
 }: ProjectNavigationProps) {
+  const analytics = useAnalytics();
   const [openProjects, setOpenProjects] = useState<string[]>([
     currentProjectId || projects[0]?.id,
   ]);
@@ -81,6 +83,12 @@ export function ProjectNavigation({
     // Collapse all projects except the selected one
     setOpenProjects([projectId]);
     handleProjectChange(projectId);
+
+    // Track project selection
+    const project = projects.find(p => p.id === projectId);
+    if (project) {
+      analytics.trackProjectView(projectId, project.title);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
