@@ -39,6 +39,17 @@ const preprocessAIContent = (content: string): string => {
   return processedContent;
 };
 
+// Rate limiting configuration
+const MAX_MESSAGES_PER_SESSION = 16;
+const COOLDOWN_DURATION_MS = 3000; // 3 seconds between messages
+const SESSION_RESET_HOURS = 24; // Reset limits every 24 hours
+
+interface RateLimitState {
+  messageCount: number;
+  lastMessageTime: number;
+  sessionStartTime: number;
+}
+
 export default function ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -49,8 +60,45 @@ export default function ChatInterface() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [rateLimitState, setRateLimitState] = useState<RateLimitState>({
+    messageCount: 0,
+    lastMessageTime: 0,
+    sessionStartTime: Date.now(),
+  });
   const { toast } = useToast();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  // Load rate limit state from session storage on mount
+  useEffect(() => {
+    const savedState = sessionStorage.getItem('chatRateLimit');
+    if (savedState) {
+      try {
+        const parsed: RateLimitState = JSON.parse(savedState);
+        const now = Date.now();
+        const sessionAge = now - parsed.sessionStartTime;
+
+        // Reset if session is older than the configured hours
+        if (sessionAge > SESSION_RESET_HOURS * 60 * 60 * 1000) {
+          const newState: RateLimitState = {
+            messageCount: 0,
+            lastMessageTime: 0,
+            sessionStartTime: now,
+          };
+          setRateLimitState(newState);
+          sessionStorage.setItem('chatRateLimit', JSON.stringify(newState));
+        } else {
+          setRateLimitState(parsed);
+        }
+      } catch (error) {
+        console.error('Error loading rate limit state:', error);
+      }
+    }
+  }, []);
+
+  // Save rate limit state to session storage whenever it changes
+  useEffect(() => {
+    sessionStorage.setItem('chatRateLimit', JSON.stringify(rateLimitState));
+  }, [rateLimitState]);
 
   const scrollToEnd = () => {
     if (scrollAreaRef.current) {
@@ -65,14 +113,72 @@ export default function ChatInterface() {
     scrollToEnd();
   }, [messages]);
 
+  // Check if user can send a message
+  const canSendMessage = (): {
+    allowed: boolean;
+    reason?: string;
+    waitTime?: number;
+  } => {
+    const now = Date.now();
+
+    // Check message count limit
+    if (rateLimitState.messageCount >= MAX_MESSAGES_PER_SESSION) {
+      const timeUntilReset =
+        SESSION_RESET_HOURS * 60 * 60 * 1000 -
+        (now - rateLimitState.sessionStartTime);
+      const hoursUntilReset = Math.ceil(timeUntilReset / (60 * 60 * 1000));
+      return {
+        allowed: false,
+        reason: `You've reached the maximum of ${MAX_MESSAGES_PER_SESSION} messages per session. Please try again in ${hoursUntilReset} hour(s).`,
+      };
+    }
+
+    // Check cooldown
+    const timeSinceLastMessage = now - rateLimitState.lastMessageTime;
+    if (
+      rateLimitState.lastMessageTime > 0 &&
+      timeSinceLastMessage < COOLDOWN_DURATION_MS
+    ) {
+      const waitTime = Math.ceil(
+        (COOLDOWN_DURATION_MS - timeSinceLastMessage) / 1000
+      );
+      return {
+        allowed: false,
+        reason: `Please wait ${waitTime} seconds before sending another message.`,
+        waitTime,
+      };
+    }
+
+    return { allowed: true };
+  };
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
+
+    // Check rate limits
+    const limitCheck = canSendMessage();
+    if (!limitCheck.allowed) {
+      toast({
+        variant: 'destructive',
+        title: 'Rate Limited',
+        description: limitCheck.reason,
+      });
+      return;
+    }
 
     const userMessage: Message = { role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
+
+    // Update rate limit state
+    const now = Date.now();
+    setRateLimitState(prev => ({
+      ...prev,
+      messageCount: prev.messageCount + 1,
+      lastMessageTime: now,
+    }));
 
     const chatHistory = messages.map(msg => ({
       role: msg.role,
@@ -96,6 +202,12 @@ export default function ChatInterface() {
         description: result.error || 'An unknown error occurred.',
       });
       setMessages(prev => prev.slice(0, prev.length - 1));
+
+      // Revert rate limit state on error
+      setRateLimitState(prev => ({
+        ...prev,
+        messageCount: Math.max(0, prev.messageCount - 1),
+      }));
     }
   };
 
@@ -222,20 +334,51 @@ export default function ChatInterface() {
       </ScrollArea>
       <div className="border-t bg-card sticky bottom-0">
         <div className="p-4 max-w-4xl mx-auto">
+          {/* Rate limit indicator */}
+          <div className="flex justify-between items-center text-xs text-muted-foreground mb-2">
+            <span>
+              Messages remaining:{' '}
+              {MAX_MESSAGES_PER_SESSION - rateLimitState.messageCount}
+            </span>
+            {rateLimitState.messageCount > 0 && (
+              <span>
+                Session resets in{' '}
+                {Math.ceil(
+                  (SESSION_RESET_HOURS * 60 * 60 * 1000 -
+                    (Date.now() - rateLimitState.sessionStartTime)) /
+                    (60 * 60 * 1000)
+                )}{' '}
+                hours
+              </span>
+            )}
+          </div>
+
           <form onSubmit={handleSubmit} className="flex items-center gap-4">
             <Input
               type="text"
-              placeholder="Ask me anything about Phong's career"
+              placeholder={
+                rateLimitState.messageCount >= MAX_MESSAGES_PER_SESSION
+                  ? 'Message limit reached. Try again later.'
+                  : "Ask me anything about Phong's career"
+              }
               value={input}
               onChange={e => setInput(e.target.value)}
               className="flex-1"
-              disabled={isLoading}
+              disabled={
+                isLoading ||
+                rateLimitState.messageCount >= MAX_MESSAGES_PER_SESSION
+              }
               autoComplete="off"
             />
             <Button
               type="submit"
               size="icon"
-              disabled={isLoading || !input.trim()}
+              disabled={
+                isLoading ||
+                !input.trim() ||
+                rateLimitState.messageCount >= MAX_MESSAGES_PER_SESSION ||
+                !canSendMessage().allowed
+              }
             >
               <SendHorizontal className="h-5 w-5" />
               <span className="sr-only">Send</span>
