@@ -136,6 +136,9 @@ html.theme-vintage {
     @apply underline;
   }
 
+  .leading-tight {
+    line-height: 1.25 !important;
+  }
   /* Font declarations */
   .font-headline {
     font-family: Inter, system-ui, sans-serif;

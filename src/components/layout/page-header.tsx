@@ -20,10 +20,10 @@ export function PageHeader({ title }: PageHeaderProps) {
               <Image
                 src="/images/phong_red_transparent_300dpi.png"
                 alt="logo of phonghtran"
-                width={32}
-                height={32}
+                width={1019}
+                height={1126}
                 priority // For above-the-fold images
-                className="shrink-0 sm:w-9 sm:h-9"
+                className=" w-9 "
               />
             </div>
             <div className="flex-1 lg:flex-initial min-w-0 py-2">
