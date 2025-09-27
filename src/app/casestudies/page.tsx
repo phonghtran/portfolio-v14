@@ -80,7 +80,7 @@ function WorkContent() {
 export default function Work() {
   return (
     <div className="flex flex-col h-full">
-      <PageHeader title="Case Studies - phonghtran" />
+      <PageHeader title="phonghtran" />
       <AudioNavigationProvider>
         <WorkContent />
       </AudioNavigationProvider>
