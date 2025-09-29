@@ -1,6 +1,6 @@
 import { ClientThemeToggle } from '@/components/ui/client-theme-toggle';
 import { Navbar } from '@/components/navigation/navbar';
-import Image from 'next/image';
+import { DynamicLogo } from '@/components/ui/dynamic-logo';
 
 interface PageHeaderProps {
   title: string;
@@ -16,14 +16,11 @@ export function PageHeader({ title }: PageHeaderProps) {
             id="headline"
             className="flex gap-3 p-1 sm:p-2 w-full min-h-0 lg:w-auto lg:shrink-0"
           >
-            <div className="flex items-center ">
-              <Image
-                src="/images/phong_red_transparent_300dpi.png"
-                alt="logo of phonghtran"
-                width={1019}
-                height={1126}
-                priority // For above-the-fold images
-                className=" w-9 "
+            <div className="flex items-center">
+              <DynamicLogo
+                width={36}
+                height={40}
+                className="transition-colors duration-300"
               />
             </div>
             <div className="flex-1 lg:flex-initial min-w-0 py-2">
