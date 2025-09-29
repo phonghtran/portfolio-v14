@@ -186,6 +186,10 @@ html.theme-cyberpunk h6 {
   letter-spacing: 0.05em;
 }
 
+html.theme-cyberpunk .rounded-xl {
+  border-radius: 0;
+}
+
 .traditionalBulletedList {
   @apply space-y-2 pl-6;
   list-style: disc;
@@ -196,4 +200,11 @@ html.theme-cyberpunk h6 {
   @apply space-y-2 pl-6;
   list-style: decimal;
   list-style-position: outside;
+}
+
+/* Theme-specific texture variations */
+html.theme-vintage .bg-textureThemed {
+  background-image: url('/images/bg_static_paper_texture.png');
+  background-repeat: repeat;
+  background-size: auto;
 }

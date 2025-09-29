@@ -15,9 +15,9 @@ export default function Contact() {
       <PageHeader title="phonghtran" />
       <main className="md:flex-1 md:flex md:flex-col lg:flex-row lg:flex-row-reverse md:overflow-hidden">
         {/* Contact Content */}
-        <div className="lg:flex-1 lg:w-1/2 md:overflow-y-auto">
+        <div className="lg:flex-1 lg:w-1/2 md:overflow-y-auto bg-textureThemed">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="max-w-2xl mx-auto lg:mx-0 sm:border sm:p-6">
+            <div className="max-w-2xl mx-auto lg:mx-0 sm:border sm:p-6 bg-card">
               <h2 className="text-3xl font-bold mb-6">Contact</h2>
               <div className="max-w-none">
                 <div>

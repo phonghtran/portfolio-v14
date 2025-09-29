@@ -51,7 +51,6 @@ export function DynamicLogo({
         };
       case 'vintage':
         return {
-          filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.3))',
           stroke: getStrokeColor(),
         };
       case 'classic':

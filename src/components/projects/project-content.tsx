@@ -161,19 +161,24 @@ export function ProjectContent({
   }, [audioTrack]);
 
   return (
-    <div className={cn('max-w-4xl mx-auto p-6 mb-[12rem]', className)}>
+    <div
+      className={cn(
+        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4 ',
+        className
+      )}
+    >
       {/* Project Hero Section */}
-      <div className="mb-12">
+      <div className="mb-12 ">
         {/* Audio Player - Always Visible */}
         {audioTrack && (
-          <div className="mb-8 p-4 bg-chart-3    rounded-lg">
+          <div className="mb-8 p-4 bg-chart-1    rounded-lg">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
                 <Headphones className="h-5 w-5 text-background dark:text-blue-400 mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-background ">
+                  <h6 className="text-sm font-medium text-background ">
                     Audio: One-Minute Recap
-                  </p>
+                  </h6>
 
                   {audioTrack && isPlaying ? (
                     <p className="text-xs text-background mt-2">

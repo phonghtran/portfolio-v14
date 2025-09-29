@@ -40,7 +40,7 @@ function WorkContent() {
 
   if (!currentProject) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="flex-1 flex items-center justify-center ">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">No Project Selected</h2>
           <p className="text-muted-foreground">
@@ -65,7 +65,7 @@ function WorkContent() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto bg-textureThemed">
           <ProjectContent
             project={currentProject}
             currentSectionId={currentSectionId || undefined}

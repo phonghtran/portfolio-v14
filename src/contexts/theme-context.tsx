@@ -6,7 +6,7 @@ export type Theme = 'classic' | 'cyberpunk' | 'vintage';
 
 // 🎨 CUSTOMIZATION: Change this to set the default theme for development/new users
 // This makes it easier to work on a specific theme during customization
-const DEFAULT_THEME: Theme = 'cyberpunk';
+const DEFAULT_THEME: Theme = 'classic';
 
 // Set to true to always use the default theme (ignores localStorage)
 // Useful when developing/customizing a specific theme
@@ -23,8 +23,8 @@ export interface ThemeConfig {
 export const themes: Record<Theme, ThemeConfig> = {
   classic: {
     name: 'classic',
-    displayName: 'Classic',
-    description: 'Clean and professional design',
+    displayName: 'Classic B2B',
+    description: 'Enterprise-level MVP',
     icon: '🎨',
     className: 'theme-classic',
   },
