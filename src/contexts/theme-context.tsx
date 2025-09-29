@@ -4,6 +4,14 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export type Theme = 'classic' | 'cyberpunk' | 'vintage';
 
+// 🎨 CUSTOMIZATION: Change this to set the default theme for development/new users
+// This makes it easier to work on a specific theme during customization
+const DEFAULT_THEME: Theme = 'cyberpunk';
+
+// Set to true to always use the default theme (ignores localStorage)
+// Useful when developing/customizing a specific theme
+const FORCE_DEFAULT_THEME = false;
+
 export interface ThemeConfig {
   name: string;
   displayName: string;
@@ -36,6 +44,22 @@ export const themes: Record<Theme, ThemeConfig> = {
   },
 };
 
+// 🛠️ DEVELOPMENT HELPER: Quickly test different themes
+// Usage in browser console: window.setDevTheme('cyberpunk')
+if (typeof window !== 'undefined') {
+  (window as any).setDevTheme = (themeName: Theme) => {
+    if (themes[themeName]) {
+      localStorage.setItem('portfolio-theme', themeName);
+      window.location.reload();
+      console.log(`🎨 Dev theme set to: ${themeName}`);
+    } else {
+      console.error(
+        `❌ Invalid theme: ${themeName}. Available: ${Object.keys(themes).join(', ')}`
+      );
+    }
+  };
+}
+
 interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
@@ -45,15 +69,25 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('vintage');
+  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+
+    if (FORCE_DEFAULT_THEME) {
+      // Always use the default theme (useful for development/customization)
+      setThemeState(DEFAULT_THEME);
+      return;
+    }
+
     // Load theme from localStorage on mount
     const savedTheme = localStorage.getItem('portfolio-theme') as Theme;
     if (savedTheme && themes[savedTheme]) {
       setThemeState(savedTheme);
+    } else {
+      // No saved theme found, use default
+      setThemeState(DEFAULT_THEME);
     }
   }, []);
 
@@ -86,6 +120,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme, mounted]);
 
   const setTheme = (newTheme: Theme) => {
+    // Prevent theme changes if forcing default theme
+    if (FORCE_DEFAULT_THEME) {
+      console.log('Theme switching disabled - FORCE_DEFAULT_THEME is enabled');
+      return;
+    }
+
     setThemeState(newTheme);
   };
 

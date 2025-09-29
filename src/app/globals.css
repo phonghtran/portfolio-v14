@@ -50,8 +50,8 @@ html.theme-cyberpunk {
   --accent-foreground: 240 10% 3.9%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 98%;
-  --border: 240 3.7% 25%;
-  --input: 240 3.7% 15.9%;
+  --border: 180 100% 50%; /* 240 3.7% 25%; */
+  --input: 180 100% 50%; /*240 3.7% 15.9%;*/
   --ring: 322 100% 58%;
   --radius: 0rem;
   --chart-1: 322 100% 58%;
