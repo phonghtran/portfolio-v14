@@ -13,7 +13,7 @@ export default function Contact() {
   return (
     <div className="sm:flex sm:flex-col sm:h-screen">
       <PageHeader title="phonghtran" />
-      <main className="md:flex-1 md:flex md:flex-col lg:flex-row lg:flex-row-reverse md:overflow-hidden">
+      <main className="md:flex-1 md:flex md:flex-col lg:flex-row-reverse md:overflow-hidden">
         {/* Contact Content */}
         <div className="lg:flex-1 lg:w-1/2 md:overflow-y-auto bg-textureThemed">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">

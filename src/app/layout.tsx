@@ -18,6 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <head>
+        <link rel="icon" type="image/png" href="/images/favicon.png" />
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
