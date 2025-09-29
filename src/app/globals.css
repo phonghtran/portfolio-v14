@@ -157,6 +157,15 @@ html.theme-vintage {
 }
 
 html.theme-vintage * {
+  font-family: 'Cabin', sans-serif;
+}
+
+html.theme-vintage h1,
+html.theme-vintage h2,
+html.theme-vintage h3,
+html.theme-vintage h4,
+html.theme-vintage h5,
+html.theme-vintage h6 {
   font-family: 'Georgia', serif;
 }
 
