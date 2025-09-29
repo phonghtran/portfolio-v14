@@ -45,7 +45,7 @@ html.theme-cyberpunk {
   --secondary: 240 3.7% 15.9%;
   --secondary-foreground: 0 0% 98%;
   --muted: 240 3.7% 15.9%;
-  --muted-foreground: 240 5% 64.9%;
+  --muted-foreground: 240 5% 80%%;
   --accent: 180 100% 50%;
   --accent-foreground: 240 10% 3.9%;
   --destructive: 0 72% 51%;
@@ -91,15 +91,6 @@ html.theme-vintage {
 }
 
 @layer base {
-  /* Theme-specific enhancements */
-  .theme-cyberpunk * {
-    text-shadow: 0 0 2px currentColor;
-  }
-
-  .theme-vintage {
-    font-family: 'Georgia', serif;
-  }
-
   /* Base styles */
   * {
     @apply border-border;
@@ -163,6 +154,27 @@ html.theme-vintage {
   .animate-glow {
     animation: glow 2s ease-in-out infinite;
   }
+}
+
+html.theme-vintage * {
+  font-family: 'Georgia', serif;
+}
+
+/* Theme-specific font and visual enhancements - Outside @layer for higher specificity */
+html.theme-cyberpunk * {
+  font-family: monospace;
+}
+
+html.theme-cyberpunk h1,
+html.theme-cyberpunk h2,
+html.theme-cyberpunk h3,
+html.theme-cyberpunk h4,
+html.theme-cyberpunk h5,
+html.theme-cyberpunk h6 {
+  color: hsl(var(--chart-3));
+  font-family: 'Tektur', monospace !important;
+  font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
 .traditionalBulletedList {

@@ -166,22 +166,22 @@ export function ProjectContent({
       <div className="mb-12">
         {/* Audio Player - Always Visible */}
         {audioTrack && (
-          <div className="mb-8 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <div className="mb-8 p-4 bg-chart-3    rounded-lg">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
-                <Headphones className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 shrink-0" />
+                <Headphones className="h-5 w-5 text-background dark:text-blue-400 mt-0.5 shrink-0" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                  <p className="text-sm font-medium text-background ">
                     Audio: One-Minute Recap
                   </p>
 
                   {audioTrack && isPlaying ? (
-                    <p className="text-xs text-blue-600 dark:text-blue-300 mt-2">
+                    <p className="text-xs text-background mt-2">
                       Playing: {formatTime(currentTime)} /{' '}
                       {formatTime(audioTrack.duration)}
                     </p>
                   ) : (
-                    <p className="text-sm text-blue-700 dark:text-blue-200 mt-1">
+                    <p className="text-sm text-background dark:text-blue-200 mt-1">
                       Listen to while you scroll
                     </p>
                   )}
@@ -192,7 +192,7 @@ export function ProjectContent({
                 variant="outline"
                 size="sm"
                 disabled={!audioTrack}
-                className="bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 border-blue-300 dark:border-blue-700 shrink-0 disabled:opacity-50"
+                className="bg-chart-2 text-background border-0 shrink-0 disabled:opacity-50"
               >
                 {isPlaying ? (
                   <Pause className="h-4 w-4 mr-2" />
@@ -261,8 +261,8 @@ export function ProjectContent({
       </div>
 
       {/* Project Overview */}
-      <div className=" p-6 bg-muted rounded-lg">
-        <h2 className="text-2xl font-bold mb-4">Project Overview</h2>
+      <div className=" p-6 bg-chart-1 text-background rounded-lg">
+        <h2 className="text-2xl font-bold mb-4 ">Project Overview</h2>
         <p>{project.overview}</p>
       </div>
 
