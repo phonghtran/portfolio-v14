@@ -163,7 +163,7 @@ export function ProjectContent({
   return (
     <div
       className={cn(
-        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4  ',
+        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4 rounded-lg ',
         className
       )}
     >
@@ -171,10 +171,10 @@ export function ProjectContent({
       <div className="mb-12 ">
         {/* Audio Player - Always Visible */}
         {audioTrack && (
-          <div className="mb-8 p-4 bg-chart-1    rounded-lg">
+          <div className="mb-8 p-4 bg-chart-1  rounded-lg">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-start gap-3">
-                <Headphones className="h-5 w-5 text-background dark:text-blue-400 mt-0.5 shrink-0" />
+                <Headphones className="h-5 w-5 text-background dmt-0.5 shrink-0" />
                 <div className="flex-1">
                   <h6 className="text-sm font-medium text-background ">
                     Audio: One-Minute Recap

@@ -12,12 +12,14 @@ import {
   SendHorizontal,
 } from 'lucide-react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 export default function Contact() {
   const { theme } = useTheme();
+  const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : '';
 
   return (
-    <div className="sm:flex sm:flex-col sm:h-screen">
+    <div className={cn('sm:flex sm:flex-col sm:h-screen', backgroundClasses)}>
       <PageHeader title="phonghtran" />
       <main className="md:flex-1 md:flex md:flex-col lg:flex-row-reverse md:overflow-hidden">
         {/* Contact Content */}

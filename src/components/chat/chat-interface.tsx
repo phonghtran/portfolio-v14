@@ -12,6 +12,7 @@ import { getAiResponse } from '@/app/actions';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useTheme } from '@/contexts/theme-context';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -52,6 +53,9 @@ interface RateLimitState {
 }
 
 export default function ChatInterface() {
+  const { theme } = useTheme();
+  const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : 'bg-card';
+
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
@@ -342,7 +346,7 @@ export default function ChatInterface() {
           )}
         </div>
       </ScrollArea>
-      <div className="border-t bg-card  bg-frosty  sticky bottom-0">
+      <div className={cn('border-t sticky bottom-0', backgroundClasses)}>
         <div className="p-4 max-w-4xl mx-auto">
           {/* Rate limit indicator */}
           <div className="flex justify-between items-center text-xs text-muted-foreground mb-2">

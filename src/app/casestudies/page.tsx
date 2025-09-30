@@ -65,7 +65,7 @@ function WorkContent() {
 
       {/* Main Content Area */}
       <div className="min-w-0 mt-28 lg:mt-0 lg:ml-[21rem] lg:mr-4">
-        <main className=" bg-textureThemed">
+        <main className=" ">
           <ProjectContent
             project={currentProject}
             currentSectionId={currentSectionId || undefined}
@@ -79,7 +79,7 @@ function WorkContent() {
 
 export default function Work() {
   return (
-    <div className="">
+    <div className="bg-textureThemed">
       <PageHeader title="phonghtran" />
       <div className="">
         <AudioNavigationProvider>

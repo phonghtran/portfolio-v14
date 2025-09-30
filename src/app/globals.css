@@ -65,13 +65,13 @@ html.theme-cyberpunk {
 html.theme-glassy {
   --background: 200 0% 100%; /*  white */
   --foreground: 200 0% 0%; /*  black */
-  --card: 40 15% 98% /0.5;
+  --card: 40 15% 98% / 0.75;
   --card-foreground: 25 30% 15%;
   --popover: 40 15% 98%;
   --popover-foreground: 25 30% 15%;
   --primary: 200 0% 0%; /*  black */
   --primary-foreground: 200 0% 100%; /*  white */
-  --secondary: 40 10% 88%;
+  --secondary: 200 0% 100%; /*  white */
   --secondary-foreground: 25 30% 25%;
   --muted: 40 10% 88%;
   --muted-foreground: 25 15% 25%;

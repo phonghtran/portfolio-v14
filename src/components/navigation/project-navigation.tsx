@@ -18,6 +18,7 @@ import {
 import { useAnalytics } from '@/hooks/use-analytics';
 import { Project } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/contexts/theme-context';
 
 interface ProjectNavigationProps {
   projects: Project[];
@@ -37,6 +38,7 @@ export function ProjectNavigation({
   className,
 }: ProjectNavigationProps) {
   const analytics = useAnalytics();
+  const { theme } = useTheme();
   const [openProjects, setOpenProjects] = useState<string[]>([
     currentProjectId || projects[0]?.id,
   ]);
@@ -141,82 +143,94 @@ export function ProjectNavigation({
   );
 
   // Desktop sidebar view
-  const DesktopNavigation = () => (
-    <nav
-      className={cn(
-        'hidden lg:flex bg-card bg-frosty border-r border-border overflow-y-auto overflow-x-hidden',
-        'w-80 flex-col fixed top-20 left-0 h-[calc(100vh-5rem)] z-30',
-        className
-      )}
-    >
-      <div className="p-4 border-b border-border">
-        <h2 className="font-semibold text-lg">Case Studies</h2>
-      </div>
+  const DesktopNavigation = () => {
+    // Conditionally apply background based on theme
+    const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : 'bg-card';
 
-      <div className="flex-1 p-2 overflow-y-auto overflow-x-hidden">
-        {projects.map(project => {
-          const isProjectOpen = openProjects.includes(project.id);
-          const isCurrentProject = currentProjectId === project.id;
+    return (
+      <nav
+        className={cn(
+          'hidden lg:flex border-r border-border overflow-y-auto overflow-x-hidden',
+          'w-80 flex-col fixed top-[calc(5rem+1px)] left-0 h-[calc(100vh-5rem)] z-30',
+          backgroundClasses,
+          className
+        )}
+      >
+        <div className="p-4 border-b border-border">
+          <h2 className="font-semibold text-lg">Case Studies</h2>
+        </div>
 
-          return (
-            <Collapsible key={project.id} open={isProjectOpen} className="mb-2">
-              <CollapsibleTrigger asChild>
-                <div
-                  className={cn(
-                    'w-full justify-between p-3 h-auto flex hover:cursor-pointer rounded-md transition-colors',
-                    isCurrentProject
-                      ? 'bg-secondary text-secondary-foreground'
-                      : 'hover:bg-accent hover:text-accent-foreground'
-                  )}
-                  onClick={() => handleProjectClick(project.id)}
-                >
-                  <div className="text-left flex-1 w-min-0">
-                    <div className="mb-0">
-                      <span className="font-medium text-sm flex items-center ">
-                        <Target className="h-4 w-4 text-primary mr-2" />
-                        {project.title}
-                      </span>
+        <div className="flex-1 p-2 overflow-y-auto overflow-x-hidden">
+          {projects.map(project => {
+            const isProjectOpen = openProjects.includes(project.id);
+            const isCurrentProject = currentProjectId === project.id;
+
+            return (
+              <Collapsible
+                key={project.id}
+                open={isProjectOpen}
+                className="mb-2"
+              >
+                <CollapsibleTrigger asChild>
+                  <div
+                    className={cn(
+                      'w-full justify-between p-3 h-auto flex hover:cursor-pointer rounded-md transition-colors',
+                      isCurrentProject
+                        ? 'bg-secondary text-secondary-foreground'
+                        : 'hover:bg-accent hover:text-accent-foreground'
+                    )}
+                    onClick={() => handleProjectClick(project.id)}
+                  >
+                    <div className="text-left flex-1 w-min-0">
+                      <div className="mb-0">
+                        <span className="font-medium text-sm flex items-center ">
+                          <Target className="h-4 w-4 text-primary mr-2" />
+                          {project.title}
+                        </span>
+                      </div>
                     </div>
+                    {isProjectOpen ? (
+                      <ChevronDown className="h-4 w-4 shrink-0" />
+                    ) : (
+                      <ChevronRight className="h-4 w-4 shrink-0" />
+                    )}
                   </div>
-                  {isProjectOpen ? (
-                    <ChevronDown className="h-4 w-4 shrink-0" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4 shrink-0" />
-                  )}
-                </div>
-              </CollapsibleTrigger>
+                </CollapsibleTrigger>
 
-              <CollapsibleContent className="ml-2 mt-1 space-y-1">
-                {project.sections.map(section => {
-                  const isCurrentSection =
-                    currentSectionId === section.id && isCurrentProject;
+                <CollapsibleContent className="ml-2 mt-1 space-y-1">
+                  {project.sections.map(section => {
+                    const isCurrentSection =
+                      currentSectionId === section.id && isCurrentProject;
 
-                  return (
-                    <Button
-                      key={section.id}
-                      variant={isCurrentSection ? 'secondary' : 'ghost'}
-                      size="sm"
-                      className="w-full justify-start text-xs h-auto p-2"
-                      onClick={() => handleSectionClick(project.id, section.id)}
-                    >
-                      <span
-                        className={cn(
-                          'text-left flex-1',
-                          isCurrentSection && 'font-medium'
-                        )}
+                    return (
+                      <Button
+                        key={section.id}
+                        variant={isCurrentSection ? 'secondary' : 'ghost'}
+                        size="sm"
+                        className="w-full justify-start text-xs h-auto p-2"
+                        onClick={() =>
+                          handleSectionClick(project.id, section.id)
+                        }
                       >
-                        {section.title}
-                      </span>
-                    </Button>
-                  );
-                })}
-              </CollapsibleContent>
-            </Collapsible>
-          );
-        })}
-      </div>
-    </nav>
-  );
+                        <span
+                          className={cn(
+                            'text-left flex-1',
+                            isCurrentSection && 'font-medium'
+                          )}
+                        >
+                          {section.title}
+                        </span>
+                      </Button>
+                    );
+                  })}
+                </CollapsibleContent>
+              </Collapsible>
+            );
+          })}
+        </div>
+      </nav>
+    );
+  };
 
   return (
     <>

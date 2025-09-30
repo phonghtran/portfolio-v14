@@ -1,14 +1,23 @@
+'use client';
+
 import { ClientThemeToggle } from '@/components/ui/client-theme-toggle';
 import { Navbar } from '@/components/navigation/navbar';
 import { DynamicLogo } from '@/components/ui/dynamic-logo';
+import { useTheme } from '@/contexts/theme-context';
+import { cn } from '@/lib/utils';
 
 interface PageHeaderProps {
   title: string;
 }
 
 export function PageHeader({ title }: PageHeaderProps) {
+  const { theme } = useTheme();
+  const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : 'bg-card';
+
   return (
-    <header className="bg-card bg-frosty border-b shadow-sm sticky top-0 z-10">
+    <header
+      className={cn('border-b shadow-sm sticky top-0 z-10', backgroundClasses)}
+    >
       <div className="w-full px-2 sm:px-6 lg:px-4">
         <div className="flex flex-col lg:flex-row ">
           {/* Headline Content */}
