@@ -2,11 +2,11 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type Theme = 'classic' | 'cyberpunk' | 'vintage' | 'trending';
+export type Theme = 'classic' | 'cyberpunk' | 'vintage' | 'glassy';
 
 // 🎨 CUSTOMIZATION: Change this to set the default theme for development/new users
 // This makes it easier to work on a specific theme during customization
-const DEFAULT_THEME: Theme = 'trending';
+const DEFAULT_THEME: Theme = 'glassy';
 
 // Set to true to always use the default theme (ignores localStorage)
 // Useful when developing/customizing a specific theme
@@ -42,12 +42,12 @@ export const themes: Record<Theme, ThemeConfig> = {
     icon: '🏡',
     className: 'theme-vintage',
   },
-  trending: {
-    name: 'trending',
+  glassy: {
+    name: 'glassy',
     displayName: 'Glassy',
     description: 'Bridging gradient w. glass',
     icon: '🧊',
-    className: 'theme-trending',
+    className: 'theme-glassy',
   },
 };
 

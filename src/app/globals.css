@@ -61,8 +61,8 @@ html.theme-cyberpunk {
   --chart-5: 30 100% 50%;
 }
 
-/* Trending Theme */
-html.theme-trending {
+/* glassy Theme */
+html.theme-glassy {
   --background: 200 0% 100%; /*  white */
   --foreground: 200 0% 0%; /*  black */
   --card: 40 15% 98% /0.5;
@@ -232,21 +232,21 @@ html.theme-cyberpunk nav {
   text-transform: uppercase;
 }
 
-/* Trending */
-html.theme-trending h1,
-html.theme-trending h2,
-html.theme-trending h3,
-html.theme-trending h4,
-html.theme-trending h5,
-html.theme-trending h6 {
+/* glassy */
+html.theme-glassy h1,
+html.theme-glassy h2,
+html.theme-glassy h3,
+html.theme-glassy h4,
+html.theme-glassy h5,
+html.theme-glassy h6 {
   text-transform: uppercase;
 }
 
-html.theme-trending nav {
+html.theme-glassy nav {
   text-transform: uppercase;
 }
 
-html.theme-trending .bg-frosty {
+html.theme-glassy .bg-frosty {
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.3),

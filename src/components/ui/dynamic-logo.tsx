@@ -22,7 +22,7 @@ export function DynamicLogo({
         return 'hsl(var(--accent))'; // Bright cyan
       case 'vintage':
         return 'hsl(var(--primary))'; // Warm brown/orange
-      case 'trending':
+      case 'glassy':
         return 'hsl(var(--foreground))'; // black
       case 'classic':
       default:
