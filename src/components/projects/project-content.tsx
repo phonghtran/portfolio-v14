@@ -163,12 +163,12 @@ export function ProjectContent({
   return (
     <div
       className={cn(
-        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4 rounded-lg ',
+        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4 rounded-lg lg:border-border lg:border ',
         className
       )}
     >
       {/* Project Hero Section */}
-      <div className="mb-12 ">
+      <div className="mb-12  ">
         {/* Audio Player - Always Visible */}
         {audioTrack && (
           <div className="mb-8 p-4 bg-chart-1  rounded-lg">

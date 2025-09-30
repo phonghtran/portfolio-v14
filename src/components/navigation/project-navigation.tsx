@@ -105,42 +105,53 @@ export function ProjectNavigation({
   };
 
   // Mobile dropdown view
-  const MobileNavigation = () => (
-    <div className="lg:hidden p-4 bg-card border-b border-border fixed top-28 sm:top-32 w-full z-20">
-      <div className="space-y-3">
-        <div>
-          <label className="text-sm font-medium mb-2 block">Case Studies</label>
-          <Select
-            value={currentProjectId || ''}
-            onValueChange={handleProjectChange}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a project">
-                {currentProject ? (
-                  <div className="flex items-center gap-2">
-                    <Target className="h-4 w-4 text-primary" />
-                    <span className="truncate">{currentProject.title}</span>
-                  </div>
-                ) : (
-                  'Select a project'
-                )}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {projects.map(project => (
-                <SelectItem key={project.id} value={project.id}>
-                  <div className="flex items-center gap-2">
-                    <Target className="h-4 w-4 text-primary" />
-                    <span>{project.title}</span>
-                  </div>
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+  const MobileNavigation = () => {
+    const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : 'bg-card';
+
+    return (
+      <div
+        className={cn(
+          'lg:hidden p-4 bg-card border-b border-border fixed top-28 sm:top-32 w-full z-10',
+          backgroundClasses
+        )}
+      >
+        <div className="space-y-3">
+          <div>
+            <label className="text-sm font-medium mb-2 block">
+              Case Studies
+            </label>
+            <Select
+              value={currentProjectId || ''}
+              onValueChange={handleProjectChange}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a project">
+                  {currentProject ? (
+                    <div className="flex items-center gap-2">
+                      <Target className="h-4 w-4 text-primary" />
+                      <span className="truncate">{currentProject.title}</span>
+                    </div>
+                  ) : (
+                    'Select a project'
+                  )}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {projects.map(project => (
+                  <SelectItem key={project.id} value={project.id}>
+                    <div className="flex items-center gap-2">
+                      <Target className="h-4 w-4 text-primary" />
+                      <span>{project.title}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // Desktop sidebar view
   const DesktopNavigation = () => {
@@ -150,17 +161,27 @@ export function ProjectNavigation({
     return (
       <nav
         className={cn(
-          'hidden lg:flex border-r border-border overflow-y-auto overflow-x-hidden',
-          'w-80 flex-col fixed top-[calc(5rem+1px)] left-0 h-[calc(100vh-5rem)] z-30',
-          backgroundClasses,
+          'hidden lg:flex border-border overflow-y-auto overflow-x-hidden',
+          'w-80 shrink-0 flex-col  sticky top-24 mt-4  h-[calc(100vh-7rem)] ',
+
           className
         )}
       >
-        <div className="p-4 border-b border-border">
+        <div
+          className={cn(
+            'p-4 border border-border rounded-t-lg',
+            backgroundClasses
+          )}
+        >
           <h2 className="font-semibold text-lg">Case Studies</h2>
         </div>
 
-        <div className="flex-1 p-2 overflow-y-auto overflow-x-hidden">
+        <div
+          className={cn(
+            'flex-1 p-2 overflow-y-auto overflow-x-hidden border-border border border-t-0 rounded-b-lg',
+            backgroundClasses
+          )}
+        >
           {projects.map(project => {
             const isProjectOpen = openProjects.includes(project.id);
             const isCurrentProject = currentProjectId === project.id;

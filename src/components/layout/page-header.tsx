@@ -16,7 +16,7 @@ export function PageHeader({ title }: PageHeaderProps) {
 
   return (
     <header
-      className={cn('border-b shadow-sm sticky top-0 z-10', backgroundClasses)}
+      className={cn('border-b shadow-sm sticky top-0 z-50', backgroundClasses)}
     >
       <div className="w-full px-2 sm:px-6 lg:px-4">
         <div className="flex flex-col lg:flex-row ">

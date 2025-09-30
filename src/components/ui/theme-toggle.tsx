@@ -49,7 +49,7 @@ export function ThemeToggle() {
               'absolute top-full right-0 mt-2',
               'bg-card border border-border rounded-xl shadow-xl',
               'min-w-[280px] p-2',
-              'animate-in fade-in-0 zoom-in-95 duration-200'
+              'animate-in fade-in-0 zoom-in-95 duration-200 '
             )}
             style={{ zIndex: 9999 }}
           >
