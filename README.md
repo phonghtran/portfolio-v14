@@ -34,3 +34,10 @@ npm run build:deploy
 
 Use this one
 build:deploy
+
+# Things I Learned from Claude
+
+- The theme context loading scheme and html classes to apply themes
+- Setting up the RAG of the chat bot
+- Deploying as app hosting on Firebase instead of hosting
+- Using Copilot as general stack overflow, Claude as the junior dev, Firebase Studio as the builder of the chat bot initially

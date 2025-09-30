@@ -129,6 +129,32 @@ const MAP_THEMES: Record<Theme, MapThemeConfig> = {
       },
     },
   },
+
+  // Glassy
+  glassy: {
+    tileLayer: {
+      url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      attribution: '© OpenStreetMap contributors',
+    },
+    line: {
+      cssVar: 'chart-2', // Warm brown
+      weight: 3,
+      opacity: 0.8,
+      dashArray: '15, 10',
+    },
+    circles: {
+      user: {
+        cssVar: 'chart-2', // Warm red
+        opacity: 0.5,
+        fillOpacity: 0.15,
+      },
+      destination: {
+        cssVar: 'chart-2', // Warm orange
+        opacity: 0.5,
+        fillOpacity: 0.15,
+      },
+    },
+  },
 };
 
 // 🎨 CHOOSE YOUR THEME HERE - Change 'light' to any theme name above
