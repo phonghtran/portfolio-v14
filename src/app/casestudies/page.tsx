@@ -52,7 +52,7 @@ function WorkContent() {
   }
 
   return (
-    <div className="flex-1 lg:flex lg:overflow-y-hidden">
+    <div className="relative">
       {/* Project Navigation Sidebar */}
       <ProjectNavigation
         projects={projects}
@@ -64,8 +64,8 @@ function WorkContent() {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <main className="flex-1 overflow-y-auto bg-textureThemed">
+      <div className="min-w-0 mt-28 lg:mt-0 lg:ml-[21rem] lg:mr-4 relative">
+        <main className=" bg-textureThemed">
           <ProjectContent
             project={currentProject}
             currentSectionId={currentSectionId || undefined}
@@ -79,11 +79,13 @@ function WorkContent() {
 
 export default function Work() {
   return (
-    <div className="flex flex-col h-full">
+    <div className="">
       <PageHeader title="phonghtran" />
-      <AudioNavigationProvider>
-        <WorkContent />
-      </AudioNavigationProvider>
+      <div className="">
+        <AudioNavigationProvider>
+          <WorkContent />
+        </AudioNavigationProvider>
+      </div>
     </div>
   );
 }

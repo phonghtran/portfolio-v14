@@ -222,7 +222,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <div className="flex flex-col h-full lg:h-[calc(100vh-5rem)] bg-background">
+    <div className="flex flex-col h-full lg:h-[calc(100vh-5rem)] bg-background ">
       <ScrollArea className="flex-1 p-4 bg-textureThemed" ref={scrollAreaRef}>
         <div className="space-y-6 max-w-4xl mx-auto pb-4">
           {messages.map((message, index) => (

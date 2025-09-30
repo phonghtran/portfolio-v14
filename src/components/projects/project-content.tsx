@@ -163,7 +163,7 @@ export function ProjectContent({
   return (
     <div
       className={cn(
-        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4 ',
+        'max-w-4xl mx-auto p-6 mb-[12rem] bg-card my-4  ',
         className
       )}
     >

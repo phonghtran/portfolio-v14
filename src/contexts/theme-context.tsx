@@ -44,9 +44,9 @@ export const themes: Record<Theme, ThemeConfig> = {
   },
   trending: {
     name: 'trending',
-    displayName: 'Agency',
-    description: 'Tongue-in-cheek corporate',
-    icon: '😉',
+    displayName: 'Glassy',
+    description: 'Bridging gradient w. glass',
+    icon: '🧊',
     className: 'theme-trending',
   },
 };

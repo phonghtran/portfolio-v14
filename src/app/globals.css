@@ -69,8 +69,8 @@ html.theme-trending {
   --card-foreground: 25 30% 15%;
   --popover: 40 15% 98%;
   --popover-foreground: 25 30% 15%;
-  --primary: 200 0% 100%; /*  white */
-  --primary-foreground: 40 15% 98%;
+  --primary: 200 0% 0%; /*  black */
+  --primary-foreground: 200 0% 100%; /*  white */
   --secondary: 40 10% 88%;
   --secondary-foreground: 25 30% 25%;
   --muted: 40 10% 88%;
@@ -83,8 +83,8 @@ html.theme-trending {
   --input: 40 10% 85%;
   --ring: 25 75% 45%;
   --radius: 0.5rem;
-  --chart-1: 25 75% 45%;
-  --chart-2: 15 85% 55%;
+  --chart-1: 200 0% 0%; /*  black */
+  --chart-2: 200 100% 46.3%; /*  blue */
   --chart-3: 35 70% 50%;
   --chart-4: 45 65% 55%;
   --chart-5: 55 60% 60%;
@@ -247,22 +247,20 @@ html.theme-trending nav {
 }
 
 html.theme-trending .bg-frosty {
-  position: relative;
-
   background: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.3),
     rgba(255, 200, 255, 0.2),
     rgba(200, 255, 255, 0.2),
-    rgba(200, 255, 200, 0.2),
-    rgba(255, 255, 200, 0.2),
-    rgba(255, 255, 255, 0.3)
+    rgba(200, 255, 200, 0.1),
+    rgba(255, 255, 200, 0.1),
+    rgba(255, 255, 255, 0.4)
   );
   background-size: 300% 100%;
   background-repeat: repeat;
   animation: shimmerLoop 20s linear infinite;
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Keyframes for smooth loop */
