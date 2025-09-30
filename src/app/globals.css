@@ -61,22 +61,22 @@ html.theme-cyberpunk {
   --chart-5: 30 100% 50%;
 }
 
-/* Vintage Theme */
-html.theme-vintage {
-  --background: 45 20% 94%;
-  --foreground: 25 30% 15%;
-  --card: 40 15% 98%;
+/* Trending Theme */
+html.theme-trending {
+  --background: 200 0% 100%; /*  white */
+  --foreground: 200 0% 0%; /*  black */
+  --card: 40 15% 98% /0.5;
   --card-foreground: 25 30% 15%;
   --popover: 40 15% 98%;
   --popover-foreground: 25 30% 15%;
-  --primary: 25 75% 45%;
+  --primary: 200 0% 100%; /*  white */
   --primary-foreground: 40 15% 98%;
   --secondary: 40 10% 88%;
   --secondary-foreground: 25 30% 25%;
   --muted: 40 10% 88%;
-  --muted-foreground: 25 15% 50%;
-  --accent: 15 85% 55%;
-  --accent-foreground: 40 15% 98%;
+  --muted-foreground: 25 15% 25%;
+  --accent: 200 0% 100% / 0.8;
+  --accent-foreground: 200 0% 0%;
   --destructive: 0 70% 55%;
   --destructive-foreground: 40 15% 98%;
   --border: 40 10% 85%;
@@ -88,6 +88,35 @@ html.theme-vintage {
   --chart-3: 35 70% 50%;
   --chart-4: 45 65% 55%;
   --chart-5: 55 60% 60%;
+}
+
+/* Vintage Theme */
+html.theme-vintage {
+  --background: 220 17% 95%;
+  --foreground: 222 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 84% 4.9%;
+  --primary: 221 44% 41%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222 47.4% 11.2%;
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  --accent: 180 100% 25%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221 44% 41%;
+  --radius: 0.5rem;
+  --chart-1: 12 76% 61%;
+  --chart-2: 173 58% 39%;
+  --chart-3: 197 37% 24%;
+  --chart-4: 43 74% 66%;
+  --chart-5: 27 87% 67%;
 }
 
 @layer base {
@@ -156,6 +185,7 @@ html.theme-vintage {
   }
 }
 
+/* Vintage Theme */
 html.theme-vintage * {
   font-family: 'Cabin', sans-serif;
 }
@@ -169,7 +199,14 @@ html.theme-vintage h6 {
   font-family: 'Georgia', serif;
 }
 
-/* Theme-specific font and visual enhancements - Outside @layer for higher specificity */
+/* Theme-specific texture variations */
+html.theme-vintage .bg-textureThemed {
+  background-image: url('/images/bg_static_paper_texture.jpg');
+  background-repeat: repeat;
+  background-size: auto;
+}
+
+/* Cyberpunk Theme */
 html.theme-cyberpunk * {
   font-family: monospace;
 }
@@ -184,10 +221,58 @@ html.theme-cyberpunk h6 {
   font-family: 'Tektur', monospace !important;
   font-weight: 600;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 html.theme-cyberpunk .rounded-xl {
   border-radius: 0;
+}
+
+html.theme-cyberpunk nav {
+  text-transform: uppercase;
+}
+
+/* Trending */
+html.theme-trending h1,
+html.theme-trending h2,
+html.theme-trending h3,
+html.theme-trending h4,
+html.theme-trending h5,
+html.theme-trending h6 {
+  text-transform: uppercase;
+}
+
+html.theme-trending nav {
+  text-transform: uppercase;
+}
+
+html.theme-trending .bg-frosty {
+  position: relative;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 200, 255, 0.2),
+    rgba(200, 255, 255, 0.2),
+    rgba(200, 255, 200, 0.2),
+    rgba(255, 255, 200, 0.2),
+    rgba(255, 255, 255, 0.3)
+  );
+  background-size: 300% 100%;
+  background-repeat: repeat;
+  animation: shimmerLoop 20s linear infinite;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Keyframes for smooth loop */
+@keyframes shimmerLoop {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
 }
 
 .traditionalBulletedList {
@@ -200,11 +285,4 @@ html.theme-cyberpunk .rounded-xl {
   @apply space-y-2 pl-6;
   list-style: decimal;
   list-style-position: outside;
-}
-
-/* Theme-specific texture variations */
-html.theme-vintage .bg-textureThemed {
-  background-image: url('/images/bg_static_paper_texture.jpg');
-  background-repeat: repeat;
-  background-size: auto;
 }

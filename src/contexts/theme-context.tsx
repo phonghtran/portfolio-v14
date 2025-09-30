@@ -2,11 +2,11 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-export type Theme = 'classic' | 'cyberpunk' | 'vintage';
+export type Theme = 'classic' | 'cyberpunk' | 'vintage' | 'trending';
 
 // 🎨 CUSTOMIZATION: Change this to set the default theme for development/new users
 // This makes it easier to work on a specific theme during customization
-const DEFAULT_THEME: Theme = 'classic';
+const DEFAULT_THEME: Theme = 'trending';
 
 // Set to true to always use the default theme (ignores localStorage)
 // Useful when developing/customizing a specific theme
@@ -25,22 +25,29 @@ export const themes: Record<Theme, ThemeConfig> = {
     name: 'classic',
     displayName: 'Classic B2B',
     description: 'Enterprise-level MVP',
-    icon: '🎨',
+    icon: '👔',
     className: 'theme-classic',
   },
   cyberpunk: {
     name: 'cyberpunk',
-    displayName: 'Cyberpunk',
-    description: 'Neon-lit futuristic aesthetic',
-    icon: '🌆',
+    displayName: 'Neon Dark',
+    description: 'Fluorescent retro-futuristic',
+    icon: '👩🏼‍🎤',
     className: 'theme-cyberpunk',
   },
   vintage: {
     name: 'vintage',
-    displayName: 'Vintage',
-    description: 'Retro-inspired warmth',
-    icon: '📻',
+    displayName: 'Homey Warmth',
+    description: 'Formica and speckled',
+    icon: '🏡',
     className: 'theme-vintage',
+  },
+  trending: {
+    name: 'trending',
+    displayName: 'Agency',
+    description: 'Tongue-in-cheek corporate',
+    icon: '😉',
+    className: 'theme-trending',
   },
 };
 
@@ -114,7 +121,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     console.log('Theme applied:', theme, themes[theme].className);
     console.log('HTML classes:', html.className);
     console.log(
-      'CSS variables:',
+      'CSS variables (background):',
       getComputedStyle(html).getPropertyValue('--background')
     );
   }, [theme, mounted]);

@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title }: PageHeaderProps) {
   return (
-    <header className="bg-card border-b shadow-sm sticky top-0 z-10">
+    <header className="bg-card bg-frosty border-b shadow-sm sticky top-0 z-10">
       <div className="w-full px-2 sm:px-6 lg:px-4">
         <div className="flex flex-col lg:flex-row ">
           {/* Headline Content */}

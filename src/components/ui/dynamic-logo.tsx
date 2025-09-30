@@ -22,6 +22,8 @@ export function DynamicLogo({
         return 'hsl(var(--accent))'; // Bright cyan
       case 'vintage':
         return 'hsl(var(--primary))'; // Warm brown/orange
+      case 'trending':
+        return 'hsl(var(--foreground))'; // black
       case 'classic':
       default:
         return 'hsl(var(--primary))'; // Default blue
