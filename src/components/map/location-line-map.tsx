@@ -380,7 +380,28 @@ export function LocationLineMap({
         const themeConfig = MAP_THEMES[theme];
 
         // Dynamically import Leaflet to avoid SSR issues
-        const L = await import('leaflet');
+        const { default: L, ...leafletExports } = await import('leaflet');
+
+        // Sometimes leaflet exports everything at the top level instead of on default
+        const leafletLib = L || (leafletExports as any);
+
+        // Verify that the library and required methods are available
+        if (
+          !leafletLib ||
+          typeof leafletLib.map !== 'function' ||
+          typeof leafletLib.tileLayer !== 'function'
+        ) {
+          console.error('Leaflet import failed:', {
+            L,
+            exports: leafletExports,
+            finalLib: leafletLib,
+            availableKeys: Object.keys(leafletLib || {}),
+          });
+          throw new Error(`Leaflet library not properly loaded`);
+        }
+
+        // Use the correct leaflet object
+        const LeafletL = leafletLib;
 
         // Import Leaflet CSS
         if (typeof window !== 'undefined') {
@@ -389,6 +410,17 @@ export function LocationLineMap({
           link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
           document.head.appendChild(link);
         }
+
+        // Fix Leaflet default icons issue with dynamic import
+        delete (LeafletL.Icon.Default.prototype as any)._getIconUrl;
+        LeafletL.Icon.Default.mergeOptions({
+          iconRetinaUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png',
+          iconUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png',
+          shadowUrl:
+            'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+        });
 
         // Clean up existing map
         if (mapInstanceRef.current) {
@@ -404,7 +436,7 @@ export function LocationLineMap({
         // Initialize map with theme-appropriate settings
         if (!mapRef.current) return;
 
-        const map = L.map(mapRef.current, {
+        const map = LeafletL.map(mapRef.current, {
           center: [centerLat, centerLng],
           zoom: 4, // Starting zoom level
           minZoom: 2, // Minimum zoom level
@@ -417,7 +449,7 @@ export function LocationLineMap({
         mapInstanceRef.current = map;
 
         // Add map tiles using theme configuration
-        L.tileLayer(themeConfig.tileLayer.url, {
+        LeafletL.tileLayer(themeConfig.tileLayer.url, {
           attribution: themeConfig.tileLayer.attribution,
         }).addTo(map);
 
@@ -437,7 +469,7 @@ export function LocationLineMap({
         const radius = calculateCircleRadius(distance);
 
         // Add dashed circles to represent general areas
-        const userCircle = L.circle(
+        const userCircle = LeafletL.circle(
           [userLocation.latitude, userLocation.longitude],
           {
             color: userColor,
@@ -450,7 +482,7 @@ export function LocationLineMap({
           }
         ).addTo(map);
 
-        const brooklynCircle = L.circle(
+        const brooklynCircle = LeafletL.circle(
           [BROOKLYN_COORDS.latitude, BROOKLYN_COORDS.longitude],
           {
             color: destinationColor,
@@ -472,7 +504,7 @@ export function LocationLineMap({
         // Draw line between locations using theme CSS variables
         const lineColor = getCSSVariableColor(themeConfig.line.cssVar);
 
-        const line = L.polyline(
+        const line = LeafletL.polyline(
           [
             [userLocation.latitude, userLocation.longitude],
             [BROOKLYN_COORDS.latitude, BROOKLYN_COORDS.longitude],
@@ -491,7 +523,7 @@ export function LocationLineMap({
         ).addTo(map);
 
         // Fit map to show both circles with adequate padding
-        const group = L.featureGroup([userCircle, brooklynCircle, line]);
+        const group = LeafletL.featureGroup([userCircle, brooklynCircle, line]);
         map.fitBounds(group.getBounds(), {
           padding: [30, 30],
         });
