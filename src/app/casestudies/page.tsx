@@ -52,8 +52,8 @@ function WorkContent() {
   }
 
   return (
-    <div className="relative">
-      {/* Project Navigation Sidebar */}
+    <>
+      {/* Project Navigation Sidebar - Fixed positioned outside of main flow */}
       <ProjectNavigation
         projects={projects}
         currentProjectId={currentProjectId || undefined}
@@ -64,7 +64,7 @@ function WorkContent() {
       />
 
       {/* Main Content Area */}
-      <div className="min-w-0 mt-28 lg:mt-0 lg:ml-[21rem] lg:mr-4 relative">
+      <div className="min-w-0 mt-28 lg:mt-0 lg:ml-[21rem] lg:mr-4">
         <main className=" bg-textureThemed">
           <ProjectContent
             project={currentProject}
@@ -73,7 +73,7 @@ function WorkContent() {
           />
         </main>
       </div>
-    </div>
+    </>
   );
 }
 

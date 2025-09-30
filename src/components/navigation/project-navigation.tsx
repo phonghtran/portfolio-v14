@@ -104,7 +104,7 @@ export function ProjectNavigation({
 
   // Mobile dropdown view
   const MobileNavigation = () => (
-    <div className="lg:hidden p-4 bg-card  bg-frosty border-b border-border fixed top-28 sm:top-32 w-full z-20">
+    <div className="lg:hidden p-4 bg-card border-b border-border fixed top-28 sm:top-32 w-full z-20">
       <div className="space-y-3">
         <div>
           <label className="text-sm font-medium mb-2 block">Case Studies</label>
@@ -145,7 +145,7 @@ export function ProjectNavigation({
     <nav
       className={cn(
         'hidden lg:flex bg-card bg-frosty border-r border-border overflow-y-auto overflow-x-hidden',
-        'w-80 flex-col fixed top-20 left-0 h-full',
+        'w-80 flex-col fixed top-20 left-0 h-[calc(100vh-5rem)] z-30',
         className
       )}
     >
