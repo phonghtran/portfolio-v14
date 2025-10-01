@@ -346,7 +346,12 @@ export default function ChatInterface() {
           )}
         </div>
       </ScrollArea>
-      <div className={cn('border-t sticky bottom-0', backgroundClasses)}>
+      <div
+        className={cn(
+          'border-t sticky bottom-0 pb-8 md:pb-0',
+          backgroundClasses
+        )}
+      >
         <div className="p-4 max-w-4xl mx-auto">
           {/* Rate limit indicator */}
           <div className="flex justify-between items-center text-xs text-muted-foreground mb-2">
