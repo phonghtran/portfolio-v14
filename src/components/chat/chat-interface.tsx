@@ -246,7 +246,7 @@ export default function ChatInterface() {
               )}
               <div
                 className={cn(
-                  'max-w-xl p-3 rounded-lg shadow-md break-all',
+                  'max-w-xl p-3 rounded-lg shadow-md ',
                   message.role === 'user'
                     ? 'bg-primary text-primary-foreground rounded-br-none'
                     : 'bg-card text-card-foreground rounded-bl-none'
@@ -348,7 +348,7 @@ export default function ChatInterface() {
       </ScrollArea>
       <div
         className={cn(
-          'border-t sticky bottom-0 pb-8 md:pb-0',
+          'border-t sticky bottom-0 pb-4 md:pb-0',
           backgroundClasses
         )}
       >
@@ -378,7 +378,7 @@ export default function ChatInterface() {
               placeholder={
                 rateLimitState.messageCount >= MAX_MESSAGES_PER_SESSION
                   ? 'Message limit reached. Try again later.'
-                  : "Ask me anything about Phong's career"
+                  : "Ask me about Phong's work"
               }
               value={input}
               onChange={e => setInput(e.target.value)}
