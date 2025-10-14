@@ -37,7 +37,7 @@ export const themes: Record<Theme, ThemeConfig> = {
   },
   vintage: {
     name: 'vintage',
-    displayName: 'Homey Warmth',
+    displayName: 'Retro Warmth',
     description: 'Formica and speckled',
     icon: '🏡',
     className: 'theme-vintage',
