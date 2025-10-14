@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, BriefcaseBusiness, Mail } from 'lucide-react';
+import { Home, BriefcaseBusiness, Mail, File } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -49,6 +49,17 @@ export function Navbar() {
           </Link>
         );
       })}
+
+      <Link
+        href="https://drive.google.com/file/d/1mV6YmcOtbtGZBgOERzwr5SmDBpGyNkNU/view?usp=sharing"
+        target="_blank"
+        className={cn(
+          'flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors text-muted-foreground hover:text-foreground hover:bg-accent/50'
+        )}
+      >
+        <File className="h-4 w-4" />
+        <div className={cn('sm:block hidden')}>Resume</div>
+      </Link>
     </nav>
   );
 }
