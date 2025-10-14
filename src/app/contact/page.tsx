@@ -47,7 +47,7 @@ export default function Contact() {
                           href="https://drive.google.com/file/d/1mV6YmcOtbtGZBgOERzwr5SmDBpGyNkNU/view?usp=sharing"
                           target="_blank"
                         >
-                          Resume/CV
+                          Resume
                         </a>
                       </li>
                       <li className="flex items-center mb-4">
