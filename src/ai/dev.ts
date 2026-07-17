@@ -1,8 +1,5 @@
 import { config } from 'dotenv';
 config();
 
-// import '@/ai/flows/tailored-interview-question-generation.ts';
-// import '@/ai/flows/portfolio-feedback-chatbot.ts';
-// import '@/ai/flows/resume-optimization-suggestions.ts';
-// import '@/ai/flows/personalized-follow-up-responses.ts';
-import '@/ai/flows/talk-about-phong.ts';
+// Register the flow used by the site's chat so it appears in the Genkit dev UI.
+import '@/ai/flows/personalized-follow-up-responses.ts';

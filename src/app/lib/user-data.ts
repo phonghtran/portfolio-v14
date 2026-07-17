@@ -5,7 +5,38 @@
  * It is pre-filled with placeholder data. Please replace it with your own information.
  */
 
+import fs from 'fs';
+import path from 'path';
 import { projects, type Project } from '../../lib/projects-data';
+
+/**
+ * Loads the human-authored case-study knowledge base from
+ * `src/content/knowledge/*.md` and concatenates it into one string.
+ *
+ * These markdown files are the deep narrative the chatbot uses to speak
+ * substantively about Phong's work — richer than the short project overviews.
+ * This module is only ever imported by server-side ('use server') AI flows, so
+ * reading from disk here is safe. `next.config.ts` uses
+ * `outputFileTracingIncludes` to guarantee the files ship with the build.
+ */
+function loadKnowledgeBase(): string {
+  try {
+    const dir = path.join(process.cwd(), 'src', 'content', 'knowledge');
+    const files = fs
+      .readdirSync(dir)
+      .filter(f => f.endsWith('.md'))
+      .sort();
+
+    return files
+      .map(f => fs.readFileSync(path.join(dir, f), 'utf8').trim())
+      .join('\n\n---\n\n');
+  } catch (err) {
+    console.error('Failed to load knowledge base:', err);
+    return '';
+  }
+}
+
+const knowledgeBase = loadKnowledgeBase();
 
 export const userProfile = {
   name: 'Phong Tran',
@@ -238,4 +269,10 @@ ${e.responsibilities.map(r => `- ${r}`).join('\n')}
 `
   )
   .join('')}
+
+# Case Study Deep Dives
+The following are detailed, first-hand write-ups of individual projects. Use
+these to answer specific questions about Phong's work in depth.
+
+${knowledgeBase}
 `;
