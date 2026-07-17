@@ -5,10 +5,10 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // The chat flow reads src/content/knowledge/*.md from disk at runtime; make
-  // sure Next traces those files into the server output on every route.
+  // The chat flow reads src/content/knowledge/*.md and prompts/*.prompt from
+  // disk at runtime; make sure Next traces those files into the server output.
   outputFileTracingIncludes: {
-    '/**': ['./src/content/knowledge/**/*.md'],
+    '/**': ['./src/content/knowledge/**/*.md', './prompts/**/*.prompt'],
   },
   images: {
     remotePatterns: [

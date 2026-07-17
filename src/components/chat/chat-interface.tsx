@@ -8,7 +8,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { getAiResponse } from '@/app/actions';
 import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -177,7 +176,8 @@ export default function ChatInterface() {
       return;
     }
 
-    const userMessage: Message = { role: 'user', content: input };
+    const currentInput = input;
+    const userMessage: Message = { role: 'user', content: currentInput };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
@@ -194,37 +194,73 @@ export default function ChatInterface() {
     // Track chat message
     analytics.trackChatMessage(newMessageCount);
 
+    // History excludes the message we just added (sent separately).
     const chatHistory = messages.map(msg => ({
       role: msg.role,
       content: msg.content,
     }));
 
-    const result = await getAiResponse({ message: input, chatHistory });
+    // Tracks whether the assistant bubble has been created (first token in).
+    let started = false;
 
-    setIsLoading(false);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: currentInput, chatHistory }),
+      });
 
-    if (result.success && result.response) {
-      const assistantMessage: Message = {
-        role: 'assistant',
-        content: result.response,
-      };
-      setMessages(prev => [...prev, assistantMessage]);
-    } else {
+      if (!res.ok || !res.body) {
+        throw new Error(`Request failed with status ${res.status}`);
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = '';
+
+      // Stream chunks, appending to the assistant message as they arrive.
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        if (!acc) continue;
+
+        if (!started) {
+          started = true;
+          setIsLoading(false);
+          setMessages(prev => [...prev, { role: 'assistant', content: acc }]);
+        } else {
+          setMessages(prev => {
+            const next = [...prev];
+            next[next.length - 1] = { role: 'assistant', content: acc };
+            return next;
+          });
+        }
+      }
+
+      if (!started || !acc.trim()) {
+        throw new Error('Empty response from server');
+      }
+    } catch (error) {
+      console.error('Chat request failed:', error);
+      setIsLoading(false);
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: result.error || 'An unknown error occurred.',
+        description: 'Sorry, I encountered an error. Please try again.',
       });
-      setMessages(prev => prev.slice(0, prev.length - 1));
 
-      // Restore the user's message so it isn't lost on failure
-      setInput(userMessage.content);
-
-      // Revert rate limit state on error
-      setRateLimitState(prev => ({
-        ...prev,
-        messageCount: Math.max(0, prev.messageCount - 1),
-      }));
+      if (!started) {
+        // Nothing streamed: drop the user message, restore the input, and
+        // refund the rate-limit count so the turn can be retried cleanly.
+        setMessages(prev => prev.slice(0, prev.length - 1));
+        setInput(currentInput);
+        setRateLimitState(prev => ({
+          ...prev,
+          messageCount: Math.max(0, prev.messageCount - 1),
+        }));
+      }
+      // If streaming already started, keep the partial reply as-is.
     }
   };
 

@@ -6,4 +6,6 @@ export const ai = genkit({
   // Gemini 3.5 Flash (GA) — fast + cheap, ample quality for a portfolio bot.
   // Swap to googleAI.model('gemini-3.1-pro-preview') for max answer quality.
   model: googleAI.model('gemini-3.5-flash'),
+  // Load .prompt (dotprompt) files from ./prompts, e.g. prompts/portfolioChat.prompt.
+  promptDir: 'prompts',
 });
