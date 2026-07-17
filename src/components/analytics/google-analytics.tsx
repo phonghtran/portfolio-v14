@@ -43,7 +43,8 @@ function useGoogleAnalytics() {
 
   useEffect(() => {
     if (GA_TRACKING_ID) {
-      const url = pathname + searchParams.toString();
+      const query = searchParams.toString();
+      const url = query ? `${pathname}?${query}` : pathname;
       pageview(url);
     }
   }, [pathname, searchParams]);

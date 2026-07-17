@@ -9,9 +9,6 @@ export function ThemeToggle() {
   const { theme, setTheme, themeConfig } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
-  // Debug: log current theme
-  console.log('Current theme in toggle:', theme, themeConfig);
-
   return (
     <div className="relative">
       <button

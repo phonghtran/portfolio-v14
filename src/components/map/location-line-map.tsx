@@ -350,6 +350,7 @@ export function LocationLineMap({
               city: data.city,
               country: data.country_name,
             });
+            setLoading(false);
           }
         } else {
           throw new Error('Invalid location data received');
@@ -357,7 +358,8 @@ export function LocationLineMap({
       } catch (err) {
         console.warn('IP geolocation failed, trying browser geolocation:', err);
 
-        // Fallback to browser geolocation
+        // Fallback to browser geolocation. This is async, so loading must be
+        // cleared inside its callbacks — not in a finally that runs first.
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             position => {
@@ -366,23 +368,22 @@ export function LocationLineMap({
                   latitude: position.coords.latitude,
                   longitude: position.coords.longitude,
                 });
+                setLoading(false);
               }
             },
             geoError => {
               console.error('Geolocation failed:', geoError);
               if (mounted) {
                 setError('Unable to determine your location');
+                setLoading(false);
               }
             }
           );
         } else {
           if (mounted) {
             setError('Geolocation not supported');
+            setLoading(false);
           }
-        }
-      } finally {
-        if (mounted) {
-          setLoading(false);
         }
       }
     };
@@ -429,9 +430,13 @@ export function LocationLineMap({
         // Use the correct leaflet object
         const LeafletL = leafletLib;
 
-        // Import Leaflet CSS
-        if (typeof window !== 'undefined') {
+        // Import Leaflet CSS (only once — this effect re-runs on theme change)
+        if (
+          typeof window !== 'undefined' &&
+          !document.getElementById('leaflet-css')
+        ) {
           const link = document.createElement('link');
+          link.id = 'leaflet-css';
           link.rel = 'stylesheet';
           link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
           document.head.appendChild(link);

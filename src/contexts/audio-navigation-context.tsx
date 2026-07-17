@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-} from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import {
   projects,
   audioTracks,
@@ -99,13 +93,11 @@ export function AudioNavigationProvider({
       setState(prev => ({
         ...prev,
         currentProjectId: track.projectId,
-        currentSectionId: track.sectionId,
+        // Tracks are per-project (no section mapping), so clear the section.
+        currentSectionId: null,
         currentAudioTrackId: trackId,
         isPlaying: true,
       }));
-
-      // Auto-scroll to the corresponding section
-      scrollToSection(track.projectId, track.sectionId);
     }
   }, []);
 
@@ -129,24 +121,6 @@ export function AudioNavigationProvider({
     },
     []
   );
-
-  // Auto-advance to next section when audio ends
-  useEffect(() => {
-    if (!state.currentAudioTrackId || state.isPlaying) return;
-
-    const currentTrackIndex = audioTracks.findIndex(
-      t => t.id === state.currentAudioTrackId
-    );
-    if (currentTrackIndex >= 0 && currentTrackIndex < audioTracks.length - 1) {
-      // Auto-advance to next track after a brief pause
-      const timeoutId = setTimeout(() => {
-        const nextTrack = audioTracks[currentTrackIndex + 1];
-        setCurrentAudioTrack(nextTrack.id);
-      }, 1000);
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [state.currentAudioTrackId, state.isPlaying, setCurrentAudioTrack]);
 
   const contextValue: AudioNavigationContextValue = {
     ...state,
