@@ -217,6 +217,9 @@ export default function ChatInterface() {
       });
       setMessages(prev => prev.slice(0, prev.length - 1));
 
+      // Restore the user's message so it isn't lost on failure
+      setInput(userMessage.content);
+
       // Revert rate limit state on error
       setRateLimitState(prev => ({
         ...prev,

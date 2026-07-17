@@ -31,10 +31,19 @@ export function BeforeAfterSlider({
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
 
+  // Always-current position, so the animation can resume from where the slider
+  // is without adding sliderPosition to the effect deps (which would restart it).
+  const sliderPositionRef = useRef(sliderPosition);
+  sliderPositionRef.current = sliderPosition;
+
   // Auto-play animation
   useEffect(() => {
     if (autoPlay && !isDragging && !isHovered) {
-      const startTime = Date.now();
+      // Offset the start time so the ping-pong begins at the current position
+      // instead of snapping back to 0.
+      const startPosition = sliderPositionRef.current;
+      const startTime =
+        Date.now() - (startPosition / 100) * autoPlayDuration * 1000;
       const animate = () => {
         const elapsed = (Date.now() - startTime) / 1000;
         const progress = (elapsed % (autoPlayDuration * 2)) / autoPlayDuration;

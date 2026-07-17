@@ -55,12 +55,12 @@ const prompt = ai.definePrompt({
   You will use the chat history to tailor your responses to the user, remembering past conversations and applying that context to future suggestions.
   Pay close attention to the user's portfolio, resume and skills they describe.
 
-  {% if chatHistory %}
+  {{#if chatHistory}}
   Here is the chat history:
-  {% for message in chatHistory %}
-  {{message.role}}: {{message.content}}
-  {% endfor %}
-  {% endif %}
+  {{#each chatHistory}}
+  {{this.role}}: {{this.content}}
+  {{/each}}
+  {{/if}}
 
   Current message: {{{message}}}
   Response: `,

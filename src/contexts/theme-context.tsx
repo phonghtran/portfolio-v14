@@ -57,8 +57,8 @@ if (typeof window !== 'undefined') {
   (window as any).setDevTheme = (themeName: Theme) => {
     if (themes[themeName]) {
       localStorage.setItem('portfolio-theme', themeName);
-      window.location.reload();
       console.log(`🎨 Dev theme set to: ${themeName}`);
+      window.location.reload();
     } else {
       console.error(
         `❌ Invalid theme: ${themeName}. Available: ${Object.keys(themes).join(', ')}`
@@ -116,14 +116,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Save to localStorage
     localStorage.setItem('portfolio-theme', theme);
-
-    // Debug logging
-    console.log('Theme applied:', theme, themes[theme].className);
-    console.log('HTML classes:', html.className);
-    console.log(
-      'CSS variables (background):',
-      getComputedStyle(html).getPropertyValue('--background')
-    );
   }, [theme, mounted]);
 
   const setTheme = (newTheme: Theme) => {

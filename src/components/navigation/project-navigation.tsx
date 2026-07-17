@@ -104,8 +104,9 @@ export function ProjectNavigation({
     }
   };
 
-  // Mobile dropdown view
-  const MobileNavigation = () => {
+  // Mobile dropdown view. Rendered via a function call (not <MobileNavigation />)
+  // so React doesn't treat it as a new component type and remount it each render.
+  const renderMobileNavigation = () => {
     const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : 'bg-card';
 
     return (
@@ -153,8 +154,9 @@ export function ProjectNavigation({
     );
   };
 
-  // Desktop sidebar view
-  const DesktopNavigation = () => {
+  // Desktop sidebar view. Rendered via a function call for the same reason
+  // as renderMobileNavigation above.
+  const renderDesktopNavigation = () => {
     // Conditionally apply background based on theme
     const backgroundClasses = theme === 'glassy' ? 'bg-frosty' : 'bg-card';
 
@@ -255,8 +257,8 @@ export function ProjectNavigation({
 
   return (
     <>
-      <MobileNavigation />
-      <DesktopNavigation />
+      {renderMobileNavigation()}
+      {renderDesktopNavigation()}
     </>
   );
 }
