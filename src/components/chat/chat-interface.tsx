@@ -202,6 +202,8 @@ export default function ChatInterface() {
 
     // Tracks whether the assistant bubble has been created (first token in).
     let started = false;
+    // Message from a server rate-limit (429), surfaced in the error toast.
+    let rateLimitMessage = '';
 
     try {
       const res = await fetch('/api/chat', {
@@ -209,6 +211,16 @@ export default function ChatInterface() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: currentInput, chatHistory }),
       });
+
+      if (res.status === 429) {
+        rateLimitMessage =
+          (await res.text().catch(() => '')).trim() ||
+          'You are sending messages too quickly. Please slow down.';
+        analytics.trackChatRateLimit(
+          MAX_MESSAGES_PER_SESSION - newMessageCount
+        );
+        throw new Error(rateLimitMessage);
+      }
 
       if (!res.ok || !res.body) {
         throw new Error(`Request failed with status ${res.status}`);
@@ -246,8 +258,9 @@ export default function ChatInterface() {
       setIsLoading(false);
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: 'Sorry, I encountered an error. Please try again.',
+        title: rateLimitMessage ? 'Rate Limited' : 'Error',
+        description:
+          rateLimitMessage || 'Sorry, I encountered an error. Please try again.',
       });
 
       if (!started) {
