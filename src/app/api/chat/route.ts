@@ -1,5 +1,6 @@
 import { ai } from '@/ai/genkit';
 import { portfolioContent } from '@/app/lib/user-data';
+import { consumeRateLimit, getClientKey } from './rate-limit';
 // Side-effect import: registers the getProjectDetails tool referenced by the
 // portfolioChat dotprompt.
 import '@/ai/tools/portfolio-tools';
@@ -29,6 +30,19 @@ export async function POST(req: Request) {
   const message = typeof body.message === 'string' ? body.message.trim() : '';
   if (!message) {
     return new Response('Message is required', { status: 400 });
+  }
+
+  // Server-side rate limit (mirrors the client limits) — a second gate against
+  // direct API abuse that bypasses the UI. Consumes a slot only for valid input.
+  const limit = consumeRateLimit(getClientKey(req));
+  if (!limit.allowed) {
+    return new Response(limit.reason, {
+      status: 429,
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Retry-After': String(limit.retryAfterSeconds),
+      },
+    });
   }
 
   // Keep the last 20 turns and pass only role/content.
