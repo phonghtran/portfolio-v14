@@ -11,6 +11,8 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { portfolioContent } from '@/app/lib/user-data';
+// Side-effect import: registers the getProjectDetails tool used by the dotprompt.
+import '@/ai/tools/portfolio-tools';
 
 const PersonalizedFollowUpInputSchema = z.object({
   message: z.string().describe('The current message from the visitor.'),

@@ -9,34 +9,28 @@ import fs from 'fs';
 import path from 'path';
 import { projects, type Project } from '../../lib/projects-data';
 
-/**
- * Loads the human-authored case-study knowledge base from
- * `src/content/knowledge/*.md` and concatenates it into one string.
- *
- * These markdown files are the deep narrative the chatbot uses to speak
- * substantively about Phong's work — richer than the short project overviews.
- * This module is only ever imported by server-side ('use server') AI flows, so
- * reading from disk here is safe. `next.config.ts` uses
- * `outputFileTracingIncludes` to guarantee the files ship with the build.
- */
-function loadKnowledgeBase(): string {
-  try {
-    const dir = path.join(process.cwd(), 'src', 'content', 'knowledge');
-    const files = fs
-      .readdirSync(dir)
-      .filter(f => f.endsWith('.md'))
-      .sort();
+const KNOWLEDGE_DIR = path.join(process.cwd(), 'src', 'content', 'knowledge');
 
-    return files
-      .map(f => fs.readFileSync(path.join(dir, f), 'utf8').trim())
-      .join('\n\n---\n\n');
-  } catch (err) {
-    console.error('Failed to load knowledge base:', err);
-    return '';
+/**
+ * Reads one project's human-authored case-study write-up from
+ * `src/content/knowledge/<projectId>.md`. Returns null if the id is unknown.
+ *
+ * Exposed to the chatbot via the `getProjectDetails` tool so the model can pull
+ * case-study depth on demand instead of stuffing every write-up into the base
+ * prompt. This module is only imported by server-side AI code, so reading from
+ * disk is safe; `next.config.ts` traces the .md files into the build. The
+ * projectId is sanitized to prevent path traversal.
+ */
+export function getProjectKnowledge(projectId: string): string | null {
+  if (!/^[a-z0-9-]+$/i.test(projectId)) return null;
+  try {
+    return fs
+      .readFileSync(path.join(KNOWLEDGE_DIR, `${projectId}.md`), 'utf8')
+      .trim();
+  } catch {
+    return null;
   }
 }
-
-const knowledgeBase = loadKnowledgeBase();
 
 export const userProfile = {
   name: 'Phong Tran',
@@ -270,9 +264,10 @@ ${e.responsibilities.map(r => `- ${r}`).join('\n')}
   )
   .join('')}
 
-# Case Study Deep Dives
-The following are detailed, first-hand write-ups of individual projects. Use
-these to answer specific questions about Phong's work in depth.
+# Case Study Projects
+Each project below has a detailed, first-hand write-up available via the
+**getProjectDetails** tool. Call it with the project id to load the full case
+study before answering an in-depth question about that project.
 
-${knowledgeBase}
+${projects.map(p => `- \`${p.id}\` — **${p.title}**: ${p.subtitle}`).join('\n')}
 `;

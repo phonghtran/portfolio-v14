@@ -1,5 +1,8 @@
 import { ai } from '@/ai/genkit';
 import { portfolioContent } from '@/app/lib/user-data';
+// Side-effect import: registers the getProjectDetails tool referenced by the
+// portfolioChat dotprompt.
+import '@/ai/tools/portfolio-tools';
 
 // Genkit + the Google GenAI SDK need the Node runtime; POST is always dynamic.
 export const runtime = 'nodejs';
