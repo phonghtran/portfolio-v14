@@ -21,6 +21,7 @@ export interface Project {
   overview: string;
   audioTrack?: string; // Path to audio file for entire project
   audioDuration?: number; // Duration in seconds for the entire project
+  password?: string; // Basic client-side gate for ongoing work; not real auth
 }
 
 export interface AudioTrack {
@@ -33,6 +34,55 @@ export interface AudioTrack {
 
 // Placeholder project data - you can populate this with real content
 export const projects: Project[] = [
+  {
+    id: 'fanniemae-2',
+    title: 'Fannie Mae: Seasoned Bulk',
+    subtitle: 'Turning a relay race of manual handoffs into a product.',
+    role: 'Product Owner & Designer',
+    technologies: ['Miro', 'Figma'],
+    tags: [
+      'UX Design',
+      'UI Design',
+      'Service Design',
+      'Workshops',
+      'Design Thinking',
+      'Product Management',
+    ],
+    year: '2025–2026',
+    client: 'Fannie Mae',
+    duration: 'Dec 2025 – Present',
+    password: 'fanniemae',
+    heroImage: '/images/projects/fanniemae-2/batch-pricing-loan-data.png',
+    overview:
+      'Mapping a process that spanned six business teams, then slicing it into releases that remove one human touchpoint at a time, all to unlock $5 billion in additional volume.',
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'fanniemae-2/context',
+      },
+      {
+        id: 'mapping',
+        title: 'Mapping the Race',
+        contentFile: 'fanniemae-2/mapping',
+      },
+      {
+        id: 'decisions',
+        title: 'Design Decisions',
+        contentFile: 'fanniemae-2/decisions',
+      },
+      {
+        id: 'slices',
+        title: 'One Touchpoint at a Time',
+        contentFile: 'fanniemae-2/slices',
+      },
+      {
+        id: 'conclusion',
+        title: 'Conclusion',
+        contentFile: 'fanniemae-2/conclusion',
+      },
+    ],
+  },
   {
     id: 'fanniemae-1',
     title: "Fannie Mae\'s Stealth Refactor",
