@@ -13,6 +13,7 @@ import {
 import { cn } from '@/lib/utils';
 import { Headphones, Calendar, Clock, User, Play, Pause } from 'lucide-react';
 import { loadContentComponent } from '@/lib/content-loader';
+import { PasswordGate, useProjectUnlock } from './password-gate';
 
 interface ProjectContentProps {
   project: Project;
@@ -107,6 +108,7 @@ export function ProjectContent({
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const audioTrack = getAudioTrackByProjectId(project.id);
+  const { unlocked, unlock } = useProjectUnlock(project.id, project.password);
 
   const toggleAudio = () => {
     if (!audioRef.current || !audioTrack) return;
@@ -219,7 +221,7 @@ export function ProjectContent({
           </div>
         )}
 
-        {project.heroImage && (
+        {unlocked && project.heroImage && (
           <div className="aspect-[16/9] relative rounded-xl overflow-hidden mb-8 bg-muted">
             <Image
               src={project.heroImage}
@@ -265,24 +267,32 @@ export function ProjectContent({
         </div>
       </div>
 
+      {!unlocked && project.password && (
+        <PasswordGate password={project.password} onUnlock={unlock} />
+      )}
+
       {/* Project Overview */}
-      <div className=" p-6 bg-chart-1 text-background rounded-lg">
-        <h2 className="text-2xl font-bold mb-4 ">Project Overview</h2>
-        <p>{project.overview}</p>
-      </div>
+      {unlocked && (
+        <div className=" p-6 bg-chart-1 text-background rounded-lg">
+          <h2 className="text-2xl font-bold mb-4 ">Project Overview</h2>
+          <p>{project.overview}</p>
+        </div>
+      )}
 
       {/* Project Sections */}
-      <div className="space-y-0">
-        {project.sections.map(section => (
-          <SectionContent
-            key={section.id}
-            section={section}
-            projectId={project.id}
-            isActive={currentSectionId === section.id}
-            onInView={onSectionInView}
-          />
-        ))}
-      </div>
+      {unlocked && (
+        <div className="space-y-0">
+          {project.sections.map(section => (
+            <SectionContent
+              key={section.id}
+              section={section}
+              projectId={project.id}
+              isActive={currentSectionId === section.id}
+              onInView={onSectionInView}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

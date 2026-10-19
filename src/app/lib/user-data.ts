@@ -98,6 +98,7 @@ export const userExperience = [
     duration: 'April 2024 - Present',
     responsibilities: [
       'Fannie Mae is a financial institution specializing in the mortgage loan industry. I worked within the Pricing software teams within Capital Markets as both a UX specialist and organizational change coach. Fannie Mae wanted smaller squads that would create more impact with faster pacing. I coached on new ceremonies and processes across Product, Design and Tech to move away from traditional SAFE and Agile.',
+      'Since December 2025, Product Owner & Designer for Seasoned Bulk: mapping a loan acquisition process that spanned ~6 business teams and slicing it into releases that each remove a manual touchpoint, toward a business goal of enabling $5 billion in additional volume.',
     ],
   },
   {
@@ -269,5 +270,10 @@ Each project below has a detailed, first-hand write-up available via the
 **getProjectDetails** tool. Call it with the project id to load the full case
 study before answering an in-depth question about that project.
 
-${projects.map(p => `- \`${p.id}\` — **${p.title}**: ${p.subtitle}`).join('\n')}
+${projects
+  .map(
+    p =>
+      `- \`${p.id}\` — **${p.title}**: ${p.subtitle}${p.password ? ' _(ongoing; case study page is password protected)_' : ''}`
+  )
+  .join('\n')}
 `;
