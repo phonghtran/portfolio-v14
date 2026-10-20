@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, BriefcaseBusiness, Mail, File } from 'lucide-react';
+import { Home, BriefcaseBusiness, Hammer, Mail, File } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -15,6 +15,11 @@ const navItems = [
     href: '/casestudies',
     label: 'Case Studies',
     icon: BriefcaseBusiness,
+  },
+  {
+    href: '/workshop',
+    label: 'Workshop',
+    icon: Hammer,
   },
   {
     href: '/contact',
