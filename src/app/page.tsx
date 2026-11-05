@@ -1,15 +1,15 @@
-import ChatInterface from '@/components/chat/chat-interface';
-import { PageHeader } from '@/components/layout/page-header';
-// import { ThemeDebug } from '@/components/ui/theme-debug';
+import { cookies } from 'next/headers';
+import { HomeView } from '@/components/home/home-view';
+import { rankableIds } from '@/lib/contents';
+import { TAILORING_COOKIE, parseTailoring } from '@/lib/tailoring';
 
-export default function Home() {
-  return (
-    <div className="flex flex-col h-screen">
-      <PageHeader title="phonghtran" />
-      <main className="flex-1 overflow-hidden">
-        <ChatInterface />
-      </main>
-      {/* <ThemeDebug /> */}
-    </div>
+// Reading the tailoring cookie on the server means a returning visitor's
+// homepage renders already in their order, with no flash of the default.
+export default async function Home() {
+  const store = await cookies();
+  const initialTailoring = parseTailoring(
+    store.get(TAILORING_COOKIE)?.value,
+    rankableIds
   );
+  return <HomeView initialTailoring={initialTailoring} />;
 }

@@ -1,6 +1,6 @@
 /**
  * Server-side rate limiter for /api/chat, mirroring the client-side limits in
- * chat-interface.tsx: a per-session message cap, a per-message cooldown, and a
+ * use-portfolio-chat.ts: a per-session message cap, a per-message cooldown, and a
  * rolling 24h session window. Keyed by client IP.
  *
  * This is a simple in-memory limiter. App Hosting runs the backend with
@@ -10,7 +10,7 @@
  * durable guarantees or scale past one instance.
  */
 
-// Keep in sync with the client constants in chat-interface.tsx.
+// Keep in sync with the client constants in src/components/home/use-portfolio-chat.ts.
 export const MAX_MESSAGES_PER_SESSION = 16;
 export const COOLDOWN_MS = 3000;
 export const SESSION_WINDOW_MS = 24 * 60 * 60 * 1000;

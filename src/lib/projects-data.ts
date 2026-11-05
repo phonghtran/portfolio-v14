@@ -275,14 +275,14 @@ export const projects: Project[] = [
   },
   {
     id: 'mastercard-1',
-    title: 'mastercard: Rapid Iterations',
+    title: 'Mastercard: Rapid Iterations',
     subtitle:
       'Highly collaborative sessions to help stakeholders articulate their vision',
     role: 'Senior Design Technologist',
     technologies: ['Miro', 'Figma'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
     year: '2021',
-    client: 'mastercard',
+    client: 'Mastercard',
     duration: '2 months',
     heroImage: '/images/projects/mastercard-1/mc_2.png',
     overview:

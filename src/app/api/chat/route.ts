@@ -1,5 +1,7 @@
 import { ai } from '@/ai/genkit';
 import { portfolioContent } from '@/app/lib/user-data';
+import { tailorContents } from '@/ai/tailor';
+import { TRAILER_SEPARATOR } from '@/lib/tailoring';
 import { consumeRateLimit, getClientKey } from './rate-limit';
 // Side-effect import: registers the getProjectDetails tool referenced by the
 // portfolioChat dotprompt.
@@ -16,7 +18,8 @@ interface ChatMessage {
 
 /**
  * Streaming chat endpoint. Streams the assistant's reply as plain-text chunks so
- * the UI can render tokens as they arrive. The prompt lives in
+ * the UI can render tokens as they arrive, then a TRAILER_SEPARATOR and a JSON
+ * trailer with the homepage tailoring. The prompt lives in
  * prompts/portfolioChat.prompt (dotprompt).
  */
 export async function POST(req: Request) {
@@ -64,11 +67,17 @@ export async function POST(req: Request) {
   const encoder = new TextEncoder();
   const readable = new ReadableStream<Uint8Array>({
     async start(controller) {
+      let reply = '';
+      let failed = false;
       try {
         for await (const chunk of stream) {
-          if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
+          if (chunk.text) {
+            reply += chunk.text;
+            controller.enqueue(encoder.encode(chunk.text));
+          }
         }
       } catch (err) {
+        failed = true;
         console.error('Chat stream error:', err);
         // Surface a graceful message inline rather than a broken stream.
         controller.enqueue(
@@ -76,9 +85,23 @@ export async function POST(req: Request) {
             '\n\n_Sorry, I hit an error generating that response. Please try again._'
           )
         );
-      } finally {
-        controller.close();
       }
+
+      // Once the reply is complete, decide whether to reorder the homepage
+      // contents and append it as a JSON trailer after a separator. The client
+      // never shows the trailer; null means "keep the current order".
+      const tailoring =
+        failed || !reply.trim()
+          ? null
+          : await tailorContents([
+              ...chatHistory,
+              { role: 'user', content: message },
+              { role: 'assistant', content: reply },
+            ]);
+      controller.enqueue(
+        encoder.encode(TRAILER_SEPARATOR + JSON.stringify({ tailoring }))
+      );
+      controller.close();
     },
   });
 

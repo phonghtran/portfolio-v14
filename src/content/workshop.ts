@@ -23,6 +23,8 @@ export interface WorkshopTool {
   audience: WorkshopAudience;
   /** The need, in plain words. */
   need: string;
+  /** One-line summary for the homepage contents list. */
+  tagline: string;
   /** One decision worth noticing. */
   decision: string;
   /** How AI was involved in building it, e.g. "Claude Code". */
@@ -58,6 +60,8 @@ export const featuredTools: WorkshopTool[] = [
     name: 'Gia Phả',
     area: 'Family & home',
     audience: 'For family',
+    tagline:
+      'A family tree relatives can search without learning genealogy software.',
     need: 'Several family lines, three spellings of every name, and relatives who want to look someone up without learning a genealogy app.',
     decision:
       'Search ignores Vietnamese accents and matches nicknames, so "dieu linh" finds Diệu-Linh. Each family line gets its own band, and cross-family marriages are drawn in both.',
@@ -78,6 +82,8 @@ export const featuredTools: WorkshopTool[] = [
     name: 'Baby Timeline',
     area: 'Family & home',
     audience: 'For us two',
+    tagline:
+      'One shared timeline for two new parents, with reminders on both phones.',
     need: 'Two new parents, one shared timeline from prep through the first months, and reminders that show up on both phones without a server to run.',
     decision:
       'Designed as an HTML prototype first, then built as a native SwiftUI app synced over iCloud sharing. I reviewed the generated code and fixed two bugs it shipped with.',
@@ -98,6 +104,7 @@ export const featuredTools: WorkshopTool[] = [
     name: 'Workout Timeline',
     area: 'Training',
     audience: 'For me',
+    tagline: 'A six-week strength program that survives a missed day.',
     need: 'A six-week strength program that doesn’t fall apart the first time I miss a day.',
     decision:
       'You rate a set (👍 / 👎 / skip) before logging it, and the log sheet pre-fills with last time’s numbers from my gym log. Missed sessions move forward from today.',
@@ -118,6 +125,8 @@ export const featuredTools: WorkshopTool[] = [
     name: 'LinkButler',
     area: 'Everyday AI',
     audience: 'For me',
+    tagline:
+      'Saved spots from Maps, Instagram and Yelp, findable on a Friday night.',
     need: 'Restaurants and bars saved across Google Maps, Instagram and Yelp, and none of them findable on a Friday night.',
     decision:
       'Paste any link and the AI fills in the place. Chat search handles "dinner under $30, somewhere new", and when the assistant wants to change something it proposes the edit and waits for me to confirm.',
@@ -139,6 +148,7 @@ export const featuredTools: WorkshopTool[] = [
     name: 'Keepsake',
     area: 'Everyday AI',
     audience: 'For me',
+    tagline: 'Remember the wine or snack you liked from a photo of its label.',
     need: 'Remembering the wine, snack or face cleanser I liked, without typing up a label in the store aisle.',
     decision:
       'Snap a photo and Gemini reads the label into structured fields. There’s no server: App Check makes sure only my app can spend the AI budget.',
@@ -160,6 +170,8 @@ export const featuredTools: WorkshopTool[] = [
     name: 'Next Train, on the Wall',
     area: 'Ambient',
     audience: 'For us two',
+    tagline:
+      'The next subway and bus arrivals on an e-ink display by the door.',
     need: 'Knowing whether to run for the train or wait for the bus, without unlocking a phone on the way out the door.',
     decision:
       'A tiny API that boils MTA subway and bus feeds down to the next few arrivals, rendered on an e-ink display by the door. You glance at it; nothing to tap.',
