@@ -362,7 +362,7 @@ function CustomizingStatus({
           }}
           className="ml-2 flex shrink-0 items-center gap-1 rounded-md bg-action px-3 py-2 text-body-sm font-semibold text-action-on transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          See your contents
+          Jump to contents
           <ArrowDown className="h-4 w-4" aria-hidden />
         </button>
       )}

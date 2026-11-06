@@ -20,8 +20,8 @@ interface ChatMessage {
  * Streaming chat endpoint. Every response opens with a JSON header
  * (HEADER_SEPARATOR-framed, see ChatHeader) saying how the homepage should be
  * tailored and whether a written reply follows. When the site was customized
- * and the visitor only described the role, there is no reply: the page itself
- * is the answer. Otherwise the reply streams as plain-text chunks. The reply
+ * there is no reply: the page itself is the answer, and the visitor is sent
+ * to the contents. Otherwise the reply streams as plain-text chunks. The reply
  * prompt lives in prompts/portfolioChat.prompt (dotprompt).
  */
 export async function POST(req: Request) {
@@ -76,7 +76,7 @@ export async function POST(req: Request) {
   const encoder = new TextEncoder();
   const readable = new ReadableStream<Uint8Array>({
     async start(controller) {
-      const { tailoring, needsAnswer } = await tailorContents(
+      const tailoring = await tailorContents(
         [...chatHistory, { role: 'user', content: message }],
         currentPicks
       );
@@ -84,7 +84,8 @@ export async function POST(req: Request) {
         tailoring !== null && !samePicks(tailoring.picks, currentPicks);
       const header: ChatHeader = {
         tailoring: changed ? tailoring : null,
-        reply: !changed || needsAnswer,
+        // A customized site is the answer: the visitor goes to the contents.
+        reply: !changed,
       };
       controller.enqueue(
         encoder.encode(
@@ -99,9 +100,6 @@ export async function POST(req: Request) {
             message,
             portfolioContent,
             chatHistory,
-            ...(header.tailoring
-              ? { customizedFor: header.tailoring.topic }
-              : {}),
           });
           for await (const chunk of stream) {
             if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
