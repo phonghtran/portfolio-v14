@@ -54,19 +54,16 @@ export const sideProjectItems: ContentsItem[] = featuredTools.map(t => ({
   thumbnail: t.image?.src,
 }));
 
-// The homepage lists the four ways to reach Phong directly; Instagram lives in
-// the Contact popover only.
-export const contactItems: ContentsItem[] = contactLinks
-  .filter(c => c.kind !== 'instagram')
-  .map(c => ({
-    id: `contact-${c.kind}`,
-    kind: 'contact',
-    title: c.title,
-    subtitle: c.value,
-    href: c.kind === 'email' ? `mailto:${c.value}` : c.href,
-    external: c.kind !== 'phone',
-    contact: c,
-  }));
+// Same rows as the Contact popover: email, phone, LinkedIn, GitHub, Instagram.
+export const contactItems: ContentsItem[] = contactLinks.map(c => ({
+  id: `contact-${c.kind}`,
+  kind: 'contact',
+  title: c.title,
+  subtitle: c.value,
+  href: c.kind === 'email' ? `mailto:${c.value}` : c.href,
+  external: c.kind !== 'phone',
+  contact: c,
+}));
 
 /**
  * Case study ids in the order the homepage shows them: the assistant's picks
