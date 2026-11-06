@@ -35,6 +35,61 @@ export interface AudioTrack {
 // Placeholder project data - you can populate this with real content
 export const projects: Project[] = [
   {
+    id: 'portfolio-v2',
+    title: 'This Portfolio: Designed with Claude',
+    subtitle:
+      'A site that tailors itself to what you’re hiring for, designed and built with Claude Code and the Figma MCP.',
+    role: 'Designer & Developer',
+    technologies: [
+      'Figma',
+      'Figma MCP',
+      'Claude Code',
+      'Next.js',
+      'Tailwind CSS',
+      'Genkit',
+      'Gemini',
+    ],
+    tags: ['AI', 'Design Systems', 'UX Design', 'Front-End Development'],
+    year: '2026',
+    client: 'phonghtran.com',
+    duration: 'Nov 2026',
+    heroImage: '/images/projects/portfolio-v2/hero.jpg',
+    overview:
+      'Cutting a style switcher nobody needed, and turning the portfolio into a page that reorders itself for each visitor: designed in Figma and built in code with an AI agent as a hands-on collaborator, with every decision still mine.',
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'portfolio-v2/context',
+      },
+      {
+        id: 'figma',
+        title: 'Designing in Figma with Claude',
+        contentFile: 'portfolio-v2/figma',
+      },
+      {
+        id: 'system',
+        title: 'A Design System That Survives Code',
+        contentFile: 'portfolio-v2/system',
+      },
+      {
+        id: 'build',
+        title: 'Building It',
+        contentFile: 'portfolio-v2/build',
+      },
+      {
+        id: 'learned',
+        title: 'What I Learned',
+        contentFile: 'portfolio-v2/learned',
+      },
+      {
+        id: 'gallery',
+        title: 'Image Gallery',
+        contentFile: 'portfolio-v2/gallery',
+      },
+    ],
+  },
+  {
     id: 'fanniemae-2',
     title: 'Fannie Mae: Seasoned Bulk',
     subtitle: 'Turning a relay race of manual handoffs into a product.',
