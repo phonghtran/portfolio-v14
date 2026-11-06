@@ -138,7 +138,7 @@ export const projects: Project[] = [
     id: 'obviously-1',
     title: "Obviously's First Design System",
     subtitle:
-      'Highly collaborative sessions to help stakeholders articulate their vision',
+      'Collaborative sessions to help stakeholders articulate their vision.',
     role: 'Director of Design (was Lead Designer)',
     technologies: ['Miro', 'Figma', 'Visual Code'],
     tags: [
@@ -188,8 +188,7 @@ export const projects: Project[] = [
   {
     id: 'obviously-2',
     title: "Obviously's Tech Debt",
-    subtitle:
-      "If the backlog of tech debt isn't sexy: augment the system so it unlocks new value. ",
+    subtitle: 'Augmenting the system so tech debt unlocks new value.',
     role: 'Director of Design (was Lead Designer)',
     technologies: ['Miro', 'Figma'],
     tags: ['UX Design', 'Workshops', 'Facilitation', 'Design Thinking'],
@@ -228,7 +227,7 @@ export const projects: Project[] = [
     id: 'obviously-3',
     title: 'Obviously & AI (2023)',
     subtitle:
-      "2023 AI wouldn't move the needle, but it inspired a lot of useful non-AI ideas.",
+      "2023 AI wouldn't move the needle, but it inspired useful non-AI ideas.",
     role: 'Director of Design (was Lead Designer)',
     technologies: ['Miro', 'Figma', 'ChatGPT'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
@@ -276,8 +275,7 @@ export const projects: Project[] = [
   {
     id: 'mastercard-1',
     title: 'Mastercard: Rapid Iterations',
-    subtitle:
-      'Highly collaborative sessions to help stakeholders articulate their vision',
+    subtitle: 'Live sketching and prototyping in frequent virtual sessions.',
     role: 'Senior Design Technologist',
     technologies: ['Miro', 'Figma'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
@@ -305,7 +303,7 @@ export const projects: Project[] = [
   {
     id: 'worldpay-1',
     title: 'Worldpay Workshops: Asset Consolidation',
-    subtitle: 'Design Thinking to Plan for Streamlining',
+    subtitle: 'Design thinking workshops, then coding the first deliverables.',
     role: 'Senior Design Technologist',
     technologies: ['Miro', 'Figma', 'AngularJS'],
     tags: [
