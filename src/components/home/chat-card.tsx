@@ -3,7 +3,13 @@
 import { useId } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  ArrowRight,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
+} from 'lucide-react';
 import { site } from '@/lib/site';
 import { cn } from '@/lib/utils';
 import {
@@ -234,7 +240,10 @@ export function ChatCard({
               <Thread
                 id={threadId}
                 messages={messages}
-                thinking={status === 'thinking'}
+                thinking={
+                  status === 'thinking' &&
+                  messages[messages.length - 1]?.role === 'user'
+                }
                 className={condensed ? 'max-h-[45vh] overflow-y-auto' : ''}
               />
             )}
@@ -267,13 +276,15 @@ function Thread({
             {m.content}
           </p>
         ) : (
-          <div
-            key={i}
-            className="max-w-[min(640px,100%)] rounded-xl bg-page px-4 py-3 text-base text-primary [&_a]:text-coral-text [&_a]:underline [&_li]:ml-5 [&_ol]:list-decimal [&_p+p]:mt-2 [&_strong]:font-semibold [&_ul]:mt-1 [&_ul]:list-disc"
-          >
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {m.content}
-            </ReactMarkdown>
+          <div key={i} className="flex flex-col items-start gap-3">
+            {m.customizing && <CustomizingStatus {...m.customizing} />}
+            {m.content && (
+              <div className="max-w-[min(640px,100%)] rounded-xl bg-page px-4 py-3 text-base text-primary [&_a]:text-coral-text [&_a]:underline [&_li]:ml-5 [&_ol]:list-decimal [&_p+p]:mt-2 [&_strong]:font-semibold [&_ul]:mt-1 [&_ul]:list-disc">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {m.content}
+                </ReactMarkdown>
+              </div>
+            )}
           </div>
         )
       )}
@@ -284,6 +295,72 @@ function Thread({
         >
           Looking through Phong’s projects…
         </p>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Opens the first reply of a visit: "Customizing the website…" while the site
+ * tailors itself, then what it did (or that there was nothing to tailor).
+ */
+function CustomizingStatus({
+  state,
+  topic,
+  moved = 0,
+}: NonNullable<ChatMessage['customizing']>) {
+  const working = state === 'working';
+  const [label, detail] =
+    state === 'working'
+      ? ['Customizing the website…', 'Reading what you’re hiring for']
+      : state === 'done'
+        ? [
+            `Customized for ${topic}`,
+            `Moved ${moved} project${moved === 1 ? '' : 's'} to the top`,
+          ]
+        : [
+            'Nothing to customize yet',
+            'Tell me about the role and I’ll tailor the contents',
+          ];
+
+  return (
+    <div
+      role="status"
+      className={cn(
+        'flex items-center gap-3 rounded-xl border py-3 pl-3.5 pr-[18px]',
+        working ? 'border-coral-soft bg-coral-subtle' : 'border-border bg-page'
+      )}
+    >
+      <span
+        className={cn(
+          'flex h-7 w-7 shrink-0 items-center justify-center rounded-full',
+          state === 'done' && 'bg-teal-muted text-teal-text',
+          state === 'skipped' && 'bg-media text-secondary'
+        )}
+        aria-hidden
+      >
+        {working ? (
+          <Sparkles className="h-5 w-5 animate-pulse text-coral-solid" />
+        ) : state === 'done' ? (
+          <Check className="h-4 w-4" />
+        ) : (
+          <ArrowRight className="h-4 w-4" />
+        )}
+      </span>
+      <span>
+        <span className="block text-label text-primary">{label}</span>
+        <span className="block text-body-sm text-secondary">{detail}</span>
+      </span>
+      {working && (
+        <span className="ml-1 flex gap-1" aria-hidden>
+          {[0, 1, 2].map(i => (
+            <span
+              key={i}
+              className="h-1.5 w-1.5 animate-[dot_1.2s_ease-in-out_infinite] rounded-full bg-coral-solid"
+              style={{ animationDelay: `${i * 0.2}s` }}
+            />
+          ))}
+        </span>
       )}
     </div>
   );

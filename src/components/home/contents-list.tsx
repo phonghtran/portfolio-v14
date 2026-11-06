@@ -12,6 +12,7 @@ import {
 } from '@/lib/contents';
 import { site } from '@/lib/site';
 import type { Tailoring } from '@/lib/tailoring';
+import { cn } from '@/lib/utils';
 import { ContentsRow } from './contents-row';
 
 interface Group {
@@ -91,7 +92,14 @@ function useReorderAnimation(orderKey: string, disabled: boolean) {
   return container;
 }
 
-export function ContentsList({ tailoring }: { tailoring: Tailoring | null }) {
+export function ContentsList({
+  tailoring,
+  customizing = false,
+}: {
+  tailoring: Tailoring | null;
+  /** The first reply is tailoring the site: dim the rows and sweep a highlight. */
+  customizing?: boolean;
+}) {
   const reducedMotion = usePrefersReducedMotion();
   const { copiedKey, copy } = useCopy();
   const groups = useMemo(() => buildGroups(tailoring), [tailoring]);
@@ -122,7 +130,22 @@ export function ContentsList({ tailoring }: { tailoring: Tailoring | null }) {
         {copiedItem?.contact?.copy?.announce ?? ''}
       </p>
 
-      <div ref={container} className="mt-10 flex flex-col gap-8">
+      <div
+        ref={container}
+        aria-busy={customizing}
+        className={cn(
+          'relative mt-10 flex flex-col gap-8 transition-opacity duration-300',
+          customizing && 'opacity-45'
+        )}
+      >
+        {customizing && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 z-10 overflow-hidden motion-reduce:hidden"
+          >
+            <div className="h-full w-1/2 animate-[sweep_1.4s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-[hsl(var(--white)/0.55)] to-transparent dark:via-[hsl(var(--white)/0.12)]" />
+          </div>
+        )}
         {groups.map(group => (
           <div key={group.label}>
             <h3

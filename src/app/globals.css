@@ -385,6 +385,27 @@
   }
 }
 
+/* "Customizing the website" loading animation */
+@keyframes dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

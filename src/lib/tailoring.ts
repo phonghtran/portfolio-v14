@@ -16,6 +16,13 @@ export const TAILORING_MAX_AGE = 60 * 60 * 24;
 /** Separates the streamed reply from the JSON trailer in /api/chat. */
 export const TRAILER_SEPARATOR = '\u001e';
 
+/**
+ * Frames the JSON header that opens the first reply of a visit:
+ * HEADER_SEPARATOR + JSON + HEADER_SEPARATOR, then the reply text. The site
+ * customizes itself from the header before the answer streams in.
+ */
+export const HEADER_SEPARATOR = '\u001d';
+
 export interface TailoringPick {
   id: string;
   reason: string;

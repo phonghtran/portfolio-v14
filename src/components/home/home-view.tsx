@@ -68,7 +68,12 @@ export function HomeView({
         </section>
 
         <div className="px-4 pb-16 md:px-[120px] md:pb-28">
-          <ContentsList tailoring={chat.tailoring} />
+          <ContentsList
+            tailoring={chat.tailoring}
+            customizing={chat.messages.some(
+              m => m.customizing?.state === 'working'
+            )}
+          />
         </div>
       </main>
       <SiteFooter />

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { rankableIds } from '@/lib/contents';
 import {
+  HEADER_SEPARATOR,
   TAILORING_COOKIE,
   TAILORING_MAX_AGE,
   TRAILER_SEPARATOR,
@@ -12,9 +13,20 @@ import {
   type Tailoring,
 } from '@/lib/tailoring';
 
+export type CustomizingState = 'working' | 'done' | 'skipped';
+
 export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
+  /**
+   * Set on the first reply of a visit: the "Customizing the website" card
+   * shown above the answer, and what it ended up doing.
+   */
+  customizing?: {
+    state: CustomizingState;
+    topic?: string;
+    moved?: number;
+  };
 }
 
 export type ChatStatus = 'idle' | 'thinking' | 'streaming';
@@ -154,15 +166,45 @@ export function usePortfolioChat(initialTailoring: Tailoring | null) {
       setError(false);
       setInput('');
       setHistoryOpen(true);
-      setMessages([...history, { role: 'user', content: message }]);
+
+      // The first message of a visit customizes the site before the answer.
+      const first = history.length === 0;
+      const userTurn: ChatMessage = { role: 'user', content: message };
+      let customizing: ChatMessage['customizing'] = first
+        ? { state: 'working' }
+        : undefined;
+      const show = (reply: string) =>
+        setMessages([
+          ...history,
+          userTurn,
+          ...(customizing || reply
+            ? [{ role: 'assistant' as const, content: reply, customizing }]
+            : []),
+        ]);
+      show('');
       setStatus('thinking');
+
+      const applyTailoring = (raw: unknown) => {
+        const next = sanitizeTailoring(raw, rankableIds);
+        if (next) {
+          setTailoring(next);
+          writeTailoringCookie(next);
+        }
+        return next;
+      };
 
       let started = false;
       try {
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message, chatHistory: history }),
+          body: JSON.stringify({
+            message,
+            chatHistory: history.map(m => ({
+              role: m.role,
+              content: m.content,
+            })),
+          }),
         });
 
         if (res.status === 429) {
@@ -188,37 +230,54 @@ export function usePortfolioChat(initialTailoring: Tailoring | null) {
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let acc = '';
+        let bodyStart = 0;
+        let streaming = false;
         for (;;) {
           const { done, value } = await reader.read();
           if (done) break;
           acc += decoder.decode(value, { stream: true });
-          const cut = acc.indexOf(TRAILER_SEPARATOR);
-          const reply = (cut >= 0 ? acc.slice(0, cut) : acc).trimStart();
+
+          // First reply: wait for the header, customize, then show the answer.
+          if (customizing?.state === 'working') {
+            if (!acc.startsWith(HEADER_SEPARATOR)) {
+              customizing = { state: 'skipped' };
+            } else {
+              const end = acc.indexOf(HEADER_SEPARATOR, 1);
+              if (end < 0) continue;
+              let next = null;
+              try {
+                next = applyTailoring(JSON.parse(acc.slice(1, end)).tailoring);
+              } catch {
+                // Malformed header: keep the current order.
+              }
+              customizing = next
+                ? { state: 'done', topic: next.topic, moved: next.picks.length }
+                : { state: 'skipped' };
+              bodyStart = end + 1;
+              started = true;
+              show('');
+            }
+          }
+
+          const body = acc.slice(bodyStart);
+          const cut = body.indexOf(TRAILER_SEPARATOR);
+          const reply = (cut >= 0 ? body.slice(0, cut) : body).trimStart();
           if (!reply) continue;
-          if (!started) {
-            started = true;
+          if (!streaming) {
+            started = streaming = true;
             setStatus('streaming');
           }
-          setMessages([
-            ...history,
-            { role: 'user', content: message },
-            { role: 'assistant', content: reply },
-          ]);
+          show(reply);
         }
         if (!started) throw new Error('Empty response');
 
-        // The trailer arrives after the reply: reorder once, at the end.
-        const cut = acc.indexOf(TRAILER_SEPARATOR);
+        // Follow-ups: the trailer arrives after the reply; reorder once, at
+        // the end.
+        const body = acc.slice(bodyStart);
+        const cut = body.indexOf(TRAILER_SEPARATOR);
         if (cut >= 0) {
           try {
-            const next = sanitizeTailoring(
-              JSON.parse(acc.slice(cut + 1)).tailoring,
-              rankableIds
-            );
-            if (next) {
-              setTailoring(next);
-              writeTailoringCookie(next);
-            }
+            applyTailoring(JSON.parse(body.slice(cut + 1)).tailoring);
           } catch {
             // Malformed trailer: keep the current order.
           }

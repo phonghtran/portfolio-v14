@@ -1,7 +1,7 @@
 import { ai } from '@/ai/genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 import { tailorContents } from '@/ai/tailor';
-import { TRAILER_SEPARATOR } from '@/lib/tailoring';
+import { HEADER_SEPARATOR, TRAILER_SEPARATOR } from '@/lib/tailoring';
 import { consumeRateLimit, getClientKey } from './rate-limit';
 // Side-effect import: registers the getProjectDetails tool referenced by the
 // portfolioChat dotprompt.
@@ -18,8 +18,9 @@ interface ChatMessage {
 
 /**
  * Streaming chat endpoint. Streams the assistant's reply as plain-text chunks so
- * the UI can render tokens as they arrive, then a TRAILER_SEPARATOR and a JSON
- * trailer with the homepage tailoring. The prompt lives in
+ * the UI can render tokens as they arrive. The first reply of a visit opens
+ * with a JSON header (HEADER_SEPARATOR-framed) carrying the homepage
+ * tailoring; follow-ups end with a TRAILER_SEPARATOR and a JSON trailer. The prompt lives in
  * prompts/portfolioChat.prompt (dotprompt).
  */
 export async function POST(req: Request) {
@@ -64,11 +65,26 @@ export async function POST(req: Request) {
   const chat = ai.prompt('portfolioChat');
   const { stream } = chat.stream({ message, portfolioContent, chatHistory });
 
+  // The first message of a visit (or after "Start over") customizes the site
+  // before the answer: tailoring runs alongside the reply and is sent first.
+  const firstMessage = chatHistory.length === 0;
+  const upfront = firstMessage
+    ? tailorContents([{ role: 'user', content: message }])
+    : null;
+
   const encoder = new TextEncoder();
   const readable = new ReadableStream<Uint8Array>({
     async start(controller) {
       let reply = '';
       let failed = false;
+      if (upfront) {
+        const tailoring = await upfront;
+        controller.enqueue(
+          encoder.encode(
+            HEADER_SEPARATOR + JSON.stringify({ tailoring }) + HEADER_SEPARATOR
+          )
+        );
+      }
       try {
         for await (const chunk of stream) {
           if (chunk.text) {
@@ -87,11 +103,12 @@ export async function POST(req: Request) {
         );
       }
 
-      // Once the reply is complete, decide whether to reorder the homepage
-      // contents and append it as a JSON trailer after a separator. The client
-      // never shows the trailer; null means "keep the current order".
+      // Follow-ups: once the reply is complete, decide whether to reorder the
+      // homepage contents and append it as a JSON trailer after a separator.
+      // The client never shows the trailer; null means "keep the current
+      // order". The first reply already sent its tailoring up front.
       const tailoring =
-        failed || !reply.trim()
+        upfront || failed || !reply.trim()
           ? null
           : await tailorContents([
               ...chatHistory,
