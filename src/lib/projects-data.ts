@@ -22,6 +22,7 @@ export interface Project {
   audioTrack?: string; // Path to audio file for entire project
   audioDuration?: number; // Duration in seconds for the entire project
   password?: string; // Basic client-side gate for ongoing work; not real auth
+  hidden?: boolean; // Drafts: kept in the repo but not listed or routable
 }
 
 export interface AudioTrack {
@@ -32,10 +33,13 @@ export interface AudioTrack {
   duration: number;
 }
 
-// Placeholder project data - you can populate this with real content
-export const projects: Project[] = [
+// Every case study, including hidden drafts. Use `projects` below everywhere
+// else, so hidden ones stay out of the contents, menus, switcher, routes and
+// the assistant.
+export const allProjects: Project[] = [
   {
     id: 'portfolio-v2',
+    hidden: true, // Draft: unhide when ready to publish.
     title: 'This Portfolio: Designed with Claude',
     subtitle:
       'A site that tailors itself to what you’re hiring for, designed and built with Claude Code and the Figma MCP.',
@@ -395,6 +399,8 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+export const projects: Project[] = allProjects.filter(p => !p.hidden);
 
 // Generate audio tracks from project data (one per project)
 export const audioTracks: AudioTrack[] = projects
