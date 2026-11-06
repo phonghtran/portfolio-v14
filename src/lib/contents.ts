@@ -68,6 +68,17 @@ export const contactItems: ContentsItem[] = contactLinks
     contact: c,
   }));
 
+/**
+ * Case study ids in the order the homepage shows them: the assistant's picks
+ * first (side projects skipped), then the rest in their default order. The
+ * case study switcher follows this so both pages agree.
+ */
+export function caseStudyOrder(picks: { id: string }[] = []): string[] {
+  const ids = caseStudyItems.map(i => i.id);
+  const picked = picks.map(p => p.id).filter(id => ids.includes(id));
+  return [...picked, ...ids.filter(id => !picked.includes(id))];
+}
+
 /** Everything the assistant may move to the top. */
 export const rankableItems: ContentsItem[] = [
   ...caseStudyItems,

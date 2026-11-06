@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { projects, type Project } from '@/lib/projects-data';
+import type { Project } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
 
 const href = (p: Project) => `/casestudies/${p.id}`;
@@ -23,11 +23,17 @@ function LockMark() {
 }
 
 /**
- * Steps through the case studies in their fixed 1–7 order (tailoring only
- * changes the homepage). At either end the arrow disappears but keeps its
- * space, so the position stays centred.
+ * Steps through the case studies in the visitor's order: the same order as the
+ * homepage contents, tailored or default. At either end the arrow disappears
+ * but keeps its space, so the position stays centred.
  */
-export function CaseStudySwitcher({ index }: { index: number }) {
+export function CaseStudySwitcher({
+  projects,
+  index,
+}: {
+  projects: Project[];
+  index: number;
+}) {
   const prev = projects[index - 1];
   const next = projects[index + 1];
   const total = projects.length;

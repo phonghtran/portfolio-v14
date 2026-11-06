@@ -25,13 +25,17 @@ import { GalleryLightbox } from './gallery-lightbox';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-export function CaseStudyView({ index }: { index: number }) {
-  const project = projects[index];
+export function CaseStudyView({ id, order }: { id: string; order: string[] }) {
+  // `order` is the visitor's case study order (tailored or default).
+  const ordered = order.map(oid => projects.find(p => p.id === oid)!);
+  const index = order.indexOf(id);
+  const project = ordered[index];
   const { unlocked, unlock } = useProjectUnlock(project.id, project.password);
   const { openContact } = useContactPanel();
   const analytics = useAnalytics();
   const track = getAudioTrackByProjectId(project.id);
-  const nextIndex = (index + 1) % projects.length;
+  const nextIndex = (index + 1) % ordered.length;
+  const nextItem = caseStudyItems.find(i => i.id === order[nextIndex])!;
   const meta = [project.year, project.client, project.duration, project.role]
     .filter(Boolean)
     .join('  ·  ');
@@ -47,7 +51,7 @@ export function CaseStudyView({ index }: { index: number }) {
 
       {/* The switcher is the only sticky band on the page. */}
       <div className="sticky top-0 z-30 border-b border-border bg-page/95 px-4 py-4 backdrop-blur md:px-[120px] md:py-6">
-        <CaseStudySwitcher index={index} />
+        <CaseStudySwitcher projects={ordered} index={index} />
       </div>
 
       <main className="px-4 pb-16 pt-8 md:px-10 md:pb-28 md:pt-16">
@@ -107,10 +111,7 @@ export function CaseStudyView({ index }: { index: number }) {
             <p className="text-overline uppercase text-secondary">
               {nextIndex === 0 ? 'Back to the first case study' : 'Up next'}
             </p>
-            <ContentsRow
-              item={caseStudyItems[nextIndex]}
-              number={nextIndex + 1}
-            />
+            <ContentsRow item={nextItem} number={nextIndex + 1} />
           </div>
         </article>
       </main>

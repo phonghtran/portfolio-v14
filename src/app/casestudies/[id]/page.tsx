@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { CaseStudyView } from '@/components/case-study/case-study-view';
+import { caseStudyOrder, rankableIds } from '@/lib/contents';
 import { projects } from '@/lib/projects-data';
-
-export function generateStaticParams() {
-  return projects.map(p => ({ id: p.id }));
-}
+import { TAILORING_COOKIE, parseTailoring } from '@/lib/tailoring';
 
 export async function generateMetadata({
   params,
@@ -25,7 +24,14 @@ export default async function CaseStudyPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const index = projects.findIndex(p => p.id === id);
-  if (index === -1) notFound();
-  return <CaseStudyView index={index} />;
+  if (!projects.some(p => p.id === id)) notFound();
+
+  // Follow the visitor's tailored homepage order when there is one, so
+  // previous/next and "n of 7" match the contents they came from.
+  const store = await cookies();
+  const tailoring = parseTailoring(
+    store.get(TAILORING_COOKIE)?.value,
+    rankableIds
+  );
+  return <CaseStudyView id={id} order={caseStudyOrder(tailoring?.picks)} />;
 }
