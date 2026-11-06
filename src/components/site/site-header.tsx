@@ -27,7 +27,8 @@ import {
   ContactRows,
   useContactPanel,
 } from '@/components/site/contact-panel';
-import { projects } from '@/lib/projects-data';
+import { useCaseStudyOrder } from '@/hooks/use-case-study-order';
+import type { Project } from '@/lib/projects-data';
 import { cn } from '@/lib/utils';
 
 const linkBase =
@@ -43,6 +44,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const inCaseStudies = pathname.startsWith('/casestudies');
   const inSideProjects = pathname.startsWith('/side-projects');
+  const projects = useCaseStudyOrder();
 
   return (
     <header className="border-b border-border bg-page">
@@ -135,13 +137,19 @@ export function SiteHeader() {
         </nav>
 
         {/* Mobile */}
-        <MobileMenu inSideProjects={inSideProjects} />
+        <MobileMenu projects={projects} inSideProjects={inSideProjects} />
       </div>
     </header>
   );
 }
 
-function MobileMenu({ inSideProjects }: { inSideProjects: boolean }) {
+function MobileMenu({
+  projects,
+  inSideProjects,
+}: {
+  projects: Project[];
+  inSideProjects: boolean;
+}) {
   const [open, setOpen] = useState(false);
   const { openContact } = useContactPanel();
   const item = (active: boolean) =>
