@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 export default function BuildSection() {
   return (
     <div className="space-y-6">
@@ -25,36 +23,9 @@ export default function BuildSection() {
         </li>
       </ul>
       <p>
-        The interesting part is how the page tailors itself. Before the
-        assistant writes anything, a second model call reads the conversation
-        and returns structured data: whether to change the page at all, which
-        projects to move up and why (&ldquo;Payments · Mastercard&rdquo;), a
-        headline, and a rewritten summary built only from facts in my portfolio.
-        The server sends that first; the page reorders with a short slide, and
-        the order is saved for a day so a returning visitor lands on their
-        version straight away.
+        The part that makes the site different, the Gemini assistant that
+        tailors the page, gets its own chapter next.
       </p>
-      <p>
-        If the page changed, there&apos;s no chat reply at all. An early build
-        answered every message with a paragraph, and it competed with the very
-        contents it had just rearranged. Now the first message shows
-        &ldquo;Customizing the website…&rdquo; while the contents dim, then
-        &ldquo;Customized for fintech&rdquo; with a button to jump to them. The
-        site is the answer; the chat only replies when nothing changed, or when
-        you ask a follow-up.
-      </p>
-      <Image
-        src="/images/projects/portfolio-v2/first-reply.jpg"
-        alt="Three homepage states: customizing, customized for fintech, and nothing to customize"
-        width={2400}
-        height={786}
-        className="h-auto w-full rounded object-contain"
-      />
-      <small>
-        The first reply, designed in Figma before it was built: customizing,
-        customized, and nothing to customize. The written reply under
-        &ldquo;Customized&rdquo; was dropped once we saw it in the browser.
-      </small>
       <p>
         We kept the two tools in sync in both directions. When code drifted from
         the design (a sixth side project, sentence-case labels, a copy icon on

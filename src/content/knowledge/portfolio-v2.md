@@ -25,6 +25,16 @@ table of contents that reorders itself for each visitor.
   When the page changed, there is no written chat reply: the site is the
   answer. The chat replies only when nothing changed or for follow-up
   questions.
+- The assistant runs on Gemini 3.5 Flash via Genkit, grounded in Phong's
+  resume, experience and a case study index; a getProjectDetails tool loads a
+  case study's full write-up on demand.
+- Model output is validated before it reaches the page: unknown project ids
+  are dropped, reasons are capped at 48 characters, and a headline over 32
+  characters or a summary over 420 falls back to the default. The summary is
+  written only from portfolio facts at low temperature. A follow-up landing on
+  the same projects doesn't count as a change, so it gets a written answer.
+- Password-protected projects can be discussed, but the assistant never hints
+  at a password and sends access requests to Phong.
 - Case study pages follow the visitor's tailored order in their
   previous/next switcher. Limits: 16 messages per visitor per day, 3 seconds
   between messages.

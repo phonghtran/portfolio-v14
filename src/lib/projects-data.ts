@@ -78,6 +78,11 @@ export const projects: Project[] = [
         contentFile: 'portfolio-v2/build',
       },
       {
+        id: 'chatbot',
+        title: 'The Gemini Chatbot',
+        contentFile: 'portfolio-v2/chatbot',
+      },
+      {
         id: 'learned',
         title: 'What I Learned',
         contentFile: 'portfolio-v2/learned',
