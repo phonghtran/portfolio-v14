@@ -115,12 +115,16 @@ export function ContentsList({
       <h2
         id="contents-heading"
         key={headline}
-        className="text-center text-[2.5rem] font-black leading-[1.05] text-primary duration-300 animate-in fade-in md:text-h1"
+        tabIndex={-1}
+        className="scroll-mt-60 text-center text-[2.5rem] outline-none font-black leading-[1.05] text-primary duration-300 animate-in fade-in md:text-h1"
       >
         {headline}
       </h2>
-      <p className="mx-auto mt-6 max-w-[1000px] text-center text-body-lg text-secondary">
-        {site.summary}
+      <p
+        key={tailoring?.summary ?? 'default'}
+        className="mx-auto mt-6 max-w-[1000px] text-center text-body-lg text-secondary duration-300 animate-in fade-in"
+      >
+        {tailoring?.summary ?? site.summary}
       </p>
 
       <p aria-live="polite" className="sr-only">

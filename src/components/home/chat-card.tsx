@@ -4,6 +4,7 @@ import { useId } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import {
+  ArrowDown,
   ArrowRight,
   Check,
   ChevronDown,
@@ -351,6 +352,20 @@ function CustomizingStatus({
         <span className="block text-label text-primary">{label}</span>
         <span className="block text-body-sm text-secondary">{detail}</span>
       </span>
+      {state === 'done' && (
+        <button
+          type="button"
+          onClick={() => {
+            const heading = document.getElementById('contents-heading');
+            heading?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            heading?.focus({ preventScroll: true });
+          }}
+          className="ml-2 flex shrink-0 items-center gap-1 rounded-md bg-action px-3 py-2 text-body-sm font-semibold text-action-on transition-colors hover:bg-action-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          See your contents
+          <ArrowDown className="h-4 w-4" aria-hidden />
+        </button>
+      )}
       {working && (
         <span className="ml-1 flex gap-1" aria-hidden>
           {[0, 1, 2].map(i => (

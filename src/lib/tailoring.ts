@@ -1,5 +1,5 @@
 /**
- * The tailored homepage: what the assistant returns after each reply, and how
+ * The tailored homepage: what the assistant decides before each reply, and how
  * it persists. Shared by the API route, the server-rendered homepage and the
  * client, so all three agree on limits and validation.
  */
@@ -8,20 +8,24 @@ export const HEADLINE_MAX = 32;
 export const TOPIC_MAX = 24;
 export const REASON_MAX = 48;
 export const MAX_PICKS = 4;
+export const SUMMARY_MAX = 420;
 
 /** First-party cookie holding the tailored order; lasts one day. */
 export const TAILORING_COOKIE = 'pt_tailored';
 export const TAILORING_MAX_AGE = 60 * 60 * 24;
 
-/** Separates the streamed reply from the JSON trailer in /api/chat. */
-export const TRAILER_SEPARATOR = '\u001e';
-
 /**
- * Frames the JSON header that opens the first reply of a visit:
- * HEADER_SEPARATOR + JSON + HEADER_SEPARATOR, then the reply text. The site
- * customizes itself from the header before the answer streams in.
+ * Frames the JSON header that opens every /api/chat response:
+ * HEADER_SEPARATOR + JSON + HEADER_SEPARATOR, then the reply text (if any).
+ * The site customizes itself from the header before any answer streams in.
  */
 export const HEADER_SEPARATOR = '\u001d';
+
+/** The header: what changed on the site, and whether a written reply follows. */
+export interface ChatHeader {
+  tailoring: Tailoring | null;
+  reply: boolean;
+}
 
 export interface TailoringPick {
   id: string;
@@ -34,6 +38,8 @@ export interface Tailoring {
   /** Short lowercase topic for "Most relevant to {topic}". */
   topic: string;
   picks: TailoringPick[];
+  /** AI-written summary above the contents; null falls back to the default. */
+  summary: string | null;
 }
 
 const clip = (value: unknown, max: number) =>
@@ -70,11 +76,24 @@ export function sanitizeTailoring(
       ? raw.headline.trim()
       : null;
 
+  const summary =
+    typeof raw.summary === 'string' &&
+    raw.summary.trim().length > 40 &&
+    raw.summary.trim().length <= SUMMARY_MAX
+      ? raw.summary.trim()
+      : null;
+
   return {
     headline,
     topic: clip(raw.topic, TOPIC_MAX).toLowerCase() || 'this role',
     picks,
+    summary,
   };
+}
+
+/** Same picks in the same order: nothing visible would change. */
+export function samePicks(a: TailoringPick[], b: string[]) {
+  return a.length === b.length && a.every((p, i) => p.id === b[i]);
 }
 
 export function serializeTailoring(t: Tailoring): string {

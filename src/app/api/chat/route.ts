@@ -1,7 +1,7 @@
 import { ai } from '@/ai/genkit';
 import { portfolioContent } from '@/app/lib/user-data';
 import { tailorContents } from '@/ai/tailor';
-import { HEADER_SEPARATOR, TRAILER_SEPARATOR } from '@/lib/tailoring';
+import { HEADER_SEPARATOR, samePicks, type ChatHeader } from '@/lib/tailoring';
 import { consumeRateLimit, getClientKey } from './rate-limit';
 // Side-effect import: registers the getProjectDetails tool referenced by the
 // portfolioChat dotprompt.
@@ -17,14 +17,19 @@ interface ChatMessage {
 }
 
 /**
- * Streaming chat endpoint. Streams the assistant's reply as plain-text chunks so
- * the UI can render tokens as they arrive. The first reply of a visit opens
- * with a JSON header (HEADER_SEPARATOR-framed) carrying the homepage
- * tailoring; follow-ups end with a TRAILER_SEPARATOR and a JSON trailer. The prompt lives in
- * prompts/portfolioChat.prompt (dotprompt).
+ * Streaming chat endpoint. Every response opens with a JSON header
+ * (HEADER_SEPARATOR-framed, see ChatHeader) saying how the homepage should be
+ * tailored and whether a written reply follows. When the site was customized
+ * and the visitor only described the role, there is no reply: the page itself
+ * is the answer. Otherwise the reply streams as plain-text chunks. The reply
+ * prompt lives in prompts/portfolioChat.prompt (dotprompt).
  */
 export async function POST(req: Request) {
-  let body: { message?: unknown; chatHistory?: unknown };
+  let body: {
+    message?: unknown;
+    chatHistory?: unknown;
+    currentPicks?: unknown;
+  };
   try {
     body = await req.json();
   } catch {
@@ -62,62 +67,55 @@ export async function POST(req: Request) {
         .map(m => ({ role: m.role, content: m.content }))
     : [];
 
-  const chat = ai.prompt('portfolioChat');
-  const { stream } = chat.stream({ message, portfolioContent, chatHistory });
-
-  // The first message of a visit (or after "Start over") customizes the site
-  // before the answer: tailoring runs alongside the reply and is sent first.
-  const firstMessage = chatHistory.length === 0;
-  const upfront = firstMessage
-    ? tailorContents([{ role: 'user', content: message }])
-    : null;
+  // What's at the top of the visitor's homepage now, so a follow-up that
+  // lands on the same picks doesn't count as a change.
+  const currentPicks = Array.isArray(body.currentPicks)
+    ? body.currentPicks.filter((id): id is string => typeof id === 'string')
+    : [];
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream<Uint8Array>({
     async start(controller) {
-      let reply = '';
-      let failed = false;
-      if (upfront) {
-        const tailoring = await upfront;
-        controller.enqueue(
-          encoder.encode(
-            HEADER_SEPARATOR + JSON.stringify({ tailoring }) + HEADER_SEPARATOR
-          )
-        );
-      }
-      try {
-        for await (const chunk of stream) {
-          if (chunk.text) {
-            reply += chunk.text;
-            controller.enqueue(encoder.encode(chunk.text));
-          }
-        }
-      } catch (err) {
-        failed = true;
-        console.error('Chat stream error:', err);
-        // Surface a graceful message inline rather than a broken stream.
-        controller.enqueue(
-          encoder.encode(
-            '\n\n_Sorry, I hit an error generating that response. Please try again._'
-          )
-        );
-      }
-
-      // Follow-ups: once the reply is complete, decide whether to reorder the
-      // homepage contents and append it as a JSON trailer after a separator.
-      // The client never shows the trailer; null means "keep the current
-      // order". The first reply already sent its tailoring up front.
-      const tailoring =
-        upfront || failed || !reply.trim()
-          ? null
-          : await tailorContents([
-              ...chatHistory,
-              { role: 'user', content: message },
-              { role: 'assistant', content: reply },
-            ]);
-      controller.enqueue(
-        encoder.encode(TRAILER_SEPARATOR + JSON.stringify({ tailoring }))
+      const { tailoring, needsAnswer } = await tailorContents(
+        [...chatHistory, { role: 'user', content: message }],
+        currentPicks
       );
+      const changed =
+        tailoring !== null && !samePicks(tailoring.picks, currentPicks);
+      const header: ChatHeader = {
+        tailoring: changed ? tailoring : null,
+        reply: !changed || needsAnswer,
+      };
+      controller.enqueue(
+        encoder.encode(
+          HEADER_SEPARATOR + JSON.stringify(header) + HEADER_SEPARATOR
+        )
+      );
+
+      if (header.reply) {
+        try {
+          const chat = ai.prompt('portfolioChat');
+          const { stream } = chat.stream({
+            message,
+            portfolioContent,
+            chatHistory,
+            ...(header.tailoring
+              ? { customizedFor: header.tailoring.topic }
+              : {}),
+          });
+          for await (const chunk of stream) {
+            if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
+          }
+        } catch (err) {
+          console.error('Chat stream error:', err);
+          // Surface a graceful message inline rather than a broken stream.
+          controller.enqueue(
+            encoder.encode(
+              '\n\n_Sorry, I hit an error generating that response. Please try again._'
+            )
+          );
+        }
+      }
       controller.close();
     },
   });
