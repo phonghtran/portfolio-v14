@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     '/**': ['./src/content/knowledge/**/*.md', './prompts/**/*.prompt'],
   },
+  // "Workshop" was renamed to "Side projects".
+  async redirects() {
+    return [
+      { source: '/workshop', destination: '/side-projects', permanent: true },
+    ];
+  },
   images: {
     remotePatterns: [
       {

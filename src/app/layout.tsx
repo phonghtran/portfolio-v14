@@ -1,13 +1,26 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import { Outfit } from 'next/font/google';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/contexts/theme-context';
 import GoogleAnalytics from '@/components/analytics/google-analytics';
+import { ContactProvider } from '@/components/site/contact-panel';
+
+const outfit = Outfit({
+  subsets: ['latin', 'latin-ext'],
+  variable: '--font-outfit',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
-  title: 'phonghtran - ux portfolio',
+  title: 'Phong Tran · UX designer who codes',
   description:
-    'the portfolio website of Phong Tran, a ux ui servicer designer and front end coder.',
+    'Portfolio of Phong Tran, a product design leader across fintech, enterprise SaaS and agency work. Tell the assistant what you are hiring for and the contents reorder themselves.',
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#f8f1e7' },
+    { media: '(prefers-color-scheme: dark)', color: '#1c2628' },
+  ],
 };
 
 export default function RootLayout({
@@ -16,27 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={outfit.variable}>
       <head>
         <link rel="icon" type="image/png" href="/images/favicon.png" />
-        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin=""
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Tektur:wght@400..900&family=Cabin:ital,wght@0,400..700;1,400..700&display=swap"
-          rel="stylesheet"
-        />
       </head>
-      <body className="font-body antialiased h-full ">
+      <body>
         <GoogleAnalytics />
-        <ThemeProvider>
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <ContactProvider>{children}</ContactProvider>
       </body>
     </html>
   );

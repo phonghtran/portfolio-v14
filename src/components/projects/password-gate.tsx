@@ -2,8 +2,7 @@
 
 import { FormEvent, useEffect, useState } from 'react';
 import { Lock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
 // Client-side only. This is a courtesy gate for in-progress work, not real
 // access control: the content still ships in the JS bundle and /public images.
@@ -42,9 +41,14 @@ export function useProjectUnlock(projectId: string, password?: string) {
 interface PasswordGateProps {
   password: string;
   onUnlock: () => void;
+  onAskForAccess: () => void;
 }
 
-export function PasswordGate({ password, onUnlock }: PasswordGateProps) {
+export function PasswordGate({
+  password,
+  onUnlock,
+  onAskForAccess,
+}: PasswordGateProps) {
   const [value, setValue] = useState('');
   const [error, setError] = useState(false);
 
@@ -58,41 +62,65 @@ export function PasswordGate({ password, onUnlock }: PasswordGateProps) {
   };
 
   return (
-    <div className="p-6 bg-chart-1 text-background rounded-lg">
-      <div className="flex items-center gap-3 mb-4">
-        <Lock className="h-5 w-5 shrink-0" />
-        <h2 className="text-2xl font-bold">Password Protected</h2>
-      </div>
-      <p className="mb-6">
+    <div className="flex flex-col gap-4 rounded-2xl border border-border bg-surface p-6 md:p-8">
+      <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-coral-subtle">
+        <Lock className="h-5 w-5 text-secondary" aria-hidden />
+      </span>
+      <h2 className="text-h3 text-primary">
+        This case study is password protected
+      </h2>
+      <p className="text-base text-body">
         This project is ongoing, so the case study is password protected. Reach
         out if you&apos;d like access.
       </p>
-      <form onSubmit={handleSubmit} className="flex gap-3 max-w-md">
-        <Input
-          type="password"
-          value={value}
-          onChange={e => {
-            setValue(e.target.value);
-            setError(false);
-          }}
-          placeholder="Password"
-          aria-label="Password"
-          aria-invalid={error}
-          className="text-foreground"
-          autoComplete="off"
-        />
-        <Button
-          type="submit"
-          className="bg-chart-2 text-background border-0 shrink-0"
+      <form onSubmit={handleSubmit} className="flex flex-col gap-1.5">
+        <div
+          className={cn(
+            'flex items-center gap-2 rounded-lg border bg-surface py-1.5 pl-3 pr-1.5 focus-within:ring-2 focus-within:ring-ring',
+            error ? 'border-red-strong' : 'border-strong'
+          )}
         >
-          Unlock
-        </Button>
+          <label htmlFor="case-study-password" className="sr-only">
+            Password
+          </label>
+          <input
+            id="case-study-password"
+            type="password"
+            value={value}
+            onChange={e => {
+              setValue(e.target.value);
+              setError(false);
+            }}
+            placeholder="Password"
+            aria-invalid={error}
+            aria-describedby={error ? 'case-study-password-error' : undefined}
+            autoComplete="off"
+            className="min-w-0 flex-1 bg-transparent py-2 text-base text-primary outline-none placeholder:text-secondary"
+          />
+          <button
+            type="submit"
+            className="rounded-md bg-action px-3.5 py-2 text-body-sm font-semibold text-action-on transition-colors hover:bg-action-hover"
+          >
+            Unlock
+          </button>
+        </div>
+        {error && (
+          <p
+            id="case-study-password-error"
+            role="alert"
+            className="text-caption text-red-text"
+          >
+            That password didn&apos;t work. Try again.
+          </p>
+        )}
       </form>
-      {error && (
-        <p className="text-sm mt-3" role="alert">
-          That password didn&apos;t work. Try again.
-        </p>
-      )}
+      <button
+        type="button"
+        onClick={onAskForAccess}
+        className="self-start rounded text-label text-coral-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      >
+        Ask Phong for access →
+      </button>
     </div>
   );
 }

@@ -22,6 +22,7 @@ export interface Project {
   audioTrack?: string; // Path to audio file for entire project
   audioDuration?: number; // Duration in seconds for the entire project
   password?: string; // Basic client-side gate for ongoing work; not real auth
+  hidden?: boolean; // Drafts: kept in the repo but not listed or routable
 }
 
 export interface AudioTrack {
@@ -32,8 +33,71 @@ export interface AudioTrack {
   duration: number;
 }
 
-// Placeholder project data - you can populate this with real content
-export const projects: Project[] = [
+// Every case study, including hidden drafts. Use `projects` below everywhere
+// else, so hidden ones stay out of the contents, menus, switcher, routes and
+// the assistant.
+export const allProjects: Project[] = [
+  {
+    id: 'portfolio-v2',
+    hidden: true, // Draft: unhide when ready to publish.
+    title: 'This Portfolio: Designed with Claude',
+    subtitle:
+      'A site that tailors itself to what you’re hiring for, designed and built with Claude Code and the Figma MCP.',
+    role: 'Designer & Developer',
+    technologies: [
+      'Figma',
+      'Figma MCP',
+      'Claude Code',
+      'Next.js',
+      'Tailwind CSS',
+      'Genkit',
+      'Gemini',
+    ],
+    tags: ['AI', 'Design Systems', 'UX Design', 'Front-End Development'],
+    year: '2026',
+    client: 'phonghtran.com',
+    duration: 'Nov 2026',
+    heroImage: '/images/projects/portfolio-v2/hero.jpg',
+    overview:
+      'Cutting a style switcher nobody needed, and turning the portfolio into a page that reorders itself for each visitor: designed in Figma and built in code with an AI agent as a hands-on collaborator, with every decision still mine.',
+    sections: [
+      {
+        id: 'context',
+        title: 'Context',
+        contentFile: 'portfolio-v2/context',
+      },
+      {
+        id: 'figma',
+        title: 'Designing in Figma with Claude',
+        contentFile: 'portfolio-v2/figma',
+      },
+      {
+        id: 'system',
+        title: 'A Design System That Survives Code',
+        contentFile: 'portfolio-v2/system',
+      },
+      {
+        id: 'build',
+        title: 'Building It',
+        contentFile: 'portfolio-v2/build',
+      },
+      {
+        id: 'chatbot',
+        title: 'The Gemini Chatbot',
+        contentFile: 'portfolio-v2/chatbot',
+      },
+      {
+        id: 'learned',
+        title: 'What I Learned',
+        contentFile: 'portfolio-v2/learned',
+      },
+      {
+        id: 'gallery',
+        title: 'Image Gallery',
+        contentFile: 'portfolio-v2/gallery',
+      },
+    ],
+  },
   {
     id: 'fanniemae-2',
     title: 'Fannie Mae: Seasoned Bulk',
@@ -138,7 +202,7 @@ export const projects: Project[] = [
     id: 'obviously-1',
     title: "Obviously's First Design System",
     subtitle:
-      'Highly collaborative sessions to help stakeholders articulate their vision',
+      'Collaborative sessions to help stakeholders articulate their vision.',
     role: 'Director of Design (was Lead Designer)',
     technologies: ['Miro', 'Figma', 'Visual Code'],
     tags: [
@@ -188,8 +252,7 @@ export const projects: Project[] = [
   {
     id: 'obviously-2',
     title: "Obviously's Tech Debt",
-    subtitle:
-      "If the backlog of tech debt isn't sexy: augment the system so it unlocks new value. ",
+    subtitle: 'Augmenting the system so tech debt unlocks new value.',
     role: 'Director of Design (was Lead Designer)',
     technologies: ['Miro', 'Figma'],
     tags: ['UX Design', 'Workshops', 'Facilitation', 'Design Thinking'],
@@ -228,7 +291,7 @@ export const projects: Project[] = [
     id: 'obviously-3',
     title: 'Obviously & AI (2023)',
     subtitle:
-      "2023 AI wouldn't move the needle, but it inspired a lot of useful non-AI ideas.",
+      "2023 AI wouldn't move the needle, but it inspired useful non-AI ideas.",
     role: 'Director of Design (was Lead Designer)',
     technologies: ['Miro', 'Figma', 'ChatGPT'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
@@ -275,14 +338,13 @@ export const projects: Project[] = [
   },
   {
     id: 'mastercard-1',
-    title: 'mastercard: Rapid Iterations',
-    subtitle:
-      'Highly collaborative sessions to help stakeholders articulate their vision',
+    title: 'Mastercard: Rapid Iterations',
+    subtitle: 'Live sketching and prototyping in frequent virtual sessions.',
     role: 'Senior Design Technologist',
     technologies: ['Miro', 'Figma'],
     tags: ['Workshops', 'Facilitation', 'Design Thinking'],
     year: '2021',
-    client: 'mastercard',
+    client: 'Mastercard',
     duration: '2 months',
     heroImage: '/images/projects/mastercard-1/mc_2.png',
     overview:
@@ -305,7 +367,7 @@ export const projects: Project[] = [
   {
     id: 'worldpay-1',
     title: 'Worldpay Workshops: Asset Consolidation',
-    subtitle: 'Design Thinking to Plan for Streamlining',
+    subtitle: 'Design thinking workshops, then coding the first deliverables.',
     role: 'Senior Design Technologist',
     technologies: ['Miro', 'Figma', 'AngularJS'],
     tags: [
@@ -337,6 +399,8 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+export const projects: Project[] = allProjects.filter(p => !p.hidden);
 
 // Generate audio tracks from project data (one per project)
 export const audioTracks: AudioTrack[] = projects

@@ -1,5 +1,7 @@
 import { ai } from '@/ai/genkit';
 import { portfolioContent } from '@/app/lib/user-data';
+import { tailorContents } from '@/ai/tailor';
+import { HEADER_SEPARATOR, samePicks, type ChatHeader } from '@/lib/tailoring';
 import { consumeRateLimit, getClientKey } from './rate-limit';
 // Side-effect import: registers the getProjectDetails tool referenced by the
 // portfolioChat dotprompt.
@@ -15,12 +17,19 @@ interface ChatMessage {
 }
 
 /**
- * Streaming chat endpoint. Streams the assistant's reply as plain-text chunks so
- * the UI can render tokens as they arrive. The prompt lives in
- * prompts/portfolioChat.prompt (dotprompt).
+ * Streaming chat endpoint. Every response opens with a JSON header
+ * (HEADER_SEPARATOR-framed, see ChatHeader) saying how the homepage should be
+ * tailored and whether a written reply follows. When the site was customized
+ * there is no reply: the page itself is the answer, and the visitor is sent
+ * to the contents. Otherwise the reply streams as plain-text chunks. The reply
+ * prompt lives in prompts/portfolioChat.prompt (dotprompt).
  */
 export async function POST(req: Request) {
-  let body: { message?: unknown; chatHistory?: unknown };
+  let body: {
+    message?: unknown;
+    chatHistory?: unknown;
+    currentPicks?: unknown;
+  };
   try {
     body = await req.json();
   } catch {
@@ -58,27 +67,54 @@ export async function POST(req: Request) {
         .map(m => ({ role: m.role, content: m.content }))
     : [];
 
-  const chat = ai.prompt('portfolioChat');
-  const { stream } = chat.stream({ message, portfolioContent, chatHistory });
+  // What's at the top of the visitor's homepage now, so a follow-up that
+  // lands on the same picks doesn't count as a change.
+  const currentPicks = Array.isArray(body.currentPicks)
+    ? body.currentPicks.filter((id): id is string => typeof id === 'string')
+    : [];
 
   const encoder = new TextEncoder();
   const readable = new ReadableStream<Uint8Array>({
     async start(controller) {
-      try {
-        for await (const chunk of stream) {
-          if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
+      const tailoring = await tailorContents(
+        [...chatHistory, { role: 'user', content: message }],
+        currentPicks
+      );
+      const changed =
+        tailoring !== null && !samePicks(tailoring.picks, currentPicks);
+      const header: ChatHeader = {
+        tailoring: changed ? tailoring : null,
+        // A customized site is the answer: the visitor goes to the contents.
+        reply: !changed,
+      };
+      controller.enqueue(
+        encoder.encode(
+          HEADER_SEPARATOR + JSON.stringify(header) + HEADER_SEPARATOR
+        )
+      );
+
+      if (header.reply) {
+        try {
+          const chat = ai.prompt('portfolioChat');
+          const { stream } = chat.stream({
+            message,
+            portfolioContent,
+            chatHistory,
+          });
+          for await (const chunk of stream) {
+            if (chunk.text) controller.enqueue(encoder.encode(chunk.text));
+          }
+        } catch (err) {
+          console.error('Chat stream error:', err);
+          // Surface a graceful message inline rather than a broken stream.
+          controller.enqueue(
+            encoder.encode(
+              '\n\n_Sorry, I hit an error generating that response. Please try again._'
+            )
+          );
         }
-      } catch (err) {
-        console.error('Chat stream error:', err);
-        // Surface a graceful message inline rather than a broken stream.
-        controller.enqueue(
-          encoder.encode(
-            '\n\n_Sorry, I hit an error generating that response. Please try again._'
-          )
-        );
-      } finally {
-        controller.close();
       }
+      controller.close();
     },
   });
 
