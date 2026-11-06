@@ -34,20 +34,23 @@ function formatStarted(started: string) {
   });
 }
 
-// Fixed 4:3 frame so cards line up. Phone captures show as a centred "peek" of
-// the screen; device screens sit whole in a bezel; desktop captures fill it.
+// Fixed 4:3 frame on the card's left (top on phones). Phone captures show as a
+// centred "peek" of the screen; device screens sit whole in a bezel; desktop
+// captures fill it.
+const mediaFrame =
+  'relative aspect-[4/3] shrink-0 overflow-hidden border-b border-border bg-media md:w-[44%] md:border-b-0 md:border-r lg:w-[480px]';
 function ToolImage({ image }: { image: WorkshopImage }) {
   const objectPosition = image.focus ?? '50% 0%';
 
   if (image.kind === 'phone') {
     return (
-      <div className="relative aspect-[4/3] overflow-hidden border-b border-border bg-media">
+      <div className={mediaFrame}>
         <div className="absolute inset-x-0 bottom-0 top-5 mx-auto w-[58%] overflow-hidden rounded-t-2xl border border-b-0 border-strong shadow-lg">
           <Image
             src={image.src}
             alt={image.alt}
             fill
-            sizes="(min-width: 1024px) 220px, 60vw"
+            sizes="(min-width: 1024px) 280px, 60vw"
             className="object-cover"
             style={{ objectPosition }}
           />
@@ -58,7 +61,7 @@ function ToolImage({ image }: { image: WorkshopImage }) {
 
   if (image.kind === 'device') {
     return (
-      <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b border-border bg-media p-5">
+      <div className={`${mediaFrame} flex items-center justify-center p-5`}>
         <div
           className="relative w-full rounded-md border-[6px] border-[hsl(var(--ink-900))] bg-[hsl(var(--white))] shadow-lg"
           style={{ aspectRatio: `${image.width} / ${image.height}` }}
@@ -67,7 +70,7 @@ function ToolImage({ image }: { image: WorkshopImage }) {
             src={image.src}
             alt={image.alt}
             fill
-            sizes="(min-width: 1024px) 380px, 90vw"
+            sizes="(min-width: 1024px) 440px, 90vw"
             className="object-contain"
           />
         </div>
@@ -76,12 +79,12 @@ function ToolImage({ image }: { image: WorkshopImage }) {
   }
 
   return (
-    <div className="relative aspect-[4/3] overflow-hidden border-b border-border bg-media">
+    <div className={mediaFrame}>
       <Image
         src={image.src}
         alt={image.alt}
         fill
-        sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, 100vw"
+        sizes="(min-width: 1024px) 480px, (min-width: 768px) 44vw, 100vw"
         className="object-cover"
         style={{ objectPosition }}
       />
@@ -89,14 +92,16 @@ function ToolImage({ image }: { image: WorkshopImage }) {
   );
 }
 
+// Full-width rows, one per project, so a link from the homepage contents
+// (/side-projects#id) lands on exactly that card.
 function ToolCard({ tool }: { tool: WorkshopTool }) {
   return (
     <article
       id={tool.id}
-      className="flex scroll-mt-8 flex-col overflow-hidden rounded-2xl border border-border bg-surface"
+      className="jump-target flex scroll-mt-8 flex-col overflow-hidden rounded-2xl border border-border bg-surface md:flex-row"
     >
       {tool.image && <ToolImage image={tool.image} />}
-      <div className="flex flex-1 flex-col gap-4 p-6">
+      <div className="flex flex-1 flex-col gap-4 p-6 md:p-8">
         <header className="flex items-start justify-between gap-3">
           <div>
             <p className="text-caption text-secondary">{tool.area}</p>
@@ -184,7 +189,7 @@ export default function SideProjects() {
         </header>
 
         <section aria-label="Featured side projects" className="pb-10 md:pb-16">
-          <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+          <div className="flex flex-col gap-4 md:gap-6">
             {featuredTools.map(tool => (
               <ToolCard key={tool.id} tool={tool} />
             ))}

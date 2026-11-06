@@ -385,6 +385,22 @@
   }
 }
 
+/* A side project card reached from the homepage contents (#id) flashes a
+   coral outline so it's clear where the jump landed. */
+@keyframes target-flash {
+  0%,
+  60% {
+    box-shadow: 0 0 0 3px hsl(var(--coral-solid));
+  }
+  100% {
+    box-shadow: 0 0 0 3px hsl(var(--coral-solid) / 0);
+  }
+}
+
+.jump-target:target {
+  animation: target-flash 2s ease-out;
+}
+
 /* "Customizing the website" loading animation */
 @keyframes dot {
   0%,
