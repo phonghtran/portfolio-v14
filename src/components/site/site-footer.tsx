@@ -4,7 +4,7 @@ export function SiteFooter() {
   const link = 'text-label text-inverse no-underline hover:underline';
   return (
     <footer className="bg-inverse">
-      <div className="mx-auto flex flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between md:px-[120px]">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-6 md:flex-row md:items-center md:justify-between md:px-[120px]">
         <p className="text-caption text-inverse-secondary">
           © {new Date().getFullYear()} {site.name}
         </p>

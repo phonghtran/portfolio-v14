@@ -111,7 +111,10 @@ export function ContentsList({
 
   let number = 0;
   return (
-    <section aria-labelledby="contents-heading" className="mx-auto">
+    <section
+      aria-labelledby="contents-heading"
+      className="mx-auto max-w-[1200px]"
+    >
       <h2
         id="contents-heading"
         key={headline}

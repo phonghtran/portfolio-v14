@@ -80,7 +80,7 @@ export function ChatCard({
   return (
     <div
       className={cn(
-        'mx-auto flex flex-col rounded-2xl border border-border bg-surface',
+        'mx-auto flex w-full max-w-[1200px] flex-col rounded-2xl border border-border bg-surface',
         condensed
           ? 'gap-2 px-4 py-3 shadow-[0_8px_24px_rgb(0_0_0/0.12)] md:gap-3 md:px-6 md:py-5'
           : 'gap-4 p-4 md:p-8'
