@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { HomeView } from '@/components/home/home-view';
+import { PageTexture } from '@/components/home/page-texture';
 import { rankableIds } from '@/lib/contents';
 import { TAILORING_COOKIE, parseTailoring } from '@/lib/tailoring';
 
@@ -11,5 +12,10 @@ export default async function Home() {
     store.get(TAILORING_COOKIE)?.value,
     rankableIds
   );
-  return <HomeView initialTailoring={initialTailoring} />;
+  return (
+    <>
+      <PageTexture />
+      <HomeView initialTailoring={initialTailoring} />
+    </>
+  );
 }
