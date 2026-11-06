@@ -11,10 +11,10 @@ export default function BuildSection() {
           the homepage rendered on the server.
         </li>
         <li>
-          <strong>Tailwind CSS with tokens generated from Figma.</strong> The
-          palette and the Light/Dark theme were turned into CSS variables
-          straight from the Figma variables, so the code and the file share the
-          same names. Dark mode follows the visitor&apos;s system setting.
+          <strong>Tailwind CSS</strong>, with tokens generated from Figma: the
+          palette and the Light/Dark theme became CSS variables straight from
+          the Figma variables, so the code and the file share the same names.
+          Dark mode follows the visitor&apos;s system setting.
         </li>
         <li>
           <strong>Genkit and Gemini</strong> for the assistant, grounded in my
