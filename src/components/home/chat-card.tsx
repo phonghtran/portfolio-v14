@@ -220,7 +220,7 @@ export function ChatCard({
                   <ChevronDown className="h-4 w-4" aria-hidden />
                 )}
               </button>
-              {historyOpen && !busy && (
+              {!busy && (
                 <button
                   type="button"
                   onClick={startOver}
